@@ -7,11 +7,11 @@ export const FINISH_IMAGE_MAP: Record<string, string> = {
   // Serenade Bed
   'Chalk Oatmeal': 'https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=1200&q=80',
   'Soft Sage Dune': 'https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?auto=format&fit=crop&w=1200&q=80',
-  'Pebble Grey': 'https://images.unsplash.com/photo-1540518614846-7ede433c4ef0?auto=format&fit=crop&w=1200&q=80',
+  'Pebble Grey': 'https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=1200&q=80',
 
   // Aethel Platform Bed
-  'Natural Hinoki & Walnut': 'https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=1200&q=80',
-  'Smoked Charcoal Oak': 'https://images.unsplash.com/photo-1540518614846-7ede433c4ef0?auto=format&fit=crop&w=1200&q=80',
+  'Natural Hinoki & Walnut': 'https://images.unsplash.com/photo-1540518614846-7ede433c4ef0?auto=format&fit=crop&w=1200&q=80',
+  'Smoked Charcoal Oak': 'https://images.unsplash.com/photo-1595526114035-0d45ed16cfbf?auto=format&fit=crop&w=1200&q=80',
 
   // Kanso Sectional
   'Oatmeal Ivory': 'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?auto=format&fit=crop&w=1600&q=85',
@@ -24,7 +24,7 @@ export const FINISH_IMAGE_MAP: Record<string, string> = {
 
   // Kyoto Daybed
   'Stonewashed Oatmeal': 'https://images.unsplash.com/photo-1540574163026-643ea20ade25?auto=format&fit=crop&w=1600&q=85',
-  'Dusk Grey': 'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&w=1600&q=85',
+  'Dusk Grey': 'https://images.unsplash.com/photo-1567016432779-094069958ea5?auto=format&fit=crop&w=1600&q=85',
   'Moss Olive': 'https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?auto=format&fit=crop&w=1600&q=85',
 
   // Sora Dining Table
@@ -33,15 +33,15 @@ export const FINISH_IMAGE_MAP: Record<string, string> = {
   'Ebonized Black': 'https://images.unsplash.com/photo-1530018607912-eff2daa1bac4?auto=format&fit=crop&w=1200&q=80',
 
   // Cane Bistro Chair
-  'Natural Ash / Cane': 'https://images.unsplash.com/photo-1503602642458-232111445657?auto=format&fit=crop&w=1600&q=85',
-  'Matte Black / Cane': 'https://images.unsplash.com/photo-1592078615290-033ee584e267?auto=format&fit=crop&w=1600&q=85',
+  'Natural Ash / Cane': 'https://images.unsplash.com/photo-1503602642458-232111445657?auto=format&fit=crop&w=1200&q=80',
+  'Matte Black / Cane': 'https://images.unsplash.com/photo-1592078615290-033ee584e267?auto=format&fit=crop&w=1200&q=80',
 
   // Travertine Console
   'Roman Silver Travertine': 'https://images.unsplash.com/photo-1600585154526-990dced4db0d?auto=format&fit=crop&w=1600&q=85',
   'Warm Ivory Sandstone': 'https://images.unsplash.com/photo-1533090161767-e6ffed986c88?auto=format&fit=crop&w=1600&q=85',
 
   // Monolith Nightstand
-  'Natural White Oak': 'https://images.unsplash.com/photo-1530018607912-eff2daa1bac4?auto=format&fit=crop&w=1600&q=85',
+  'Natural White Oak': 'https://images.unsplash.com/photo-1532372320572-cda25653a26d?auto=format&fit=crop&w=1600&q=85',
   'Smoked Espresso': 'https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?auto=format&fit=crop&w=1600&q=85',
 
   // Atelier Writing Desk
@@ -53,7 +53,7 @@ export const FINISH_IMAGE_MAP: Record<string, string> = {
   'Deep Walnut': 'https://images.unsplash.com/photo-1618220179428-22790b461013?auto=format&fit=crop&w=1600&q=85',
 
   // Alabaster Table
-  'Translucent Amber Cloud': 'https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=1600&q=85',
+  'Translucent Amber Cloud': 'https://images.unsplash.com/photo-1533090481720-856c6e3c1fdc?auto=format&fit=crop&w=1600&q=85',
   'Pure White Vein': 'https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&w=1600&q=85',
 
   // Ceramic Vessel
@@ -120,7 +120,7 @@ export const NORD_JAPANDI_PRODUCTS: Product[] = [
     stock: 6,
     images: [
       'https://images.unsplash.com/photo-1540574163026-643ea20ade25?auto=format&fit=crop&w=1600&q=85',
-      'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&w=1600&q=85',
+      'https://images.unsplash.com/photo-1567016432779-094069958ea5?auto=format&fit=crop&w=1600&q=85',
       'https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?auto=format&fit=crop&w=1600&q=85',
     ],
     featured: false,
@@ -165,8 +165,8 @@ export const NORD_JAPANDI_PRODUCTS: Product[] = [
     colors: ['Natural Ash / Cane', 'Matte Black / Cane'],
     stock: 14,
     images: [
-      'https://images.unsplash.com/photo-1503602642458-232111445657?auto=format&fit=crop&w=1600&q=85',
-      'https://images.unsplash.com/photo-1592078615290-033ee584e267?auto=format&fit=crop&w=1600&q=85',
+      'https://images.unsplash.com/photo-1503602642458-232111445657?auto=format&fit=crop&w=1200&q=80',
+      'https://images.unsplash.com/photo-1592078615290-033ee584e267?auto=format&fit=crop&w=1200&q=80',
     ],
     featured: false,
     rating: 4.91,
@@ -209,8 +209,8 @@ export const NORD_JAPANDI_PRODUCTS: Product[] = [
     colors: ['Natural Hinoki & Walnut', 'Smoked Charcoal Oak'],
     stock: 6,
     images: [
-      'https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=1200&q=80',
       'https://images.unsplash.com/photo-1540518614846-7ede433c4ef0?auto=format&fit=crop&w=1200&q=80',
+      'https://images.unsplash.com/photo-1595526114035-0d45ed16cfbf?auto=format&fit=crop&w=1200&q=80',
     ],
     featured: true,
     rating: 4.99,
@@ -232,7 +232,7 @@ export const NORD_JAPANDI_PRODUCTS: Product[] = [
     images: [
       'https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=1200&q=80',
       'https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?auto=format&fit=crop&w=1200&q=80',
-      'https://images.unsplash.com/photo-1540518614846-7ede433c4ef0?auto=format&fit=crop&w=1200&q=80',
+      'https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=1200&q=80',
     ],
     featured: false,
     rating: 4.88,
@@ -252,7 +252,7 @@ export const NORD_JAPANDI_PRODUCTS: Product[] = [
     colors: ['Natural White Oak', 'Smoked Espresso'],
     stock: 16,
     images: [
-      'https://images.unsplash.com/photo-1530018607912-eff2daa1bac4?auto=format&fit=crop&w=1600&q=85',
+      'https://images.unsplash.com/photo-1532372320572-cda25653a26d?auto=format&fit=crop&w=1600&q=85',
       'https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?auto=format&fit=crop&w=1600&q=85',
     ],
     featured: false,
@@ -319,7 +319,7 @@ export const NORD_JAPANDI_PRODUCTS: Product[] = [
     colors: ['Translucent Amber Cloud', 'Pure White Vein'],
     stock: 10,
     images: [
-      'https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=1600&q=85',
+      'https://images.unsplash.com/photo-1533090481720-856c6e3c1fdc?auto=format&fit=crop&w=1600&q=85',
       'https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&w=1600&q=85',
     ],
     featured: true,
