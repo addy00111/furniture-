@@ -267,7 +267,7 @@ export default function CheckoutPage() {
           amount: amount,
           currency: currency,
           order_id: activeRazorpayOrderId,
-          name: 'Antigraviti Atelier',
+          name: 'Sora Living',
           description: 'Architectural Furniture Commission',
           image: 'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?auto=format&fit=crop&w=200&q=80',
           handler: async function (response: any) {

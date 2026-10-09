@@ -281,10 +281,10 @@ export default function AdminDashboardPage() {
             <div className="flex items-center space-x-2">
               <ShieldCheck className="w-4 h-4 text-[#B45309]" />
               <span className="text-[10px] font-sans uppercase tracking-[0.2em] text-[#78716C]">
-                Atelier Operations Desk
+                Sora Living Studio Desk
               </span>
             </div>
-            <h1 className="font-serif text-3xl font-normal tracking-tight">Studio Operations Dashboard</h1>
+            <h1 className="font-serif text-3xl font-normal tracking-tight">Sora Living Studio Desk</h1>
           </div>
 
           <div className="flex items-center space-x-3">

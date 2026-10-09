@@ -190,7 +190,7 @@ export const useCartStore = create<CartState>()(
       },
     }),
     {
-      name: 'antigraviti-cart-storage',
+      name: 'sora-living-cart-storage',
       storage: createJSONStorage(() => localStorage),
       partialize: (state) => ({
         items: state.items,

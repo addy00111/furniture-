@@ -36,7 +36,7 @@ export default function OrderConfirmationPage() {
           </div>
 
           <p className="text-sm text-[#78716C] max-w-md mx-auto font-light leading-relaxed">
-            Thank you for curating with ANTIGRAVITI ATELIER. Your selected pieces have entered tailored fabrication with our master craftsmen.
+            Thank you for curating with SORA LIVING. Your selected pieces have entered tailored fabrication with our master craftsmen.
           </p>
         </motion.div>
 

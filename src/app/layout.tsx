@@ -17,8 +17,8 @@ const jakarta = Plus_Jakarta_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "ANTIGRAVITI | The Nord-Japandi Craft Studio & Architectural Living",
-  description: "Curated forms for mindful living. Noble materials, handcrafted Japanese Hinoki, honed travertine, and sculptural Italian bouclé for timeless interiors.",
+  title: "Sora Living | Curated Nord-Japandi Furniture & Objects",
+  description: "Architectural furniture handcrafted with Japanese wabi-sabi principles and Scandinavian clarity.",
 };
 
 export default function RootLayout({

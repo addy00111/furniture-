@@ -543,8 +543,8 @@ export default function Home() {
       <footer className="border-t border-[#E5DFD7] py-16 px-6 md:px-12 bg-[#FAF7F2] text-xs text-[#78716C]">
         <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-10">
           <div className="md:col-span-5 space-y-3">
-            <span className="font-serif uppercase tracking-[0.22em] text-lg text-[#1C1917] block">
-              ANTIGRAVITI
+            <span className="font-serif uppercase tracking-[0.25em] text-lg text-[#1C1917] block">
+              SORA LIVING
             </span>
             <p className="text-xs text-[#78716C] font-light max-w-sm leading-relaxed">
               An architectural furniture studio dedicated to proportion, honest materiality, and spatial clarity. Handcrafted across Japan and Northern Europe.
@@ -567,21 +567,21 @@ export default function Home() {
             <ul className="space-y-1.5 font-light text-xs">
               <li><Link href="/cart" className="hover:text-[#1C1917]">Spatial Bag</Link></li>
               <li><Link href="/checkout" className="hover:text-[#1C1917]">Checkout</Link></li>
-              <li><Link href="/admin" className="hover:text-[#1C1917]">Atelier Operations</Link></li>
+              <li><Link href="/admin" className="hover:text-[#1C1917]">Studio Desk</Link></li>
             </ul>
           </div>
 
           <div className="md:col-span-3 space-y-2">
-            <h4 className="font-sans font-semibold text-[#1C1917] text-[11px] uppercase tracking-wider">Atelier Concierge</h4>
+            <h4 className="font-sans font-semibold text-[#1C1917] text-[11px] uppercase tracking-wider">Studio Concierge</h4>
             <p className="font-light text-xs leading-relaxed">
-              The Monolith Pavilion, Lavelle Road, Bengaluru.<br />
-              concierge@antigraviti.studio
+              The Sora Pavilion, Lavelle Road, Bengaluru.<br />
+              concierge@soraliving.studio
             </p>
           </div>
         </div>
 
         <div className="max-w-7xl mx-auto pt-12 mt-12 border-t border-[#E5DFD7] flex flex-col sm:flex-row items-center justify-between text-[11px] font-light">
-          <p>© 2026 ANTIGRAVITI ATELIER. All architectural rights reserved.</p>
+          <p>© 2026 Sora Living Studio. All rights reserved.</p>
           <p className="mt-2 sm:mt-0 font-mono">Next.js 16 • Supabase SSR • Razorpay Verified</p>
         </div>
       </footer>

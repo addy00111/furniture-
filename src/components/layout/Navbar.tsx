@@ -31,11 +31,11 @@ export function Navbar() {
         {/* Brand */}
         <Link href="/" className="flex items-center space-x-3 group">
           <div className="flex flex-col">
-            <span className="font-serif tracking-[0.22em] text-xl md:text-2xl font-normal uppercase text-[#1C1917] group-hover:opacity-80 transition-opacity">
-              ANTIGRAVITI
+            <span className="font-serif tracking-[0.25em] text-lg md:text-xl font-normal uppercase text-[#1C1917] group-hover:opacity-80 transition-opacity">
+              SORA LIVING
             </span>
-            <span className="text-[9px] tracking-[0.28em] font-sans font-medium uppercase text-[#78716C] -mt-0.5">
-              The Nord-Japandi Atelier
+            <span className="text-[9px] tracking-[0.22em] font-sans font-medium uppercase text-[#78716C] -mt-0.5">
+              Architectural Forms & Living
             </span>
           </div>
         </Link>
