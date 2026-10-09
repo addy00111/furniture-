@@ -23,9 +23,9 @@ export const FINISH_IMAGE_MAP: Record<string, string> = {
   'Smoked Ash / Charcoal': 'https://images.unsplash.com/photo-1580481077195-c99066601ea0?auto=format&fit=crop&w=1600&q=85',
 
   // Kyoto Daybed
-  'Stonewashed Oatmeal': 'https://images.unsplash.com/photo-1540574163026-643ea20ade25?auto=format&fit=crop&w=1600&q=85',
-  'Dusk Grey': 'https://images.unsplash.com/photo-1567016432779-094069958ea5?auto=format&fit=crop&w=1600&q=85',
-  'Moss Olive': 'https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?auto=format&fit=crop&w=1600&q=85',
+  'Stonewashed Oatmeal': 'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?auto=format&fit=crop&w=1200&q=80',
+  'Dusk Grey': 'https://images.unsplash.com/photo-1493663284031-b7e3aefcae8e?auto=format&fit=crop&w=1200&q=80',
+  'Moss Olive': 'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&w=1200&q=80',
 
   // Sora Dining Table
   'Bleached White Oak': 'https://images.unsplash.com/photo-1617806118233-18e1de247200?auto=format&fit=crop&w=1200&q=80',
@@ -119,9 +119,9 @@ export const NORD_JAPANDI_PRODUCTS: Product[] = [
     colors: ['Stonewashed Oatmeal', 'Dusk Grey', 'Moss Olive'],
     stock: 6,
     images: [
-      'https://images.unsplash.com/photo-1540574163026-643ea20ade25?auto=format&fit=crop&w=1600&q=85',
-      'https://images.unsplash.com/photo-1567016432779-094069958ea5?auto=format&fit=crop&w=1600&q=85',
-      'https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?auto=format&fit=crop&w=1600&q=85',
+      'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?auto=format&fit=crop&w=1200&q=80',
+      'https://images.unsplash.com/photo-1493663284031-b7e3aefcae8e?auto=format&fit=crop&w=1200&q=80',
+      'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&w=1200&q=80',
     ],
     featured: false,
     rating: 4.89,
