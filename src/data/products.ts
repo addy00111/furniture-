@@ -5,9 +5,9 @@ export const FALLBACK_PRODUCT_IMAGE =
 
 export const FINISH_IMAGE_MAP: Record<string, string> = {
   // Serenade Bed
-  'Chalk Oatmeal': 'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&w=1200&q=80',
+  'Chalk Oatmeal': 'https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=1200&q=80',
   'Soft Sage Dune': 'https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?auto=format&fit=crop&w=1200&q=80',
-  'Pebble Grey': 'https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=1200&q=80',
+  'Pebble Grey': 'https://images.unsplash.com/photo-1540518614846-7ede433c4ef0?auto=format&fit=crop&w=1200&q=80',
 
   // Aethel Platform Bed
   'Natural Hinoki & Walnut': 'https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=1200&q=80',
@@ -230,9 +230,9 @@ export const NORD_JAPANDI_PRODUCTS: Product[] = [
     colors: ['Chalk Oatmeal', 'Soft Sage Dune', 'Pebble Grey'],
     stock: 9,
     images: [
-      'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&w=1200&q=80',
+      'https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=1200&q=80',
       'https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?auto=format&fit=crop&w=1200&q=80',
-      'https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=1200&q=80',
+      'https://images.unsplash.com/photo-1540518614846-7ede433c4ef0?auto=format&fit=crop&w=1200&q=80',
     ],
     featured: false,
     rating: 4.88,
