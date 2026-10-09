@@ -22,7 +22,7 @@ import { formatPrice } from '@/lib/utils'
 import { Navbar } from '@/components/layout/Navbar'
 import { CartDrawer } from '@/components/cart/CartDrawer'
 import { AuthModal } from '@/components/auth/AuthModal'
-import { NORD_JAPANDI_PRODUCTS } from '@/data/products'
+import { NORD_JAPANDI_PRODUCTS, FINISH_IMAGE_MAP, FALLBACK_PRODUCT_IMAGE } from '@/data/products'
 import { Product } from '@/types'
 import Link from 'next/link'
 
@@ -404,8 +404,11 @@ export default function Home() {
                   <div className="relative aspect-[4/3] overflow-hidden bg-[#EFE9E1]">
                     <Link href={`/products/${product.id}`}>
                       <img
-                        src={product.images[0]}
+                        src={(chosenFinish && FINISH_IMAGE_MAP[chosenFinish]) || product.images[0] || FALLBACK_PRODUCT_IMAGE}
                         alt={product.name}
+                        onError={(e) => {
+                          e.currentTarget.src = FALLBACK_PRODUCT_IMAGE
+                        }}
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 cursor-pointer"
                       />
                     </Link>
@@ -622,8 +625,15 @@ export default function Home() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
                 <div className="aspect-[4/3] rounded-sm overflow-hidden border border-[#E5DFD7] bg-[#EFE9E1]">
                   <img
-                    src={quickViewProduct.images[0]}
+                    src={
+                      (selectedQuickViewColor && FINISH_IMAGE_MAP[selectedQuickViewColor]) ||
+                      quickViewProduct.images[0] ||
+                      FALLBACK_PRODUCT_IMAGE
+                    }
                     alt={quickViewProduct.name}
+                    onError={(e) => {
+                      e.currentTarget.src = FALLBACK_PRODUCT_IMAGE
+                    }}
                     className="w-full h-full object-cover"
                   />
                 </div>

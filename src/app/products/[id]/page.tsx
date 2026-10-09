@@ -19,7 +19,7 @@ import {
   Sparkles,
   ArrowRight
 } from 'lucide-react'
-import { NORD_JAPANDI_PRODUCTS } from '@/data/products'
+import { NORD_JAPANDI_PRODUCTS, FINISH_IMAGE_MAP, FALLBACK_PRODUCT_IMAGE } from '@/data/products'
 import { useCartStore } from '@/store/useCartStore'
 import { formatPrice } from '@/lib/utils'
 import { Navbar } from '@/components/layout/Navbar'
@@ -56,6 +56,14 @@ export default function ProductDetailPage() {
     setSelectedImage(0)
   }, [product.id, product.colors])
 
+  // Active image: maps dynamically to selected finish or active thumbnail index
+  const activeImageUrl = useMemo(() => {
+    if (selectedFinish && FINISH_IMAGE_MAP[selectedFinish]) {
+      return FINISH_IMAGE_MAP[selectedFinish]
+    }
+    return product.images[selectedImage] || product.images[0] || FALLBACK_PRODUCT_IMAGE
+  }, [selectedFinish, selectedImage, product.images])
+
   // Accordion state
   const [openAccordion, setOpenAccordion] = useState<string | null>('dimensions')
 
@@ -63,11 +71,26 @@ export default function ProductDetailPage() {
     setOpenAccordion((prev) => (prev === key ? null : key))
   }
 
-  // Handle selecting a finish and optionally swapping to corresponding alternate product image
+  // Handle selecting a finish and swapping to corresponding finish photo
   const handleSelectFinish = (finish: string, index: number) => {
     setSelectedFinish(finish)
-    if (product.images && product.images.length > index) {
+    if (FINISH_IMAGE_MAP[finish]) {
+      const mappedIdx = product.images.indexOf(FINISH_IMAGE_MAP[finish])
+      if (mappedIdx !== -1) {
+        setSelectedImage(mappedIdx)
+      } else if (product.images.length > index) {
+        setSelectedImage(index)
+      }
+    } else if (product.images && product.images.length > index) {
       setSelectedImage(index)
+    }
+  }
+
+  // Handle selecting a thumbnail
+  const handleSelectThumbnail = (idx: number) => {
+    setSelectedImage(idx)
+    if (product.colors && product.colors[idx]) {
+      setSelectedFinish(product.colors[idx])
     }
   }
 
@@ -143,12 +166,15 @@ export default function ProductDetailPage() {
           <div className="lg:col-span-7 space-y-4">
             <div className="relative aspect-[4/3] rounded-sm overflow-hidden border border-[#E5DFD7] bg-[#EFE9E1] shadow-sm">
               <motion.img
-                key={selectedImage}
-                src={product.images[selectedImage] || product.images[0]}
+                key={activeImageUrl}
+                src={activeImageUrl}
                 alt={product.name}
                 initial={{ opacity: 0.85 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.3 }}
+                onError={(e) => {
+                  e.currentTarget.src = FALLBACK_PRODUCT_IMAGE
+                }}
                 className="w-full h-full object-cover"
               />
               {product.featured && (
@@ -164,14 +190,22 @@ export default function ProductDetailPage() {
                 {product.images.map((img, idx) => (
                   <button
                     key={idx}
-                    onClick={() => setSelectedImage(idx)}
+                    type="button"
+                    onClick={() => handleSelectThumbnail(idx)}
                     className={`relative w-24 aspect-[4/3] rounded-sm overflow-hidden border transition-all ${
-                      selectedImage === idx
+                      activeImageUrl === img || (selectedImage === idx && !FINISH_IMAGE_MAP[selectedFinish])
                         ? 'border-[#1C1917] ring-2 ring-[#1C1917]'
                         : 'border-[#E5DFD7] opacity-60 hover:opacity-100'
                     }`}
                   >
-                    <img src={img} alt="" className="w-full h-full object-cover" />
+                    <img
+                      src={img}
+                      alt=""
+                      onError={(e) => {
+                        e.currentTarget.src = FALLBACK_PRODUCT_IMAGE
+                      }}
+                      className="w-full h-full object-cover"
+                    />
                   </button>
                 ))}
               </div>
@@ -415,6 +449,9 @@ export default function ProductDetailPage() {
                     <img
                       src={rel.images[0]}
                       alt={rel.name}
+                      onError={(e) => {
+                        e.currentTarget.src = FALLBACK_PRODUCT_IMAGE
+                      }}
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                     />
                   </div>

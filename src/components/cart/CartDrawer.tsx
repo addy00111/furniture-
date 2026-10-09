@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { X, Plus, Minus, Trash2, ArrowRight, ShoppingBag, ShieldCheck, Tag, Truck } from 'lucide-react'
 import { useCartStore } from '@/store/useCartStore'
 import { formatPrice } from '@/lib/utils'
+import { FINISH_IMAGE_MAP, FALLBACK_PRODUCT_IMAGE } from '@/data/products'
 import Link from 'next/link'
 
 const FREE_SHIPPING_THRESHOLD = 100000
@@ -123,13 +124,18 @@ export function CartDrawer() {
                           onClick={closeCart}
                           className="w-20 h-20 rounded-sm overflow-hidden bg-[#EFE9E1] border border-[#E5DFD7] relative shrink-0 block"
                         >
-                          {item.product.images?.[0] ? (
-                            <img
-                              src={item.product.images[0]}
-                              alt={item.product.name}
-                              className="w-full h-full object-cover hover:scale-105 transition-transform"
-                            />
-                          ) : null}
+                          <img
+                            src={
+                              (item.selectedColor && FINISH_IMAGE_MAP[item.selectedColor]) ||
+                              item.product.images?.[0] ||
+                              FALLBACK_PRODUCT_IMAGE
+                            }
+                            alt={item.product.name}
+                            onError={(e) => {
+                              e.currentTarget.src = FALLBACK_PRODUCT_IMAGE
+                            }}
+                            className="w-full h-full object-cover hover:scale-105 transition-transform"
+                          />
                         </Link>
 
                         <div className="flex-1 flex flex-col justify-between">

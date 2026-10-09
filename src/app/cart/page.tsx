@@ -5,6 +5,7 @@ import { motion } from 'framer-motion'
 import { Plus, Minus, Trash2, ArrowRight, Tag, ShieldCheck, ShoppingBag, Check, AlertCircle } from 'lucide-react'
 import { useCartStore } from '@/store/useCartStore'
 import { formatPrice } from '@/lib/utils'
+import { FINISH_IMAGE_MAP, FALLBACK_PRODUCT_IMAGE } from '@/data/products'
 import Link from 'next/link'
 import { Navbar } from '@/components/layout/Navbar'
 import { CartDrawer } from '@/components/cart/CartDrawer'
@@ -103,13 +104,18 @@ export default function CartPage() {
                         href={`/products/${item.product.id}`}
                         className="w-24 h-24 rounded-sm overflow-hidden bg-[#EFE9E1] border border-[#E5DFD7] shrink-0"
                       >
-                        {item.product.images?.[0] ? (
-                          <img
-                            src={item.product.images[0]}
-                            alt={item.product.name}
-                            className="w-full h-full object-cover hover:scale-105 transition-transform"
-                          />
-                        ) : null}
+                        <img
+                          src={
+                            (item.selectedColor && FINISH_IMAGE_MAP[item.selectedColor]) ||
+                            item.product.images?.[0] ||
+                            FALLBACK_PRODUCT_IMAGE
+                          }
+                          alt={item.product.name}
+                          onError={(e) => {
+                            e.currentTarget.src = FALLBACK_PRODUCT_IMAGE
+                          }}
+                          className="w-full h-full object-cover hover:scale-105 transition-transform"
+                        />
                       </Link>
 
                       <div className="flex-1 space-y-1">
