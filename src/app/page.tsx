@@ -3,19 +3,18 @@
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { 
-  Sparkles, 
   ShieldCheck, 
   ArrowRight, 
   ShoppingBag, 
   Plus, 
   Star, 
   Layers, 
-  Compass, 
   CheckCircle2, 
   Eye, 
   Feather,
   SunMedium,
   Trees,
+  Truck,
   X
 } from 'lucide-react'
 import { useCartStore } from '@/store/useCartStore'
@@ -35,7 +34,7 @@ export default function Home() {
   const [quickViewProduct, setQuickViewProduct] = useState<Product | null>(null)
   const [selectedQuickViewColor, setSelectedQuickViewColor] = useState<string>('')
 
-  // Attempt async live products fetch with guaranteed static fallback
+  // Attempt live products fetch with guaranteed static fallback
   useEffect(() => {
     const fetchLiveProducts = async () => {
       try {
@@ -47,7 +46,7 @@ export default function Home() {
           }
         }
       } catch (e) {
-        console.warn('Using static Nord-Japandi product catalog:', e)
+        console.warn('Using static Sora Living product catalog:', e)
       }
     }
     fetchLiveProducts()
@@ -55,11 +54,11 @@ export default function Home() {
 
   const categories = [
     'All',
-    'Lounge & Seating',
-    'Dining & Gathering',
-    'Sanctuary (Beds)',
-    'Studio & Storage',
-    'Accents & Objects',
+    'Living Room',
+    'Dining Room',
+    'Bedroom',
+    'Home Office',
+    'Decor',
   ]
 
   const filteredProducts = selectedCategory === 'All'
@@ -81,70 +80,70 @@ export default function Home() {
       <CartDrawer />
       <AuthModal />
 
-      {/* 1. ATMOSPHERIC HERO SECTION */}
-      <section className="relative px-6 md:px-12 pt-12 pb-24 max-w-7xl mx-auto w-full">
+      {/* 1. EDITORIAL HERO SECTION */}
+      <section className="relative px-6 md:px-12 pt-12 pb-20 max-w-7xl mx-auto w-full">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
-            className="lg:col-span-7 space-y-8"
+            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+            className="lg:col-span-7 space-y-7"
           >
-            {/* Editorial Badge */}
-            <div className="inline-flex items-center space-x-2.5 px-4 py-1.5 rounded-none bg-[#F4EFEA] border border-[#E5DFD7] text-[11px] font-sans tracking-[0.2em] uppercase text-[#78716C]">
-              <span className="w-1.5 h-1.5 bg-[#B45309] rounded-full" />
-              <span>Collection 01 / Autumn–Winter Atelier</span>
+            {/* Pill Badge */}
+            <div className="inline-flex items-center space-x-2 px-3.5 py-1.5 bg-[#F4EFEA] border border-[#D6CEC4] text-xs font-sans font-semibold tracking-wider uppercase text-[#44403C]">
+              <span className="w-2 h-2 bg-[#B45309] rounded-full" />
+              <span>Autumn–Winter 2026 Collection</span>
             </div>
 
-            <h1 className="font-serif text-5xl md:text-7xl font-normal tracking-[-0.02em] text-[#1C1917] leading-[1.05]">
-              Curated forms for <span className="italic font-light">mindful</span> living.
+            <h1 className="font-serif text-5xl md:text-7xl font-normal tracking-tight text-[#1C1917] leading-[1.05]">
+              Architectural furniture for <span className="italic font-light">mindful</span> living.
             </h1>
 
-            <p className="text-base md:text-lg text-[#78716C] max-w-xl font-light leading-relaxed">
-              Rooted in the quiet stillness of Japanese wabi-sabi and Scandinavian architectural purity. Handcrafted in limited series from noble, tactile materials.
+            <p className="text-base md:text-lg text-[#57534E] max-w-xl font-normal leading-relaxed">
+              Rooted in Japanese wabi-sabi principles and Scandinavian design clarity. Handcrafted in limited series using solid European hardwoods, natural stone, and heavy Italian bouclé.
             </p>
 
-            {/* Action Buttons */}
-            <div className="flex flex-wrap gap-5 pt-4">
-              <a
-                href="#collections"
-                className="px-8 py-4 bg-[#292524] text-[#FAF7F2] text-[11px] uppercase tracking-[0.2em] font-semibold hover:bg-[#3E3835] transition-all rounded-sm shadow-nord flex items-center space-x-3 group"
+            {/* Action CTAs */}
+            <div className="flex flex-wrap gap-4 pt-2">
+              <Link
+                href="/catalog"
+                className="px-8 py-4 bg-[#1C1917] text-[#FAF7F2] text-xs uppercase tracking-wider font-semibold hover:bg-[#292524] transition-all rounded-sm shadow-md flex items-center space-x-2.5 group"
               >
-                <span>Explore The Atelier</span>
-                <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
-              </a>
+                <span>Shop Collection</span>
+                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+              </Link>
 
               <a
-                href="#materiality"
-                className="px-8 py-4 border border-[#E5DFD7] bg-[#F4EFEA] text-[#1C1917] text-[11px] uppercase tracking-[0.2em] font-semibold hover:bg-[#EFE9E1] transition-all rounded-sm"
+                href="#materials"
+                className="px-8 py-4 border border-[#D6CEC4] bg-[#F4EFEA] text-[#1C1917] text-xs uppercase tracking-wider font-semibold hover:bg-[#EAE3D9] transition-all rounded-sm"
               >
-                <span>Material Manifesto</span>
+                <span>Materials & Craft</span>
               </a>
             </div>
           </motion.div>
 
-          {/* Hero Atmospheric Visual */}
+          {/* Hero Feature Visual */}
           <motion.div
             initial={{ opacity: 0, scale: 0.97 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 1, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ duration: 0.9, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
             className="lg:col-span-5 relative"
           >
-            <div className="relative rounded-sm overflow-hidden aspect-[4/5] shadow-nord-lg border border-[#E5DFD7] bg-[#EFE9E1]">
+            <div className="relative rounded-sm overflow-hidden aspect-[4/5] shadow-xl border border-[#E5DFD7] bg-[#EFE9E1]">
               <img
                 src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?auto=format&fit=crop&w=1200&q=85"
                 alt="Kanso Curved Bouclé Sectional"
                 className="w-full h-full object-cover"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#1C1917]/70 via-transparent to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#1C1917]/80 via-transparent to-transparent" />
               
               <div className="absolute bottom-6 left-6 right-6 text-[#FAF7F2] flex items-end justify-between">
                 <div className="space-y-1">
-                  <span className="text-[10px] font-sans tracking-[0.2em] uppercase text-[#FAF7F2]/75">
-                    Signature Centerpiece
+                  <span className="text-[10px] font-sans font-bold tracking-widest uppercase text-[#FAF7F2]/80">
+                    Featured Design
                   </span>
-                  <h3 className="font-serif text-xl font-normal">Kanso Bouclé Sectional</h3>
-                  <p className="text-xs font-sans text-[#FAF7F2]/90">₹2,85,000 • Italian Bouclé & Solid Ash</p>
+                  <h3 className="font-serif text-xl font-normal text-white">Kanso Bouclé Sectional</h3>
+                  <p className="text-xs font-sans font-medium text-white/90">₹2,85,000 • Italian Bouclé & Ash</p>
                 </div>
 
                 <button
@@ -152,9 +151,9 @@ export default function Home() {
                     addItem(NORD_JAPANDI_PRODUCTS[0])
                     openCart()
                   }}
-                  className="px-4 py-2 bg-[#FAF7F2] text-[#1C1917] text-[10px] font-sans uppercase tracking-[0.14em] font-semibold hover:bg-white transition-colors rounded-sm shadow-sm flex items-center space-x-1"
+                  className="px-4 py-2.5 bg-[#FAF7F2] text-[#1C1917] text-xs font-sans uppercase tracking-wider font-bold hover:bg-white transition-colors rounded-sm shadow-sm flex items-center space-x-1.5"
                 >
-                  <Plus className="w-3 h-3" />
+                  <Plus className="w-3.5 h-3.5" />
                   <span>Add to Bag</span>
                 </button>
               </div>
@@ -163,137 +162,132 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 2. ASYMMETRICAL EDITORIAL CATEGORY MOSAIC */}
+      {/* 2. SHOP BY ROOM CATEGORIES */}
       <section className="px-6 md:px-12 py-20 bg-[#F4EFEA] border-y border-[#E5DFD7]">
-        <div className="max-w-7xl mx-auto space-y-12">
+        <div className="max-w-7xl mx-auto space-y-10">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
             <div>
-              <span className="text-[11px] font-sans uppercase tracking-[0.2em] text-[#78716C]">
-                Atelier Spatial Archetypes
+              <span className="text-xs font-sans font-semibold uppercase tracking-widest text-[#B45309]">
+                Browse by Category
               </span>
               <h2 className="font-serif text-3xl md:text-4xl font-normal tracking-tight mt-1 text-[#1C1917]">
-                The Five Design Disciplines
+                Shop by Room
               </h2>
             </div>
-            <p className="text-xs text-[#78716C] max-w-md font-light leading-relaxed">
-              Every archetype is sculpted with continuous grain matching, tactile textures, and architectural silhouettes intended to outlive transient trends.
+            <p className="text-xs md:text-sm text-[#57534E] max-w-md font-normal leading-relaxed">
+              Every piece is engineered with continuous grain matching, tactile natural finishes, and architectural proportions.
             </p>
           </div>
 
-          {/* Editorial Mosaic Grid */}
+          {/* Clean Category Mosaic Grid */}
           <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
-            {/* Tall Card 1: Lounge & Seating */}
+            {/* Living Room */}
             <Link 
-              href="/products?category=lounge"
-              className="md:col-span-7 group cursor-pointer relative rounded-sm overflow-hidden aspect-[16/10] md:aspect-auto md:min-h-[420px] border border-[#E5DFD7] bg-[#EFE9E1] block shadow-nord"
+              href="/products?category=living-room"
+              className="md:col-span-7 group cursor-pointer relative rounded-sm overflow-hidden aspect-[16/10] md:aspect-auto md:min-h-[400px] border border-[#E5DFD7] bg-[#EFE9E1] block shadow-sm hover:shadow-md transition-shadow"
             >
               <img
                 src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&w=1200&q=85"
-                alt="Lounge & Seating"
+                alt="Living Room"
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#1C1917]/75 via-[#1C1917]/25 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#1C1917]/80 via-[#1C1917]/30 to-transparent" />
               <div className="absolute bottom-6 left-6 right-6 text-white flex justify-between items-end">
                 <div>
-                  <span className="text-[10px] uppercase tracking-[0.2em] text-white/70">Discipline 01</span>
-                  <h3 className="font-serif text-2xl font-normal mt-0.5">Lounge & Seating</h3>
-                  <p className="text-xs text-white/80 font-light mt-0.5">Curved bouclé, aniline saddle leather, linen daybeds</p>
+                  <h3 className="font-serif text-2xl font-normal text-white">Living Room</h3>
+                  <p className="text-xs text-white/90 font-normal mt-1">Sectionals, walnut lounge chairs & daybeds</p>
                 </div>
-                <span className="text-xs font-sans uppercase tracking-widest text-white/90 underline underline-offset-4 group-hover:text-white group-hover:translate-x-1 transition-all inline-flex items-center space-x-1">
-                  <span>View Series</span>
+                <span className="text-xs font-sans font-semibold uppercase tracking-wider text-white bg-white/20 backdrop-blur-sm px-3 py-1.5 rounded-sm group-hover:bg-white group-hover:text-[#1C1917] transition-all inline-flex items-center space-x-1.5">
+                  <span>Explore</span>
                   <span>→</span>
                 </span>
               </div>
             </Link>
 
-            {/* Tall Card 2: Sanctuary Beds */}
+            {/* Bedroom */}
             <Link 
-              href="/products?category=beds"
-              className="md:col-span-5 group cursor-pointer relative rounded-sm overflow-hidden aspect-[16/10] md:aspect-auto md:min-h-[420px] border border-[#E5DFD7] bg-[#EFE9E1] block shadow-nord"
+              href="/products?category=bedroom"
+              className="md:col-span-5 group cursor-pointer relative rounded-sm overflow-hidden aspect-[16/10] md:aspect-auto md:min-h-[400px] border border-[#E5DFD7] bg-[#EFE9E1] block shadow-sm hover:shadow-md transition-shadow"
             >
               <img
                 src="https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=1000&q=85"
-                alt="Sanctuary (Beds)"
+                alt="Bedroom"
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#1C1917]/75 via-[#1C1917]/25 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#1C1917]/80 via-[#1C1917]/30 to-transparent" />
               <div className="absolute bottom-6 left-6 right-6 text-white flex justify-between items-end">
                 <div>
-                  <span className="text-[10px] uppercase tracking-[0.2em] text-white/70">Discipline 02</span>
-                  <h3 className="font-serif text-2xl font-normal mt-0.5">Sanctuary (Beds)</h3>
-                  <p className="text-xs text-white/80 font-light mt-0.5">Japanese Hinoki platforms & flax linen</p>
+                  <h3 className="font-serif text-2xl font-normal text-white">Bedroom</h3>
+                  <p className="text-xs text-white/90 font-normal mt-1">Platform beds, headboards & nightstands</p>
                 </div>
-                <span className="text-xs font-sans uppercase tracking-widest text-white/90 underline underline-offset-4 group-hover:text-white group-hover:translate-x-1 transition-all inline-flex items-center space-x-1">
-                  <span>View Series</span>
+                <span className="text-xs font-sans font-semibold uppercase tracking-wider text-white bg-white/20 backdrop-blur-sm px-3 py-1.5 rounded-sm group-hover:bg-white group-hover:text-[#1C1917] transition-all inline-flex items-center space-x-1.5">
+                  <span>Explore</span>
                   <span>→</span>
                 </span>
               </div>
             </Link>
 
-            {/* Wide Card 3: Dining & Gathering */}
+            {/* Dining Room */}
             <Link 
-              href="/products?category=dining"
-              className="md:col-span-4 group cursor-pointer relative rounded-sm overflow-hidden aspect-[4/3] border border-[#E5DFD7] bg-[#EFE9E1] block shadow-nord"
+              href="/products?category=dining-room"
+              className="md:col-span-4 group cursor-pointer relative rounded-sm overflow-hidden aspect-[4/3] border border-[#E5DFD7] bg-[#EFE9E1] block shadow-sm hover:shadow-md transition-shadow"
             >
               <img
                 src="https://images.unsplash.com/photo-1615066390971-03e4e1c36ddf?auto=format&fit=crop&w=800&q=85"
-                alt="Dining & Gathering"
+                alt="Dining Room"
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#1C1917]/75 via-transparent to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#1C1917]/80 via-transparent to-transparent" />
               <div className="absolute bottom-5 left-5 right-5 text-white flex justify-between items-end">
                 <div>
-                  <span className="text-[10px] uppercase tracking-[0.2em] text-white/70">Discipline 03</span>
-                  <h3 className="font-serif text-xl font-normal mt-0.5">Dining & Gathering</h3>
-                  <p className="text-xs text-white/80 font-light">White oak trestles & travertine slabs</p>
+                  <h3 className="font-serif text-xl font-normal text-white">Dining Room</h3>
+                  <p className="text-xs text-white/90 font-normal">Solid white oak & travertine tables</p>
                 </div>
-                <span className="text-xs font-sans uppercase tracking-widest text-white/90 underline underline-offset-4 group-hover:text-white group-hover:translate-x-1 transition-all">
+                <span className="text-xs font-sans font-semibold text-white group-hover:translate-x-1 transition-transform">
                   →
                 </span>
               </div>
             </Link>
 
-            {/* Wide Card 4: Studio & Storage */}
+            {/* Home Office */}
             <Link 
-              href="/products?category=storage"
-              className="md:col-span-4 group cursor-pointer relative rounded-sm overflow-hidden aspect-[4/3] border border-[#E5DFD7] bg-[#EFE9E1] block shadow-nord"
+              href="/products?category=home-office"
+              className="md:col-span-4 group cursor-pointer relative rounded-sm overflow-hidden aspect-[4/3] border border-[#E5DFD7] bg-[#EFE9E1] block shadow-sm hover:shadow-md transition-shadow"
             >
               <img
                 src="https://images.unsplash.com/photo-1595428774223-ef52624120d2?auto=format&fit=crop&w=800&q=85"
-                alt="Studio & Storage"
+                alt="Home Office"
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#1C1917]/75 via-transparent to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#1C1917]/80 via-transparent to-transparent" />
               <div className="absolute bottom-5 left-5 right-5 text-white flex justify-between items-end">
                 <div>
-                  <span className="text-[10px] uppercase tracking-[0.2em] text-white/70">Discipline 04</span>
-                  <h3 className="font-serif text-xl font-normal mt-0.5">Studio & Storage</h3>
-                  <p className="text-xs text-white/80 font-light">Fluted glass credenzas & linear desks</p>
+                  <h3 className="font-serif text-xl font-normal text-white">Home Office</h3>
+                  <p className="text-xs text-white/90 font-normal">Writing desks & fluted glass credenzas</p>
                 </div>
-                <span className="text-xs font-sans uppercase tracking-widest text-white/90 underline underline-offset-4 group-hover:text-white group-hover:translate-x-1 transition-all">
+                <span className="text-xs font-sans font-semibold text-white group-hover:translate-x-1 transition-transform">
                   →
                 </span>
               </div>
             </Link>
 
-            {/* Wide Card 5: Accents & Objects */}
+            {/* Decor */}
             <Link 
-              href="/products?category=accents"
-              className="md:col-span-4 group cursor-pointer relative rounded-sm overflow-hidden aspect-[4/3] border border-[#E5DFD7] bg-[#EFE9E1] block shadow-nord"
+              href="/products?category=decor"
+              className="md:col-span-4 group cursor-pointer relative rounded-sm overflow-hidden aspect-[4/3] border border-[#E5DFD7] bg-[#EFE9E1] block shadow-sm hover:shadow-md transition-shadow"
             >
               <img
                 src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=800&q=85"
-                alt="Accents & Objects"
+                alt="Decor"
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#1C1917]/75 via-transparent to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#1C1917]/80 via-transparent to-transparent" />
               <div className="absolute bottom-5 left-5 right-5 text-white flex justify-between items-end">
                 <div>
-                  <span className="text-[10px] uppercase tracking-[0.2em] text-white/70">Discipline 05</span>
-                  <h3 className="font-serif text-xl font-normal mt-0.5">Accents & Objects</h3>
-                  <p className="text-xs text-white/80 font-light">Natural alabaster & wabi-sabi vessels</p>
+                  <h3 className="font-serif text-xl font-normal text-white">Decor & Accents</h3>
+                  <p className="text-xs text-white/90 font-normal">Spanish alabaster & ceramic vessels</p>
                 </div>
-                <span className="text-xs font-sans uppercase tracking-widest text-white/90 underline underline-offset-4 group-hover:text-white group-hover:translate-x-1 transition-all">
+                <span className="text-xs font-sans font-semibold text-white group-hover:translate-x-1 transition-transform">
                   →
                 </span>
               </div>
@@ -302,87 +296,87 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 3. MATERIALITY SPOTLIGHT BANNER */}
-      <section id="materiality" className="px-6 md:px-12 py-24 max-w-7xl mx-auto w-full space-y-16">
+      {/* 3. MATERIALS & CRAFT */}
+      <section id="materials" className="px-6 md:px-12 py-24 max-w-7xl mx-auto w-full space-y-14">
         <div className="text-center max-w-2xl mx-auto space-y-3">
-          <span className="text-[11px] font-sans uppercase tracking-[0.2em] text-[#78716C]">
+          <span className="text-xs font-sans font-semibold uppercase tracking-widest text-[#B45309]">
             Noble Raw Materials
           </span>
           <h2 className="font-serif text-3xl md:text-4xl font-normal tracking-tight text-[#1C1917]">
-            Materiality & Tactile Integrity
+            Materials & Craft
           </h2>
-          <p className="text-xs md:text-sm text-[#78716C] font-light leading-relaxed">
-            We reject synthetic veneers. Every surface is chosen for its organic grain, textural warmth, and capacity to age gracefully with natural patina.
+          <p className="text-xs md:text-sm text-[#57534E] font-normal leading-relaxed">
+            We use only solid hardwoods, natural stone, and organic fibers. Each material is selected for durability, natural warmth, and the beauty of natural aging.
           </p>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          <div className="p-8 rounded-sm bg-[#F4EFEA] border border-[#E5DFD7] space-y-4">
+          <div className="p-7 rounded-sm bg-[#F4EFEA] border border-[#E5DFD7] space-y-3">
             <div className="w-10 h-10 rounded-sm bg-[#FAF7F2] border border-[#E5DFD7] flex items-center justify-center text-[#B45309]">
-              <Trees className="w-5 h-5 stroke-[1.5]" />
+              <Trees className="w-5 h-5 stroke-[1.75]" />
             </div>
-            <h3 className="font-serif text-lg font-normal">Japanese Hinoki Cypress</h3>
-            <p className="text-xs text-[#78716C] font-light leading-relaxed">
-              Harvested sustainably in Nagano, offering natural aromatic resins, silken tactile touch, and structural lightness.
+            <h3 className="font-serif text-lg font-normal text-[#1C1917]">Japanese Hinoki Cypress</h3>
+            <p className="text-xs text-[#57534E] font-normal leading-relaxed">
+              Sustainably harvested in Nagano, prized for its natural aromatic scent, silken touch, and structural longevity.
             </p>
           </div>
 
-          <div className="p-8 rounded-sm bg-[#F4EFEA] border border-[#E5DFD7] space-y-4">
+          <div className="p-7 rounded-sm bg-[#F4EFEA] border border-[#E5DFD7] space-y-3">
             <div className="w-10 h-10 rounded-sm bg-[#FAF7F2] border border-[#E5DFD7] flex items-center justify-center text-[#B45309]">
-              <Feather className="w-5 h-5 stroke-[1.5]" />
+              <Feather className="w-5 h-5 stroke-[1.75]" />
             </div>
-            <h3 className="font-serif text-lg font-normal">Italian Heavy Bouclé</h3>
-            <p className="text-xs text-[#78716C] font-light leading-relaxed">
-              Spun in Como from virgin wool and organic cotton slubs, delivering multidimensional cloud-like comfort.
+            <h3 className="font-serif text-lg font-normal text-[#1C1917]">Italian Heavy Bouclé</h3>
+            <p className="text-xs text-[#57534E] font-normal leading-relaxed">
+              Woven in Como from virgin wool and organic cotton slubs for deep texture and luxurious cloud-like comfort.
             </p>
           </div>
 
-          <div className="p-8 rounded-sm bg-[#F4EFEA] border border-[#E5DFD7] space-y-4">
+          <div className="p-7 rounded-sm bg-[#F4EFEA] border border-[#E5DFD7] space-y-3">
             <div className="w-10 h-10 rounded-sm bg-[#FAF7F2] border border-[#E5DFD7] flex items-center justify-center text-[#B45309]">
-              <SunMedium className="w-5 h-5 stroke-[1.5]" />
+              <SunMedium className="w-5 h-5 stroke-[1.75]" />
             </div>
-            <h3 className="font-serif text-lg font-normal">Roman Silver Travertine</h3>
-            <p className="text-xs text-[#78716C] font-light leading-relaxed">
-              Quarried in Tivoli with unfilled fissures that celebrate the millions of years of geothermal sedimentation.
+            <h3 className="font-serif text-lg font-normal text-[#1C1917]">Roman Silver Travertine</h3>
+            <p className="text-xs text-[#57534E] font-normal leading-relaxed">
+              Quarried in Tivoli with natural open pores and unique veining that celebrate genuine mineral geology.
             </p>
           </div>
 
-          <div className="p-8 rounded-sm bg-[#F4EFEA] border border-[#E5DFD7] space-y-4">
+          <div className="p-7 rounded-sm bg-[#F4EFEA] border border-[#E5DFD7] space-y-3">
             <div className="w-10 h-10 rounded-sm bg-[#FAF7F2] border border-[#E5DFD7] flex items-center justify-center text-[#B45309]">
-              <Layers className="w-5 h-5 stroke-[1.5]" />
+              <Layers className="w-5 h-5 stroke-[1.75]" />
             </div>
-            <h3 className="font-serif text-lg font-normal">American Black Walnut</h3>
-            <p className="text-xs text-[#78716C] font-light leading-relaxed">
-              Hand-rubbed with natural organic waxes to enhance rich deep espresso hues and continuous grain flows.
+            <h3 className="font-serif text-lg font-normal text-[#1C1917]">American Black Walnut</h3>
+            <p className="text-xs text-[#57534E] font-normal leading-relaxed">
+              Finished with organic hardwax oils to highlight continuous grain patterns and rich natural espresso tones.
             </p>
           </div>
         </div>
       </section>
 
       {/* 4. PRODUCT CATALOG GRID */}
-      <section id="collections" className="px-6 md:px-12 py-20 bg-[#F4EFEA] border-t border-[#E5DFD7]">
-        <div className="max-w-7xl mx-auto space-y-12">
+      <section id="collection" className="px-6 md:px-12 py-20 bg-[#F4EFEA] border-t border-[#E5DFD7]">
+        <div className="max-w-7xl mx-auto space-y-10">
           {/* Header & Filter Pills */}
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
             <div>
-              <span className="text-[11px] font-sans uppercase tracking-[0.2em] text-[#78716C]">
-                The Complete Collection
+              <span className="text-xs font-sans font-semibold uppercase tracking-widest text-[#B45309]">
+                Featured Products
               </span>
               <h2 className="font-serif text-3xl md:text-4xl font-normal tracking-tight mt-1 text-[#1C1917]">
-                Architectural Masterpieces
+                The Sora Living Collection
               </h2>
             </div>
 
             {/* Category Filter Pills */}
-            <div className="flex flex-wrap gap-2 text-[11px] font-sans">
+            <div className="flex flex-wrap gap-2 text-xs font-sans">
               {categories.map((cat) => (
                 <button
                   key={cat}
                   onClick={() => setSelectedCategory(cat)}
-                  className={`px-4 py-2 rounded-sm border transition-all uppercase tracking-wider ${
+                  className={`px-4 py-2 rounded-sm border transition-all uppercase tracking-wider font-semibold ${
                     selectedCategory === cat
-                      ? 'bg-[#292524] text-[#FAF7F2] border-[#292524] font-medium'
-                      : 'bg-[#FAF7F2] text-[#78716C] border-[#E5DFD7] hover:text-[#1C1917]'
+                      ? 'bg-[#1C1917] text-[#FAF7F2] border-[#1C1917]'
+                      : 'bg-[#FAF7F2] text-[#57534E] border-[#D6CEC4] hover:text-[#1C1917] hover:border-[#1C1917]'
                   }`}
                 >
                   {cat}
@@ -403,8 +397,8 @@ export default function Home() {
                   initial={{ opacity: 0, y: 16 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: (idx % 3) * 0.1 }}
-                  className="group bg-[#FAF7F2] rounded-sm border border-[#E5DFD7] overflow-hidden flex flex-col justify-between hover:shadow-nord-lg transition-all duration-300"
+                  transition={{ duration: 0.4, delay: (idx % 3) * 0.08 }}
+                  className="group bg-[#FAF7F2] rounded-sm border border-[#E5DFD7] overflow-hidden flex flex-col justify-between hover:shadow-lg transition-all duration-300"
                 >
                   {/* Product Image Box */}
                   <div className="relative aspect-[4/3] overflow-hidden bg-[#EFE9E1]">
@@ -415,19 +409,19 @@ export default function Home() {
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 cursor-pointer"
                       />
                     </Link>
-                    <div className="absolute top-3 left-3 bg-[#FAF7F2]/90 backdrop-blur-sm text-[9px] font-sans px-2.5 py-1 uppercase tracking-[0.14em] text-[#1C1917] border border-[#E5DFD7]">
+                    <div className="absolute top-3 left-3 bg-[#FAF7F2]/95 backdrop-blur-sm text-[10px] font-sans font-semibold px-2.5 py-1 uppercase tracking-wider text-[#1C1917] border border-[#D6CEC4] rounded-sm">
                       {product.category}
                     </div>
 
                     {product.featured && (
-                      <div className="absolute top-3 right-3 bg-[#292524] text-[#FAF7F2] text-[9px] font-sans px-2 py-0.5 uppercase tracking-widest">
-                        Atelier Key Piece
+                      <div className="absolute top-3 right-3 bg-[#1C1917] text-[#FAF7F2] text-[10px] font-sans font-semibold px-2.5 py-1 uppercase tracking-wider rounded-sm">
+                        Bestseller
                       </div>
                     )}
 
                     <button
                       onClick={() => handleOpenQuickView(product)}
-                      className="absolute bottom-3 right-3 bg-[#FAF7F2]/95 hover:bg-white text-[#1C1917] p-2 rounded-sm border border-[#E5DFD7] shadow-sm opacity-0 group-hover:opacity-100 transition-opacity flex items-center space-x-1 text-[10px] font-sans uppercase tracking-wider"
+                      className="absolute bottom-3 right-3 bg-[#FAF7F2]/95 hover:bg-white text-[#1C1917] p-2 rounded-sm border border-[#D6CEC4] shadow-sm opacity-0 group-hover:opacity-100 transition-opacity flex items-center space-x-1.5 text-[11px] font-sans font-semibold tracking-wider"
                     >
                       <Eye className="w-3.5 h-3.5" />
                       <span>Quick View</span>
@@ -438,38 +432,38 @@ export default function Home() {
                   <div className="p-6 space-y-4 flex-1 flex flex-col justify-between">
                     <div className="space-y-2">
                       <div className="flex items-center justify-between text-xs">
-                        <span className="text-[11px] font-sans text-[#78716C]">{product.material}</span>
-                        <div className="flex items-center space-x-1 text-[#B45309] text-[11px] font-sans">
-                          <Star className="w-3 h-3 fill-[#B45309] text-[#B45309]" />
+                        <span className="text-xs font-sans font-medium text-[#57534E]">{product.material}</span>
+                        <div className="flex items-center space-x-1 text-[#B45309] text-xs font-sans font-bold">
+                          <Star className="w-3.5 h-3.5 fill-[#B45309] text-[#B45309]" />
                           <span>{product.rating}</span>
                         </div>
                       </div>
 
                       <Link href={`/products/${product.id}`} className="block">
-                        <h3 className="font-serif text-lg font-normal text-[#1C1917] leading-snug hover:underline">
+                        <h3 className="font-sans text-base font-bold text-[#1C1917] leading-snug hover:underline">
                           {product.name}
                         </h3>
                       </Link>
 
-                      <p className="text-xs text-[#78716C] font-light line-clamp-2 leading-relaxed">
+                      <p className="text-xs text-[#57534E] font-normal line-clamp-2 leading-relaxed">
                         {product.description}
                       </p>
 
-                      {/* Finish / Color Selector */}
+                      {/* Finishes */}
                       {product.colors && product.colors.length > 0 && (
-                        <div className="pt-2">
-                          <span className="text-[10px] font-sans uppercase tracking-wider text-[#78716C]">
-                            Available Finishes:
+                        <div className="pt-1">
+                          <span className="text-[11px] font-sans font-semibold text-[#57534E]">
+                            Finishes:
                           </span>
                           <div className="flex flex-wrap gap-1.5 mt-1">
                             {product.colors.map((color) => (
                               <button
                                 key={color}
                                 onClick={() => handleSelectFinish(product.id, color)}
-                                className={`text-[10px] px-2 py-0.5 border transition-colors rounded-none ${
+                                className={`text-[11px] px-2 py-0.5 border transition-colors rounded-sm font-medium ${
                                   chosenFinish === color
-                                    ? 'bg-[#292524] text-[#FAF7F2] border-[#292524]'
-                                    : 'bg-[#F4EFEA] text-[#78716C] border-[#E5DFD7] hover:text-[#1C1917]'
+                                    ? 'bg-[#1C1917] text-[#FAF7F2] border-[#1C1917]'
+                                    : 'bg-[#F4EFEA] text-[#57534E] border-[#D6CEC4] hover:text-[#1C1917]'
                                 }`}
                               >
                                 {color}
@@ -483,8 +477,8 @@ export default function Home() {
                     {/* Bottom Price & Add CTA */}
                     <div className="pt-4 border-t border-[#E5DFD7] flex items-center justify-between">
                       <div>
-                        <span className="text-[10px] font-sans text-[#78716C] uppercase tracking-wider">Price</span>
-                        <p className="font-sans text-base font-semibold text-[#1C1917]">
+                        <span className="text-[10px] font-sans text-[#57534E] uppercase tracking-wider font-semibold">Price</span>
+                        <p className="font-sans text-base font-bold text-[#1C1917]">
                           {formatPrice(displayPrice)}
                         </p>
                       </div>
@@ -492,16 +486,16 @@ export default function Home() {
                       <div className="flex items-center space-x-2">
                         <Link
                           href={`/products/${product.id}`}
-                          className="px-3 py-2.5 bg-[#FAF7F2] border border-[#E5DFD7] text-[#1C1917] rounded-sm hover:bg-[#EFE9E1] transition-colors text-xs font-sans"
+                          className="px-3 py-2 bg-[#FAF7F2] border border-[#D6CEC4] text-[#1C1917] rounded-sm hover:bg-[#EAE3D9] transition-colors text-xs font-sans font-semibold"
                         >
-                          View Details
+                          Details
                         </Link>
                         <button
                           onClick={() => {
                             addItem(product, 1, chosenFinish)
                             openCart()
                           }}
-                          className="px-4 py-2.5 bg-[#292524] text-[#FAF7F2] rounded-sm hover:bg-[#3E3835] transition-all text-xs font-sans uppercase tracking-[0.14em] flex items-center space-x-1.5 shadow-sm"
+                          className="px-4 py-2 bg-[#1C1917] text-[#FAF7F2] rounded-sm hover:bg-[#292524] transition-all text-xs font-sans font-semibold tracking-wide flex items-center space-x-1.5 shadow-sm"
                         >
                           <Plus className="w-3.5 h-3.5" />
                           <span>Add to Bag</span>
@@ -516,36 +510,36 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 5. CRAFTSMANSHIP & WHITE-GLOVE MANIFESTO */}
-      <section className="px-6 md:px-12 py-24 max-w-7xl mx-auto w-full space-y-16">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center bg-[#F4EFEA] rounded-sm border border-[#E5DFD7] p-8 md:p-14">
+      {/* 5. DELIVERY & SERVICES */}
+      <section className="px-6 md:px-12 py-20 max-w-7xl mx-auto w-full">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center bg-[#F4EFEA] rounded-sm border border-[#E5DFD7] p-8 md:p-12">
           <div className="lg:col-span-7 space-y-6">
-            <span className="text-[11px] font-sans uppercase tracking-[0.2em] text-[#78716C]">
-              The Atelier Standard
+            <span className="text-xs font-sans font-semibold uppercase tracking-widest text-[#B45309]">
+              White-Glove Service
             </span>
             <h2 className="font-serif text-3xl md:text-5xl font-normal tracking-tight text-[#1C1917] leading-tight">
-              Museum-grade delivery, assembly & preservation.
+              Carefully delivered, assembled & placed in your home.
             </h2>
-            <p className="text-sm text-[#78716C] font-light leading-relaxed max-w-xl">
-              Every commission arrives via dedicated, climate-controlled transport. Our white-glove handlers unpack, assemble with precision torque, and place each piece in your exact room of choice.
+            <p className="text-xs md:text-sm text-[#57534E] font-normal leading-relaxed max-w-xl">
+              Every order includes dedicated transport and trained delivery handlers who unpack, inspect, and position each piece in your room of choice with debris removal included.
             </p>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2 text-xs">
-              <div className="flex items-center space-x-2.5">
+              <div className="flex items-center space-x-2.5 font-medium text-[#1C1917]">
                 <CheckCircle2 className="w-4 h-4 text-[#B45309]" />
-                <span>Complimentary Room-of-Choice Placement</span>
+                <span>Complimentary Room-of-Choice Setup</span>
               </div>
-              <div className="flex items-center space-x-2.5">
+              <div className="flex items-center space-x-2.5 font-medium text-[#1C1917]">
                 <CheckCircle2 className="w-4 h-4 text-[#B45309]" />
-                <span>Zero Synthetic Core Materials</span>
+                <span>100% Solid Hardwoods & Stone</span>
               </div>
-              <div className="flex items-center space-x-2.5">
+              <div className="flex items-center space-x-2.5 font-medium text-[#1C1917]">
                 <CheckCircle2 className="w-4 h-4 text-[#B45309]" />
-                <span>HMAC SHA-256 Verified Transactions</span>
+                <span>10-Year Structural Guarantee</span>
               </div>
-              <div className="flex items-center space-x-2.5">
+              <div className="flex items-center space-x-2.5 font-medium text-[#1C1917]">
                 <CheckCircle2 className="w-4 h-4 text-[#B45309]" />
-                <span>Lifetime Structural Guarantee</span>
+                <span>Secure Razorpay Checkout</span>
               </div>
             </div>
           </div>
@@ -553,57 +547,57 @@ export default function Home() {
           <div className="lg:col-span-5 relative aspect-[4/3] rounded-sm overflow-hidden border border-[#E5DFD7]">
             <img
               src="https://images.unsplash.com/photo-1540518614846-7ede433c4550?auto=format&fit=crop&w=1000&q=85"
-              alt="Atelier Craftsmanship"
+              alt="Craftsmanship & White-Glove Setup"
               className="w-full h-full object-cover"
             />
           </div>
         </div>
       </section>
 
-      {/* 6. REFINED MINIMALIST FOOTER */}
-      <footer className="border-t border-[#E5DFD7] py-16 px-6 md:px-12 bg-[#FAF7F2] text-xs text-[#78716C]">
+      {/* 6. CLEAN FOOTER */}
+      <footer className="border-t border-[#E5DFD7] py-16 px-6 md:px-12 bg-[#FAF7F2] text-xs text-[#57534E]">
         <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-10">
           <div className="md:col-span-5 space-y-3">
             <span className="font-serif uppercase tracking-[0.25em] text-lg text-[#1C1917] block">
               SORA LIVING
             </span>
-            <p className="text-xs text-[#78716C] font-light max-w-sm leading-relaxed">
-              An architectural furniture studio dedicated to proportion, honest materiality, and spatial clarity. Handcrafted across Japan and Northern Europe.
+            <p className="text-xs text-[#57534E] font-normal max-w-sm leading-relaxed">
+              Architectural furniture handcrafted with Japanese wabi-sabi principles and Scandinavian clarity. Built from solid timber, natural stone, and organic textiles.
             </p>
           </div>
 
           <div className="md:col-span-2 space-y-2">
-            <h4 className="font-sans font-semibold text-[#1C1917] text-[11px] uppercase tracking-wider">Disciplines</h4>
-            <ul className="space-y-1.5 font-light text-xs">
-              <li><a href="#collections" className="hover:text-[#1C1917]">Lounge & Seating</a></li>
-              <li><a href="#collections" className="hover:text-[#1C1917]">Dining & Gathering</a></li>
-              <li><a href="#collections" className="hover:text-[#1C1917]">Sanctuary (Beds)</a></li>
-              <li><a href="#collections" className="hover:text-[#1C1917]">Studio & Storage</a></li>
-              <li><a href="#collections" className="hover:text-[#1C1917]">Accents & Objects</a></li>
+            <h4 className="font-sans font-bold text-[#1C1917] text-xs uppercase tracking-wider">Categories</h4>
+            <ul className="space-y-2 text-xs">
+              <li><Link href="/products?category=living-room" className="hover:text-[#1C1917]">Living Room</Link></li>
+              <li><Link href="/products?category=dining-room" className="hover:text-[#1C1917]">Dining Room</Link></li>
+              <li><Link href="/products?category=bedroom" className="hover:text-[#1C1917]">Bedroom</Link></li>
+              <li><Link href="/products?category=home-office" className="hover:text-[#1C1917]">Home Office</Link></li>
+              <li><Link href="/products?category=decor" className="hover:text-[#1C1917]">Decor & Objects</Link></li>
             </ul>
           </div>
 
           <div className="md:col-span-2 space-y-2">
-            <h4 className="font-sans font-semibold text-[#1C1917] text-[11px] uppercase tracking-wider">Platform</h4>
-            <ul className="space-y-1.5 font-light text-xs">
-              <li><Link href="/cart" className="hover:text-[#1C1917]">Spatial Bag</Link></li>
+            <h4 className="font-sans font-bold text-[#1C1917] text-xs uppercase tracking-wider">Customer Care</h4>
+            <ul className="space-y-2 text-xs">
+              <li><Link href="/cart" className="hover:text-[#1C1917]">Shopping Bag</Link></li>
               <li><Link href="/checkout" className="hover:text-[#1C1917]">Checkout</Link></li>
-              <li><Link href="/admin" className="hover:text-[#1C1917]">Studio Desk</Link></li>
+              <li><Link href="/admin" className="hover:text-[#1C1917]">Admin Desk</Link></li>
             </ul>
           </div>
 
           <div className="md:col-span-3 space-y-2">
-            <h4 className="font-sans font-semibold text-[#1C1917] text-[11px] uppercase tracking-wider">Studio Concierge</h4>
-            <p className="font-light text-xs leading-relaxed">
-              The Sora Pavilion, Lavelle Road, Bengaluru.<br />
-              concierge@soraliving.studio
+            <h4 className="font-sans font-bold text-[#1C1917] text-xs uppercase tracking-wider">Contact & Studio</h4>
+            <p className="text-xs leading-relaxed">
+              Sora Living Studio, Lavelle Road, Bengaluru.<br />
+              care@soraliving.studio • +91 98765 43210
             </p>
           </div>
         </div>
 
-        <div className="max-w-7xl mx-auto pt-12 mt-12 border-t border-[#E5DFD7] flex flex-col sm:flex-row items-center justify-between text-[11px] font-light">
+        <div className="max-w-7xl mx-auto pt-10 mt-10 border-t border-[#E5DFD7] flex flex-col sm:flex-row items-center justify-between text-xs">
           <p>© 2026 Sora Living Studio. All rights reserved.</p>
-          <p className="mt-2 sm:mt-0 font-mono">Next.js 16 • Supabase SSR • Razorpay Verified</p>
+          <p className="mt-2 sm:mt-0 font-sans">Handcrafted with Japanese & Scandinavian Precision</p>
         </div>
       </footer>
 
@@ -619,7 +613,8 @@ export default function Home() {
             >
               <button
                 onClick={() => setQuickViewProduct(null)}
-                className="absolute top-4 right-4 p-2 text-[#78716C] hover:text-[#1C1917] rounded-sm hover:bg-[#F4EFEA] transition-colors"
+                className="absolute top-4 right-4 p-2 text-[#57534E] hover:text-[#1C1917] rounded-sm hover:bg-[#F4EFEA] transition-colors"
+                aria-label="Close"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -634,7 +629,7 @@ export default function Home() {
                 </div>
 
                 <div className="space-y-4">
-                  <span className="text-[10px] font-sans uppercase tracking-[0.2em] text-[#78716C]">
+                  <span className="text-xs font-sans font-semibold uppercase tracking-wider text-[#B45309]">
                     {quickViewProduct.category}
                   </span>
                   <h2 className="font-serif text-2xl font-normal text-[#1C1917]">
@@ -643,23 +638,23 @@ export default function Home() {
                   <p className="font-sans text-xl font-bold text-[#1C1917]">
                     {formatPrice(quickViewProduct.discount_price ?? quickViewProduct.price)}
                   </p>
-                  <p className="text-xs text-[#78716C] font-light leading-relaxed">
+                  <p className="text-xs text-[#57534E] font-normal leading-relaxed">
                     {quickViewProduct.description}
                   </p>
 
-                  <div className="space-y-1.5 text-xs text-[#78716C] pt-2 border-t border-[#E5DFD7]">
+                  <div className="space-y-1.5 text-xs text-[#57534E] pt-2 border-t border-[#E5DFD7]">
                     <p><strong>Material:</strong> {quickViewProduct.material}</p>
                     <p><strong>Dimensions:</strong> {quickViewProduct.dimensions}</p>
                   </div>
 
-                  <div className="pt-4 flex items-center space-x-3">
+                  <div className="pt-3 flex items-center space-x-3">
                     <button
                       onClick={() => {
                         addItem(quickViewProduct, 1, selectedQuickViewColor)
                         setQuickViewProduct(null)
                         openCart()
                       }}
-                      className="flex-1 py-3 px-6 bg-[#292524] text-[#FAF7F2] text-xs font-sans uppercase tracking-[0.16em] font-semibold rounded-sm hover:bg-[#3E3835] transition-all flex items-center justify-center space-x-2"
+                      className="flex-1 py-3 px-6 bg-[#1C1917] text-[#FAF7F2] text-xs font-sans uppercase tracking-wider font-semibold rounded-sm hover:bg-[#292524] transition-all flex items-center justify-center space-x-2"
                     >
                       <ShoppingBag className="w-4 h-4" />
                       <span>Add to Bag</span>
@@ -667,7 +662,7 @@ export default function Home() {
 
                     <Link
                       href={`/products/${quickViewProduct.id}`}
-                      className="py-3 px-4 border border-[#E5DFD7] text-[#1C1917] text-xs uppercase tracking-wider font-medium rounded-sm hover:bg-[#EFE9E1] transition-colors"
+                      className="py-3 px-4 border border-[#D6CEC4] text-[#1C1917] text-xs uppercase tracking-wider font-semibold rounded-sm hover:bg-[#EAE3D9] transition-colors"
                     >
                       Full Details →
                     </Link>
@@ -681,4 +676,3 @@ export default function Home() {
     </div>
   )
 }
-

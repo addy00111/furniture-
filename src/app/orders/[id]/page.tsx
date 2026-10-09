@@ -9,7 +9,6 @@ import {
   Truck, 
   Home as HomeIcon, 
   CheckCircle2, 
-  Clock, 
   MapPin, 
   Receipt, 
   HelpCircle, 
@@ -17,8 +16,7 @@ import {
   ArrowLeft,
   XCircle,
   Printer,
-  PhoneCall,
-  Mail
+  PhoneCall
 } from 'lucide-react'
 import { formatPrice } from '@/lib/utils'
 import { Navbar } from '@/components/layout/Navbar'
@@ -27,7 +25,8 @@ import Link from 'next/link'
 export default function OrderTrackingPage() {
   const params = useParams()
   const router = useRouter()
-  const orderId = (params?.id as string) || 'ord-sample-01'
+  const rawId = (params?.id as string) || 'ord-sample-01'
+  const displayOrderId = rawId.toUpperCase().startsWith('SORA-') ? rawId.toUpperCase() : `SORA-${rawId.slice(0, 8).toUpperCase()}`
 
   const [order, setOrder] = useState<any>(null)
   const [loading, setLoading] = useState(true)
@@ -37,10 +36,10 @@ export default function OrderTrackingPage() {
 
   // Tracking Stages: 1. Confirmed -> 2. Processing -> 3. Shipped -> 4. Out for Delivery -> 5. Delivered
   const trackingStages = [
-    { key: 'order_confirmed', label: 'Confirmed', subtext: 'Payment verified & order confirmed', icon: PackageCheck },
-    { key: 'processing', label: 'Processing', subtext: 'Artisan crafting & timber finishing', icon: Sparkles },
-    { key: 'shipped', label: 'Shipped', subtext: 'Departed central atelier logistics hub', icon: Truck },
-    { key: 'out_for_delivery', label: 'Out for Delivery', subtext: 'Dedicated courier van on local route', icon: Truck },
+    { key: 'order_confirmed', label: 'Order Placed', subtext: 'Payment verified & order confirmed', icon: PackageCheck },
+    { key: 'processing', label: 'Preparing', subtext: 'Quality inspection & packaging', icon: Sparkles },
+    { key: 'shipped', label: 'Shipped', subtext: 'Departed central distribution hub', icon: Truck },
+    { key: 'out_for_delivery', label: 'Out for Delivery', subtext: 'Dedicated courier on delivery route', icon: Truck },
     { key: 'delivered', label: 'Delivered', subtext: 'White-glove room placement complete', icon: HomeIcon },
   ]
 
@@ -50,14 +49,14 @@ export default function OrderTrackingPage() {
         setLoading(true)
         const res = await fetch(`/api/admin/orders`)
         const data = await res.json()
-        const found = data?.orders?.find((o: any) => o.id === orderId)
+        const found = data?.orders?.find((o: any) => o.id === rawId)
 
         if (found) {
           setOrder(found)
         } else {
-          // Hydrate fallback Nord-Japandi sample order
+          // Hydrate fallback sample order
           setOrder({
-            id: orderId,
+            id: rawId,
             status: 'paid',
             tracking_status: 'processing',
             total_amount: 285499,
@@ -81,7 +80,7 @@ export default function OrderTrackingPage() {
                 selectedColor: 'Oatmeal Ivory',
                 products: {
                   name: 'Kanso Curved Bouclé Sectional',
-                  category: 'Lounge & Seating',
+                  category: 'Living Room',
                   images: ['https://images.unsplash.com/photo-1555041469-a586c61ea9bc?auto=format&fit=crop&w=800&q=80'],
                 },
               },
@@ -103,7 +102,7 @@ export default function OrderTrackingPage() {
     }
 
     fetchOrder()
-  }, [orderId])
+  }, [rawId])
 
   const getStageIndex = (stageKey: string) => {
     switch (stageKey) {
@@ -119,7 +118,7 @@ export default function OrderTrackingPage() {
       case 'delivered':
         return 4
       default:
-        return 0
+        return 1
     }
   }
 
@@ -142,8 +141,8 @@ export default function OrderTrackingPage() {
         <div className="flex-1 flex items-center justify-center">
           <div className="space-y-3 text-center">
             <div className="w-8 h-8 border-2 border-[#1C1917] border-t-transparent rounded-full animate-spin mx-auto" />
-            <p className="text-[11px] font-sans uppercase tracking-[0.2em] text-[#78716C]">
-              Retrieving Spatial Manifest...
+            <p className="text-xs font-sans uppercase tracking-widest text-[#57534E] font-semibold">
+              Loading Order Details...
             </p>
           </div>
         </div>
@@ -161,24 +160,24 @@ export default function OrderTrackingPage() {
           <div className="space-y-1">
             <div className="flex items-center space-x-2">
               <Link
-                href="/"
-                className="text-[#78716C] hover:text-[#1C1917] transition-colors p-1 -ml-1 rounded"
+                href="/catalog"
+                className="text-[#57534E] hover:text-[#1C1917] transition-colors p-1 -ml-1 rounded"
               >
                 <ArrowLeft className="w-4 h-4" />
               </Link>
-              <span className="text-[10px] font-sans uppercase tracking-[0.2em] text-[#78716C]">
+              <span className="text-xs font-sans uppercase tracking-widest text-[#B45309] font-semibold">
                 Order Tracking
               </span>
             </div>
-            <h1 className="font-serif text-2xl md:text-4xl font-normal tracking-tight text-[#1C1917]">
-              Order #{order?.id?.slice(0, 8)}
+            <h1 className="font-serif text-2xl md:text-3xl font-normal tracking-tight text-[#1C1917]">
+              Order #{displayOrderId}
             </h1>
           </div>
 
           <div className="flex items-center space-x-3">
             <button
               onClick={() => window.print()}
-              className="px-4 py-2 border border-[#E5DFD7] bg-[#F4EFEA] rounded-sm text-xs font-sans uppercase tracking-wider hover:bg-[#EFE9E1] transition-colors flex items-center space-x-1.5"
+              className="px-4 py-2 border border-[#D6CEC4] bg-[#F4EFEA] rounded-sm text-xs font-sans uppercase tracking-wider font-semibold hover:bg-[#EAE3D9] transition-colors flex items-center space-x-1.5"
             >
               <Printer className="w-3.5 h-3.5" />
               <span>Print Invoice</span>
@@ -186,28 +185,28 @@ export default function OrderTrackingPage() {
 
             <button
               onClick={() => setIsSupportModalOpen(true)}
-              className="px-4 py-2 bg-[#292524] text-[#FAF7F2] rounded-sm text-xs font-sans uppercase tracking-wider hover:bg-[#3E3835] transition-colors flex items-center space-x-1.5"
+              className="px-4 py-2 bg-[#1C1917] text-[#FAF7F2] rounded-sm text-xs font-sans uppercase tracking-wider font-semibold hover:bg-[#292524] transition-colors flex items-center space-x-1.5"
             >
               <HelpCircle className="w-3.5 h-3.5" />
-              <span>Concierge Support</span>
+              <span>Customer Support</span>
             </button>
           </div>
         </div>
 
         {/* 5-Step Progress Tracker */}
-        <div className="bg-[#F4EFEA] rounded-sm border border-[#E5DFD7] p-6 md:p-8 space-y-8 shadow-nord">
+        <div className="bg-[#F4EFEA] rounded-sm border border-[#E5DFD7] p-6 md:p-8 space-y-8 shadow-sm">
           <div className="flex items-center justify-between border-b border-[#E5DFD7] pb-4">
             <div>
-              <span className="text-[10px] font-sans uppercase tracking-[0.2em] text-[#78716C]">
-                Estimated White-Glove Arrival
+              <span className="text-xs font-sans uppercase tracking-wider font-semibold text-[#57534E]">
+                Estimated Delivery
               </span>
-              <p className="font-serif text-lg font-normal text-[#1C1917] mt-0.5">
-                5–7 Business Days • Dedicated Art & Furniture Courier
+              <p className="font-sans text-base font-semibold text-[#1C1917] mt-0.5">
+                3–7 Business Days • Dedicated Furniture Transport
               </p>
             </div>
-            <span className="inline-flex items-center space-x-1.5 px-3 py-1 rounded-sm bg-[#FAF7F2] text-[#B45309] border border-[#E5DFD7] text-xs font-sans">
+            <span className="inline-flex items-center space-x-1.5 px-3 py-1 rounded-sm bg-[#FAF7F2] text-[#B45309] border border-[#E5DFD7] text-xs font-sans font-semibold">
               <span className="w-2 h-2 rounded-full bg-[#B45309] animate-pulse" />
-              <span className="capitalize">{order?.tracking_status?.replace('_', ' ') || 'In Progress'}</span>
+              <span className="capitalize">{order?.tracking_status?.replace('_', ' ') || 'Preparing'}</span>
             </span>
           </div>
 
@@ -225,16 +224,16 @@ export default function OrderTrackingPage() {
                     isCurrent
                       ? 'border-[#1C1917] bg-[#FAF7F2] shadow-sm'
                       : isCompleted
-                      ? 'border-[#E5DFD7] bg-[#FAF7F2]/80'
-                      : 'border-[#E5DFD7] bg-[#FAF7F2]/30 opacity-50'
+                      ? 'border-[#E5DFD7] bg-[#FAF7F2]/90'
+                      : 'border-[#E5DFD7] bg-[#FAF7F2]/40 opacity-50'
                   }`}
                 >
                   <div className="flex items-center justify-between mb-2">
                     <div
                       className={`w-7 h-7 rounded-sm flex items-center justify-center ${
                         isCompleted
-                          ? 'bg-[#292524] text-[#FAF7F2]'
-                          : 'bg-[#EFE9E1] text-[#78716C]'
+                          ? 'bg-[#1C1917] text-[#FAF7F2]'
+                          : 'bg-[#EAE3D9] text-[#57534E]'
                       }`}
                     >
                       <Icon className="w-3.5 h-3.5" />
@@ -242,8 +241,8 @@ export default function OrderTrackingPage() {
                     {isCompleted && <CheckCircle2 className="w-4 h-4 text-[#B45309]" />}
                   </div>
 
-                  <h4 className="font-medium text-xs text-[#1C1917]">{stage.label}</h4>
-                  <p className="text-[10px] text-[#78716C] mt-0.5 font-light leading-snug">{stage.subtext}</p>
+                  <h4 className="font-bold text-xs text-[#1C1917]">{stage.label}</h4>
+                  <p className="text-[11px] text-[#57534E] mt-0.5 leading-snug">{stage.subtext}</p>
                 </div>
               )
             })}
@@ -253,15 +252,15 @@ export default function OrderTrackingPage() {
         {/* Two Columns: Invoice Breakdown & Delivery Destination */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           {/* Itemized Invoice Breakdown */}
-          <div className="lg:col-span-7 bg-[#F4EFEA] rounded-sm border border-[#E5DFD7] p-6 md:p-8 space-y-6 shadow-nord">
+          <div className="lg:col-span-7 bg-[#F4EFEA] rounded-sm border border-[#E5DFD7] p-6 md:p-8 space-y-6 shadow-sm">
             <div className="flex items-center space-x-2 border-b border-[#E5DFD7] pb-4">
               <Receipt className="w-4 h-4 text-[#1C1917]" />
-              <h3 className="font-serif text-lg font-normal">Itemized Commission Invoice</h3>
+              <h3 className="font-sans text-base font-bold text-[#1C1917]">Order Items</h3>
             </div>
 
             <div className="divide-y divide-[#E5DFD7]">
               {order?.order_items?.map((item: any, idx: number) => {
-                const product = item.products || item.product || { name: 'Architectural Piece', images: [] }
+                const product = item.products || item.product || { name: 'Furniture Piece', images: [] }
                 return (
                   <div key={idx} className="py-4 flex gap-4 items-center">
                     <div className="w-16 h-16 rounded-sm overflow-hidden bg-[#EFE9E1] border border-[#E5DFD7] shrink-0">
@@ -275,14 +274,14 @@ export default function OrderTrackingPage() {
                     </div>
 
                     <div className="flex-1">
-                      <h4 className="font-serif text-sm font-normal text-[#1C1917]">{product.name}</h4>
-                      <p className="text-[11px] text-[#78716C]">
-                        Units: {item.quantity} {item.selectedColor ? `• Finish: ${item.selectedColor}` : ''}
+                      <h4 className="font-sans text-sm font-bold text-[#1C1917]">{product.name}</h4>
+                      <p className="text-xs text-[#57534E]">
+                        Quantity: {item.quantity} {item.selectedColor ? `• Finish: ${item.selectedColor}` : ''}
                       </p>
                     </div>
 
                     <div className="text-right">
-                      <span className="font-sans text-xs font-semibold text-[#1C1917]">
+                      <span className="font-sans text-xs font-bold text-[#1C1917]">
                         {formatPrice(item.unit_price * item.quantity)}
                       </span>
                     </div>
@@ -293,20 +292,20 @@ export default function OrderTrackingPage() {
 
             {/* Financial Totals */}
             <div className="pt-4 border-t border-[#E5DFD7] space-y-2 text-xs">
-              <div className="flex justify-between text-[#78716C]">
-                <span>Total Amount Paid (incl. 18% GST)</span>
-                <span className="font-sans text-[#1C1917] font-semibold text-sm">
+              <div className="flex justify-between text-[#57534E]">
+                <span>Total Paid (incl. 18% GST)</span>
+                <span className="font-sans text-[#1C1917] font-bold text-sm">
                   {formatPrice(order?.total_amount || 0)}
                 </span>
               </div>
-              <div className="flex justify-between text-[#78716C]">
-                <span>Payment Verification</span>
-                <span className="font-sans text-[#B45309]">HMAC SHA-256 Validated</span>
+              <div className="flex justify-between text-[#57534E]">
+                <span>Payment Status</span>
+                <span className="font-sans text-emerald-800 font-semibold">Captured via Razorpay</span>
               </div>
               {order?.payments?.[0] && (
-                <div className="flex justify-between text-[#78716C]">
-                  <span>Razorpay Payment ID</span>
-                  <span className="font-sans text-[#1C1917]">
+                <div className="flex justify-between text-[#57534E]">
+                  <span>Payment Reference</span>
+                  <span className="font-mono text-[#1C1917]">
                     {order.payments[0].razorpay_payment_id || 'pay_verified'}
                   </span>
                 </div>
@@ -314,92 +313,95 @@ export default function OrderTrackingPage() {
             </div>
           </div>
 
-          {/* Delivery & Logistics Details */}
+          {/* Delivery Details */}
           <div className="lg:col-span-5 space-y-6">
-            <div className="bg-[#F4EFEA] rounded-sm border border-[#E5DFD7] p-6 space-y-4 shadow-nord">
+            <div className="bg-[#F4EFEA] rounded-sm border border-[#E5DFD7] p-6 space-y-4 shadow-sm">
               <div className="flex items-center space-x-2 border-b border-[#E5DFD7] pb-4">
                 <MapPin className="w-4 h-4 text-[#1C1917]" />
-                <h3 className="font-serif text-lg font-normal">Delivery Sanctuary</h3>
+                <h3 className="font-sans text-base font-bold text-[#1C1917]">Shipping Address</h3>
               </div>
 
               {order?.shipping_address && (
-                <div className="space-y-1.5 text-xs text-[#78716C] leading-relaxed font-light">
-                  <p className="font-medium text-[#1C1917] text-sm">{order.shipping_address.fullName}</p>
+                <div className="space-y-1.5 text-xs text-[#57534E] leading-relaxed">
+                  <p className="font-bold text-[#1C1917] text-sm">{order.shipping_address.fullName}</p>
                   <p>{order.shipping_address.addressLine1}</p>
                   {order.shipping_address.addressLine2 && <p>{order.shipping_address.addressLine2}</p>}
                   <p>
                     {order.shipping_address.city}, {order.shipping_address.state} - {order.shipping_address.pincode}
                   </p>
-                  <p className="font-sans text-[#1C1917] pt-2">Contact: {order.shipping_address.phone}</p>
+                  <p className="font-sans text-[#1C1917] font-medium pt-2">Phone: {order.shipping_address.phone}</p>
                 </div>
               )}
             </div>
 
-            <div className="bg-[#EFE9E1] rounded-sm border border-[#E5DFD7] p-6 space-y-2.5">
-              <div className="flex items-center space-x-2 text-xs font-semibold text-[#1C1917]">
+            <div className="bg-[#EAE3D9] rounded-sm border border-[#D6CEC4] p-6 space-y-2">
+              <div className="flex items-center space-x-2 text-xs font-bold text-[#1C1917]">
                 <ShieldCheck className="w-4 h-4 text-[#B45309]" />
-                <span>White-Glove Assembly Guarantee</span>
+                <span>White-Glove Delivery Guarantee</span>
               </div>
-              <p className="text-xs text-[#78716C] leading-relaxed font-light">
-                Your piece is insured for the entire transit duration. Our handlers will unpack, inspect, and install each piece in your selected room.
+              <p className="text-xs text-[#57534E] leading-relaxed">
+                Your order is fully insured in transit. Our delivery team will unpack, inspect, and position each piece in your home.
               </p>
             </div>
           </div>
         </div>
 
-        {/* Concierge Support Modal */}
+        {/* Customer Support Modal */}
         {isSupportModalOpen && (
           <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#1C1917]/50 backdrop-blur-sm">
             <motion.div
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
-              className="bg-[#FAF7F2] rounded-sm border border-[#E5DFD7] p-6 max-w-md w-full space-y-4 shadow-nord-lg"
+              className="bg-[#FAF7F2] rounded-sm border border-[#E5DFD7] p-6 max-w-md w-full space-y-4 shadow-2xl"
             >
               <div className="flex justify-between items-center border-b border-[#E5DFD7] pb-3">
-                <h3 className="font-serif text-lg font-normal">Concierge Desk</h3>
+                <h3 className="font-serif text-lg font-normal text-[#1C1917]">Customer Support</h3>
                 <button
                   onClick={() => setIsSupportModalOpen(false)}
-                  className="text-[#78716C] hover:text-[#1C1917]"
+                  className="text-[#57534E] hover:text-[#1C1917]"
+                  aria-label="Close"
                 >
                   <XCircle className="w-5 h-5" />
                 </button>
               </div>
 
               {supportSuccess ? (
-                <div className="p-4 bg-[#FAF7F2] text-[#B45309] border border-[#E5DFD7] rounded-sm text-xs flex items-center space-x-2">
-                  <CheckCircle2 className="w-4 h-4 text-[#B45309]" />
-                  <span>Your concierge ticket has been lodged. Our studio advisor will contact you within 2 hours.</span>
+                <div className="p-4 bg-[#FAF7F2] text-emerald-800 border border-emerald-300 rounded-sm text-xs flex items-center space-x-2">
+                  <CheckCircle2 className="w-4 h-4" />
+                  <span>Your support ticket has been received. Our team will contact you within 2 hours.</span>
                 </div>
               ) : (
                 <form onSubmit={handleSupportSubmit} className="space-y-4 text-xs">
-                  <p className="text-[#78716C] font-light">
-                    Need to modify delivery schedules, request custom assembly instructions, or cancel this commission?
+                  <p className="text-[#57534E]">
+                    Need to modify delivery schedules, update address details, or request custom assembly?
                   </p>
 
                   <div className="space-y-1">
-                    <label className="text-[10px] font-sans uppercase tracking-wider text-[#78716C]">Inquiry Details</label>
+                    <label className="text-[11px] font-sans uppercase tracking-wider font-semibold text-[#57534E]">
+                      Your Message
+                    </label>
                     <textarea
                       required
                       rows={3}
                       value={supportMessage}
                       onChange={(e) => setSupportMessage(e.target.value)}
-                      placeholder="Specify your request or delivery preference..."
-                      className="w-full p-3 bg-[#F4EFEA] border border-[#E5DFD7] rounded-none outline-none focus:ring-1 focus:ring-[#1C1917]"
+                      placeholder="Describe your request..."
+                      className="w-full p-3 bg-[#F4EFEA] border border-[#D6CEC4] rounded-sm outline-none focus:border-[#1C1917] text-[#1C1917]"
                     />
                   </div>
 
                   <div className="flex justify-between items-center pt-2">
                     <a
                       href="tel:+919876543210"
-                      className="flex items-center space-x-1.5 text-[#78716C] hover:text-[#1C1917]"
+                      className="flex items-center space-x-1.5 text-xs font-semibold text-[#57534E] hover:text-[#1C1917]"
                     >
                       <PhoneCall className="w-3.5 h-3.5" />
-                      <span>Direct Desk</span>
+                      <span>Direct Line</span>
                     </a>
 
                     <button
                       type="submit"
-                      className="px-6 py-2.5 bg-[#292524] text-[#FAF7F2] text-[11px] uppercase font-semibold tracking-[0.14em] rounded-sm hover:bg-[#3E3835]"
+                      className="px-6 py-2.5 bg-[#1C1917] text-[#FAF7F2] text-xs uppercase font-semibold tracking-wider rounded-sm hover:bg-[#292524]"
                     >
                       Submit Ticket
                     </button>

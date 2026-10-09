@@ -42,7 +42,7 @@ export default function AdminDashboardPage() {
   const [productForm, setProductForm] = useState({
     name: '',
     slug: '',
-    category: 'Lounge & Seating',
+    category: 'Living Room',
     material: '',
     dimensions: '',
     colors: '',
@@ -681,17 +681,17 @@ export default function AdminDashboardPage() {
                   </div>
 
                   <div className="space-y-1">
-                    <label className="text-[10px] font-sans uppercase tracking-wider text-[#78716C]">Discipline</label>
+                    <label className="text-xs font-sans font-semibold text-[#57534E]">Category</label>
                     <select
                       value={productForm.category}
                       onChange={(e) => setProductForm({ ...productForm, category: e.target.value })}
-                      className="w-full px-3.5 py-2.5 bg-[#F4EFEA] border border-[#E5DFD7] rounded-none outline-none"
+                      className="w-full px-3.5 py-2.5 bg-[#F4EFEA] border border-[#D6CEC4] rounded-sm outline-none text-[#1C1917] font-medium"
                     >
-                      <option value="Lounge & Seating">Lounge & Seating</option>
-                      <option value="Dining & Gathering">Dining & Gathering</option>
-                      <option value="Sanctuary (Beds)">Sanctuary (Beds)</option>
-                      <option value="Studio & Storage">Studio & Storage</option>
-                      <option value="Accents & Objects">Accents & Objects</option>
+                      <option value="Living Room">Living Room</option>
+                      <option value="Dining Room">Dining Room</option>
+                      <option value="Bedroom">Bedroom</option>
+                      <option value="Home Office">Home Office</option>
+                      <option value="Decor">Decor</option>
                     </select>
                   </div>
                 </div>

@@ -348,20 +348,20 @@ export default function CheckoutPage() {
         {/* Step Indicator */}
         <div className="max-w-3xl mx-auto mb-12">
           <div className="flex items-center justify-between relative">
-            <div className="absolute left-0 top-1/2 -translate-y-1/2 w-full h-[1px] bg-[#E5DFD7] -z-0" />
+            <div className="absolute left-0 top-1/2 -translate-y-1/2 w-full h-[1.5px] bg-[#D6CEC4] -z-0" />
             
             {/* Step 1 */}
             <div className="relative z-10 flex flex-col items-center bg-[#FAF7F2] px-4">
               <button
                 onClick={() => setStep(1)}
-                className={`w-9 h-9 rounded-sm flex items-center justify-center font-sans text-xs font-semibold transition-all ${
-                  step >= 1 ? 'bg-[#292524] text-[#FAF7F2]' : 'bg-[#EFE9E1] text-[#78716C]'
+                className={`w-9 h-9 rounded-sm flex items-center justify-center font-sans text-xs font-bold transition-all ${
+                  step >= 1 ? 'bg-[#1C1917] text-[#FAF7F2]' : 'bg-[#EAE3D9] text-[#57534E]'
                 }`}
               >
                 01
               </button>
-              <span className="text-[10px] font-sans uppercase tracking-[0.16em] mt-2 text-[#78716C]">
-                Destination
+              <span className="text-xs font-sans uppercase tracking-wider font-semibold mt-2 text-[#44403C]">
+                Address
               </span>
             </div>
 
@@ -370,14 +370,14 @@ export default function CheckoutPage() {
               <button
                 onClick={() => setStep(2)}
                 disabled={!activeShippingAddress}
-                className={`w-9 h-9 rounded-sm flex items-center justify-center font-sans text-xs font-semibold transition-all ${
-                  step >= 2 ? 'bg-[#292524] text-[#FAF7F2]' : 'bg-[#EFE9E1] text-[#78716C]'
+                className={`w-9 h-9 rounded-sm flex items-center justify-center font-sans text-xs font-bold transition-all ${
+                  step >= 2 ? 'bg-[#1C1917] text-[#FAF7F2]' : 'bg-[#EAE3D9] text-[#57534E]'
                 }`}
               >
                 02
               </button>
-              <span className="text-[10px] font-sans uppercase tracking-[0.16em] mt-2 text-[#78716C]">
-                Logistics
+              <span className="text-xs font-sans uppercase tracking-wider font-semibold mt-2 text-[#44403C]">
+                Delivery
               </span>
             </div>
 
@@ -385,14 +385,14 @@ export default function CheckoutPage() {
             <div className="relative z-10 flex flex-col items-center bg-[#FAF7F2] px-4">
               <button
                 onClick={() => setStep(3)}
-                className={`w-9 h-9 rounded-sm flex items-center justify-center font-sans text-xs font-semibold transition-all ${
-                  step === 3 ? 'bg-[#292524] text-[#FAF7F2]' : 'bg-[#EFE9E1] text-[#78716C]'
+                className={`w-9 h-9 rounded-sm flex items-center justify-center font-sans text-xs font-bold transition-all ${
+                  step === 3 ? 'bg-[#1C1917] text-[#FAF7F2]' : 'bg-[#EAE3D9] text-[#57534E]'
                 }`}
               >
                 03
               </button>
-              <span className="text-[10px] font-sans uppercase tracking-[0.16em] mt-2 text-[#78716C]">
-                Verification
+              <span className="text-xs font-sans uppercase tracking-wider font-semibold mt-2 text-[#44403C]">
+                Payment
               </span>
             </div>
           </div>
@@ -400,18 +400,18 @@ export default function CheckoutPage() {
 
         {!isMounted ? (
           <div className="py-24 text-center bg-[#F4EFEA] rounded-sm border border-[#E5DFD7] space-y-4">
-            <Loader2 className="w-6 h-6 animate-spin mx-auto text-[#78716C]" />
-            <p className="text-xs text-[#78716C] font-light uppercase tracking-widest">Synchronizing Cart Manifest...</p>
+            <Loader2 className="w-6 h-6 animate-spin mx-auto text-[#57534E]" />
+            <p className="text-xs text-[#57534E] font-medium uppercase tracking-wider">Loading checkout...</p>
           </div>
         ) : items.length === 0 ? (
           <div className="py-20 text-center bg-[#F4EFEA] rounded-sm border border-[#E5DFD7] space-y-4">
-            <h2 className="font-serif text-2xl font-normal">Your spatial bag is empty</h2>
-            <p className="text-xs text-[#78716C] font-light">Please select furniture pieces before proceeding to checkout.</p>
+            <h2 className="font-serif text-2xl font-normal text-[#1C1917]">Your shopping bag is empty</h2>
+            <p className="text-xs md:text-sm text-[#57534E]">Please select furniture pieces before proceeding to checkout.</p>
             <Link
-              href="/#collections"
-              className="inline-block px-6 py-3 bg-[#292524] text-[#FAF7F2] text-[11px] uppercase tracking-[0.16em] rounded-sm"
+              href="/catalog"
+              className="inline-block px-6 py-3 bg-[#1C1917] text-[#FAF7F2] text-xs uppercase tracking-wider font-semibold rounded-sm hover:bg-[#292524] transition-colors"
             >
-              Browse The Atelier
+              Shop Collection
             </Link>
           </div>
         ) : (
@@ -426,23 +426,23 @@ export default function CheckoutPage() {
                     initial={{ opacity: 0, x: -16 }}
                     animate={{ opacity: 1, x: 0 }}
                     exit={{ opacity: 0, x: 16 }}
-                    className="bg-[#F4EFEA] rounded-sm border border-[#E5DFD7] p-6 md:p-8 space-y-6 shadow-nord"
+                    className="bg-[#F4EFEA] rounded-sm border border-[#E5DFD7] p-6 md:p-8 space-y-6 shadow-sm"
                   >
                     <div className="flex items-center justify-between border-b border-[#E5DFD7] pb-4">
                       <div>
-                        <span className="text-[10px] font-sans uppercase tracking-[0.2em] text-[#78716C]">
-                          Step 01 / Destination
+                        <span className="text-xs font-sans uppercase tracking-wider font-semibold text-[#B45309]">
+                          Step 01 / Shipping
                         </span>
                         <h2 className="font-serif text-2xl font-normal tracking-tight text-[#1C1917]">
-                          Delivery Sanctuary Address
+                          Delivery Address
                         </h2>
                       </div>
                       <button
                         onClick={() => setIsAddingNewAddress(!isAddingNewAddress)}
-                        className="inline-flex items-center space-x-1.5 text-[11px] font-sans uppercase tracking-[0.14em] px-3.5 py-1.5 rounded-sm border border-[#E5DFD7] bg-[#FAF7F2] hover:bg-[#EFE9E1] transition-colors"
+                        className="inline-flex items-center space-x-1.5 text-xs font-sans uppercase tracking-wider font-semibold px-3.5 py-1.5 rounded-sm border border-[#D6CEC4] bg-[#FAF7F2] hover:bg-[#EAE3D9] transition-colors text-[#1C1917]"
                       >
                         <Plus className="w-3.5 h-3.5" />
-                        <span>{isAddingNewAddress ? 'Cancel' : 'Add Destination'}</span>
+                        <span>{isAddingNewAddress ? 'Cancel' : 'Add New Address'}</span>
                       </button>
                     </div>
 
@@ -455,25 +455,25 @@ export default function CheckoutPage() {
                             onClick={() => setSelectedAddressId(addr.id!)}
                             className={`p-5 rounded-sm border cursor-pointer transition-all ${
                               selectedAddressId === addr.id
-                                ? 'border-[#1C1917] bg-[#FAF7F2] shadow-sm'
-                                : 'border-[#E5DFD7] hover:border-[#A89F91] bg-[#FAF7F2]/60'
+                                ? 'border-[#1C1917] bg-[#FAF7F2] shadow-sm ring-1 ring-[#1C1917]'
+                                : 'border-[#D6CEC4] hover:border-[#1C1917] bg-[#FAF7F2]/80'
                             }`}
                           >
                             <div className="flex items-start justify-between">
                               <div className="space-y-1">
-                                <span className="font-medium text-xs text-[#1C1917]">
+                                <span className="font-bold text-xs text-[#1C1917]">
                                   {addr.fullName}
                                 </span>
-                                <p className="text-xs text-[#78716C] font-light leading-relaxed">
+                                <p className="text-xs text-[#57534E] leading-relaxed">
                                   {addr.addressLine1}
                                   {addr.addressLine2 ? `, ${addr.addressLine2}` : ''}
                                   <br />
                                   {addr.city}, {addr.state} - {addr.pincode}
                                 </p>
-                                <p className="text-[11px] text-[#78716C] pt-2">{addr.phone}</p>
+                                <p className="text-xs text-[#1C1917] font-medium pt-1">Phone: {addr.phone}</p>
                               </div>
                               {selectedAddressId === addr.id && (
-                                <CheckCircle2 className="w-4 h-4 text-[#1C1917] shrink-0" />
+                                <CheckCircle2 className="w-4 h-4 text-[#B45309] shrink-0" />
                               )}
                             </div>
                           </div>
@@ -486,44 +486,44 @@ export default function CheckoutPage() {
                       <form onSubmit={handleSaveNewAddress} className="space-y-4 pt-2">
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                           <div className="space-y-1">
-                            <label className="text-[10px] font-sans uppercase tracking-wider text-[#78716C]">Full Name</label>
+                            <label className="text-xs font-sans font-semibold text-[#57534E]">Full Name</label>
                             <input
                               type="text"
                               required
                               value={newAddress.fullName}
                               onChange={(e) => setNewAddress({ ...newAddress, fullName: e.target.value })}
-                              placeholder="Aditya Sharma"
-                              className="w-full px-3.5 py-2.5 text-xs bg-[#FAF7F2] border border-[#E5DFD7] rounded-none focus:ring-1 focus:ring-[#1C1917] outline-none"
+                              placeholder="e.g. Aditya Sharma"
+                              className="w-full px-3.5 py-2 text-xs bg-[#FAF7F2] border border-[#D6CEC4] rounded-sm focus:border-[#1C1917] outline-none text-[#1C1917]"
                             />
                           </div>
                           <div className="space-y-1">
-                            <label className="text-[10px] font-sans uppercase tracking-wider text-[#78716C]">Phone Number</label>
+                            <label className="text-xs font-sans font-semibold text-[#57534E]">Phone Number</label>
                             <input
                               type="tel"
                               required
                               value={newAddress.phone}
                               onChange={(e) => setNewAddress({ ...newAddress, phone: e.target.value })}
                               placeholder="+91 98765 43210"
-                              className="w-full px-3.5 py-2.5 text-xs bg-[#FAF7F2] border border-[#E5DFD7] rounded-none focus:ring-1 focus:ring-[#1C1917] outline-none"
+                              className="w-full px-3.5 py-2 text-xs bg-[#FAF7F2] border border-[#D6CEC4] rounded-sm focus:border-[#1C1917] outline-none text-[#1C1917]"
                             />
                           </div>
                         </div>
 
                         <div className="space-y-1">
-                          <label className="text-[10px] font-sans uppercase tracking-wider text-[#78716C]">Address Line 1</label>
+                          <label className="text-xs font-sans font-semibold text-[#57534E]">Address Line 1</label>
                           <input
                             type="text"
                             required
                             value={newAddress.addressLine1}
                             onChange={(e) => setNewAddress({ ...newAddress, addressLine1: e.target.value })}
-                            placeholder="Apartment, Street, Landmark"
-                            className="w-full px-3.5 py-2.5 text-xs bg-[#FAF7F2] border border-[#E5DFD7] rounded-none focus:ring-1 focus:ring-[#1C1917] outline-none"
+                            placeholder="Flat / House No., Building Name, Street"
+                            className="w-full px-3.5 py-2 text-xs bg-[#FAF7F2] border border-[#D6CEC4] rounded-sm focus:border-[#1C1917] outline-none text-[#1C1917]"
                           />
                         </div>
 
                         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                           <div className="space-y-1">
-                            <label className="text-[10px] font-sans uppercase tracking-wider text-[#78716C]">Pincode</label>
+                            <label className="text-xs font-sans font-semibold text-[#57534E]">Pincode</label>
                             <input
                               type="text"
                               required
@@ -531,29 +531,29 @@ export default function CheckoutPage() {
                               value={newAddress.pincode}
                               onChange={(e) => handlePincodeChange(e.target.value)}
                               placeholder="560001"
-                              className="w-full px-3.5 py-2.5 text-xs bg-[#FAF7F2] border border-[#E5DFD7] rounded-none focus:ring-1 focus:ring-[#1C1917] outline-none"
+                              className="w-full px-3.5 py-2 text-xs bg-[#FAF7F2] border border-[#D6CEC4] rounded-sm focus:border-[#1C1917] outline-none text-[#1C1917]"
                             />
                           </div>
                           <div className="space-y-1">
-                            <label className="text-[10px] font-sans uppercase tracking-wider text-[#78716C]">City</label>
+                            <label className="text-xs font-sans font-semibold text-[#57534E]">City</label>
                             <input
                               type="text"
                               required
                               value={newAddress.city}
                               onChange={(e) => setNewAddress({ ...newAddress, city: e.target.value })}
                               placeholder="Bengaluru"
-                              className="w-full px-3.5 py-2.5 text-xs bg-[#FAF7F2] border border-[#E5DFD7] rounded-none focus:ring-1 focus:ring-[#1C1917] outline-none"
+                              className="w-full px-3.5 py-2 text-xs bg-[#FAF7F2] border border-[#D6CEC4] rounded-sm focus:border-[#1C1917] outline-none text-[#1C1917]"
                             />
                           </div>
                           <div className="space-y-1">
-                            <label className="text-[10px] font-sans uppercase tracking-wider text-[#78716C]">State</label>
+                            <label className="text-xs font-sans font-semibold text-[#57534E]">State</label>
                             <input
                               type="text"
                               required
                               value={newAddress.state}
                               onChange={(e) => setNewAddress({ ...newAddress, state: e.target.value })}
                               placeholder="Karnataka"
-                              className="w-full px-3.5 py-2.5 text-xs bg-[#FAF7F2] border border-[#E5DFD7] rounded-none focus:ring-1 focus:ring-[#1C1917] outline-none"
+                              className="w-full px-3.5 py-2 text-xs bg-[#FAF7F2] border border-[#D6CEC4] rounded-sm focus:border-[#1C1917] outline-none text-[#1C1917]"
                             />
                           </div>
                         </div>
@@ -561,9 +561,9 @@ export default function CheckoutPage() {
                         <div className="pt-2 flex justify-end">
                           <button
                             type="submit"
-                            className="px-6 py-2.5 bg-[#292524] text-[#FAF7F2] text-[11px] uppercase tracking-[0.14em] font-semibold rounded-sm hover:bg-[#3E3835]"
+                            className="px-6 py-2.5 bg-[#1C1917] text-[#FAF7F2] text-xs uppercase tracking-wider font-semibold rounded-sm hover:bg-[#292524]"
                           >
-                            Save Destination
+                            Save Address
                           </button>
                         </div>
                       </form>
@@ -573,9 +573,9 @@ export default function CheckoutPage() {
                       <button
                         onClick={() => setStep(2)}
                         disabled={!activeShippingAddress}
-                        className="px-8 py-3.5 bg-[#292524] text-[#FAF7F2] text-[11px] uppercase tracking-[0.2em] font-semibold rounded-sm hover:bg-[#3E3835] transition-all flex items-center space-x-2 shadow-nord"
+                        className="px-8 py-3.5 bg-[#1C1917] text-[#FAF7F2] text-xs uppercase tracking-wider font-semibold rounded-sm hover:bg-[#292524] transition-all flex items-center space-x-2 shadow-md"
                       >
-                        <span>Continue to Logistics</span>
+                        <span>Continue to Delivery</span>
                         <ArrowRight className="w-4 h-4" />
                       </button>
                     </div>
@@ -589,14 +589,14 @@ export default function CheckoutPage() {
                     initial={{ opacity: 0, x: -16 }}
                     animate={{ opacity: 1, x: 0 }}
                     exit={{ opacity: 0, x: 16 }}
-                    className="bg-[#F4EFEA] rounded-sm border border-[#E5DFD7] p-6 md:p-8 space-y-6 shadow-nord"
+                    className="bg-[#F4EFEA] rounded-sm border border-[#E5DFD7] p-6 md:p-8 space-y-6 shadow-sm"
                   >
                     <div className="border-b border-[#E5DFD7] pb-4">
-                      <span className="text-[10px] font-sans uppercase tracking-[0.2em] text-[#78716C]">
-                        Step 02 / Logistics
+                      <span className="text-xs font-sans uppercase tracking-wider font-semibold text-[#B45309]">
+                        Step 02 / Delivery
                       </span>
                       <h2 className="font-serif text-2xl font-normal tracking-tight text-[#1C1917]">
-                        Select Delivery Logistics
+                        Select Delivery Speed
                       </h2>
                     </div>
 
@@ -606,27 +606,27 @@ export default function CheckoutPage() {
                         onClick={() => setDeliveryMethod('standard')}
                         className={`p-5 rounded-sm border cursor-pointer transition-all ${
                           deliveryMethod === 'standard'
-                            ? 'border-[#1C1917] bg-[#FAF7F2] shadow-sm'
-                            : 'border-[#E5DFD7] hover:border-[#A89F91] bg-[#FAF7F2]/60'
+                            ? 'border-[#1C1917] bg-[#FAF7F2] shadow-sm ring-1 ring-[#1C1917]'
+                            : 'border-[#D6CEC4] hover:border-[#1C1917] bg-[#FAF7F2]/80'
                         }`}
                       >
                         <div className="flex items-start justify-between">
                           <div className="space-y-1">
                             <div className="flex items-center space-x-2">
                               <Truck className="w-4 h-4 text-[#1C1917]" />
-                              <h3 className="font-medium text-xs text-[#1C1917]">
-                                White-Glove Architectural Delivery
+                              <h3 className="font-bold text-xs text-[#1C1917]">
+                                White-Glove Standard Delivery & Setup
                               </h3>
-                              <span className="text-[9px] font-sans bg-[#FAF7F2] text-[#B45309] border border-[#E5DFD7] px-2 py-0.5 uppercase tracking-wider font-semibold">
+                              <span className="text-[10px] font-sans bg-[#FAF7F2] text-emerald-800 border border-emerald-300 px-2 py-0.5 uppercase tracking-wider font-bold rounded-sm">
                                 FREE
                               </span>
                             </div>
-                            <p className="text-xs text-[#78716C] font-light max-w-md pt-1 leading-relaxed">
-                              Delivered by trained art & furniture handlers with room-of-choice placement and debris removal (5-7 business days).
+                            <p className="text-xs text-[#57534E] max-w-md pt-1 leading-relaxed">
+                              Delivered by trained furniture specialists with room-of-choice placement and debris removal (5-7 business days).
                             </p>
                           </div>
                           {deliveryMethod === 'standard' && (
-                            <CheckCircle2 className="w-4 h-4 text-[#1C1917]" />
+                            <CheckCircle2 className="w-4 h-4 text-[#B45309]" />
                           )}
                         </div>
                       </div>
@@ -636,27 +636,27 @@ export default function CheckoutPage() {
                         onClick={() => setDeliveryMethod('express')}
                         className={`p-5 rounded-sm border cursor-pointer transition-all ${
                           deliveryMethod === 'express'
-                            ? 'border-[#1C1917] bg-[#FAF7F2] shadow-sm'
-                            : 'border-[#E5DFD7] hover:border-[#A89F91] bg-[#FAF7F2]/60'
+                            ? 'border-[#1C1917] bg-[#FAF7F2] shadow-sm ring-1 ring-[#1C1917]'
+                            : 'border-[#D6CEC4] hover:border-[#1C1917] bg-[#FAF7F2]/80'
                         }`}
                       >
                         <div className="flex items-start justify-between">
                           <div className="space-y-1">
                             <div className="flex items-center space-x-2">
                               <Truck className="w-4 h-4 text-[#B45309]" />
-                              <h3 className="font-medium text-xs text-[#1C1917]">
-                                Priority Express Architectural Dispatch
+                              <h3 className="font-bold text-xs text-[#1C1917]">
+                                Priority Express Delivery
                               </h3>
-                              <span className="text-[9px] font-sans bg-[#FAF7F2] text-[#1C1917] border border-[#E5DFD7] px-2 py-0.5 uppercase tracking-wider font-semibold">
+                              <span className="text-[10px] font-sans bg-[#FAF7F2] text-[#1C1917] border border-[#D6CEC4] px-2 py-0.5 uppercase tracking-wider font-bold rounded-sm">
                                 ₹499
                               </span>
                             </div>
-                            <p className="text-xs text-[#78716C] font-light max-w-md pt-1 leading-relaxed">
-                              Expedited priority route with dedicated courier van and appointment scheduling (2-3 business days).
+                            <p className="text-xs text-[#57534E] max-w-md pt-1 leading-relaxed">
+                              Expedited priority transport with appointment scheduling (2-3 business days).
                             </p>
                           </div>
                           {deliveryMethod === 'express' && (
-                            <CheckCircle2 className="w-4 h-4 text-[#1C1917]" />
+                            <CheckCircle2 className="w-4 h-4 text-[#B45309]" />
                           )}
                         </div>
                       </div>
@@ -665,7 +665,7 @@ export default function CheckoutPage() {
                     <div className="pt-6 border-t border-[#E5DFD7] flex items-center justify-between">
                       <button
                         onClick={() => setStep(1)}
-                        className="px-6 py-3 border border-[#E5DFD7] bg-[#FAF7F2] text-[#1C1917] text-[11px] uppercase tracking-[0.14em] font-medium rounded-sm hover:bg-[#EFE9E1] flex items-center space-x-1.5"
+                        className="px-6 py-3 border border-[#D6CEC4] bg-[#FAF7F2] text-[#1C1917] text-xs uppercase tracking-wider font-semibold rounded-sm hover:bg-[#EAE3D9] flex items-center space-x-1.5"
                       >
                         <ArrowLeft className="w-4 h-4" />
                         <span>Back</span>
@@ -673,30 +673,30 @@ export default function CheckoutPage() {
 
                       <button
                         onClick={() => setStep(3)}
-                        className="px-8 py-3.5 bg-[#292524] text-[#FAF7F2] text-[11px] uppercase tracking-[0.2em] font-semibold rounded-sm hover:bg-[#3E3835] transition-all flex items-center space-x-2 shadow-nord"
+                        className="px-8 py-3.5 bg-[#1C1917] text-[#FAF7F2] text-xs uppercase tracking-wider font-semibold rounded-sm hover:bg-[#292524] transition-all flex items-center space-x-2 shadow-md"
                       >
-                        <span>Review & Manifest</span>
+                        <span>Review & Payment</span>
                         <ArrowRight className="w-4 h-4" />
                       </button>
                     </div>
                   </motion.div>
                 )}
 
-                {/* STEP 3: SERVER-VALIDATED REVIEW & RAZORPAY PAYMENT */}
+                {/* STEP 3: REVIEW & PAYMENT */}
                 {step === 3 && (
                   <motion.div
                     key="step-3"
                     initial={{ opacity: 0, x: -16 }}
                     animate={{ opacity: 1, x: 0 }}
                     exit={{ opacity: 0, x: 16 }}
-                    className="bg-[#F4EFEA] rounded-sm border border-[#E5DFD7] p-6 md:p-8 space-y-6 shadow-nord"
+                    className="bg-[#F4EFEA] rounded-sm border border-[#E5DFD7] p-6 md:p-8 space-y-6 shadow-sm"
                   >
                     <div className="border-b border-[#E5DFD7] pb-4">
-                      <span className="text-[10px] font-sans uppercase tracking-[0.2em] text-[#78716C]">
-                        Step 03 / Final Verification
+                      <span className="text-xs font-sans uppercase tracking-wider font-semibold text-[#B45309]">
+                        Step 03 / Payment
                       </span>
                       <h2 className="font-serif text-2xl font-normal tracking-tight text-[#1C1917]">
-                        Order Manifest & Razorpay Gateway
+                        Review Order & Pay
                       </h2>
                     </div>
 
@@ -710,14 +710,14 @@ export default function CheckoutPage() {
                     {/* Delivery Summary Tile */}
                     <div className="p-4 rounded-sm bg-[#FAF7F2] border border-[#E5DFD7] flex items-center justify-between text-xs">
                       <div>
-                        <span className="font-sans uppercase tracking-wider text-[10px] text-[#78716C]">Delivery Destination</span>
-                        <p className="font-medium text-[#1C1917] mt-0.5">
+                        <span className="font-sans uppercase tracking-wider font-semibold text-[10px] text-[#57534E]">Shipping Destination</span>
+                        <p className="font-bold text-[#1C1917] mt-0.5">
                           {activeShippingAddress.fullName} • {activeShippingAddress.addressLine1}, {activeShippingAddress.city} ({activeShippingAddress.pincode})
                         </p>
                       </div>
                       <button
                         onClick={() => setStep(1)}
-                        className="text-xs underline text-[#78716C] hover:text-[#1C1917]"
+                        className="text-xs font-semibold underline text-[#B45309] hover:text-[#1C1917]"
                       >
                         Change
                       </button>
@@ -728,10 +728,10 @@ export default function CheckoutPage() {
                       {displayItems.map((item) => (
                         <div key={item.productId} className="py-3 flex justify-between items-center">
                           <div>
-                            <p className="font-medium text-xs text-[#1C1917]">{item.name}</p>
-                            <p className="text-[#78716C] text-[11px]">Units: {item.quantity} {item.selectedColor ? `• Finish: ${item.selectedColor}` : ''}</p>
+                            <p className="font-bold text-xs text-[#1C1917]">{item.name}</p>
+                            <p className="text-[#57534E] text-[11px]">Quantity: {item.quantity} {item.selectedColor ? `• Finish: ${item.selectedColor}` : ''}</p>
                           </div>
-                          <span className="font-sans text-xs font-semibold text-[#1C1917]">
+                          <span className="font-sans text-xs font-bold text-[#1C1917]">
                             {formatPrice(item.itemTotal)}
                           </span>
                         </div>
@@ -743,7 +743,7 @@ export default function CheckoutPage() {
                       <button
                         onClick={() => setStep(2)}
                         disabled={isPaying}
-                        className="px-6 py-3 border border-[#E5DFD7] bg-[#FAF7F2] text-[#1C1917] text-[11px] uppercase tracking-[0.14em] font-medium rounded-sm hover:bg-[#EFE9E1] flex items-center space-x-1.5"
+                        className="px-6 py-3 border border-[#D6CEC4] bg-[#FAF7F2] text-[#1C1917] text-xs uppercase tracking-wider font-semibold rounded-sm hover:bg-[#EAE3D9] flex items-center space-x-1.5"
                       >
                         <ArrowLeft className="w-4 h-4" />
                         <span>Back</span>
@@ -752,7 +752,7 @@ export default function CheckoutPage() {
                       <button
                         onClick={handleInitiateRazorpayPayment}
                         disabled={isPaying || isCalculating}
-                        className="px-8 py-3.5 bg-[#292524] text-[#FAF7F2] text-[11px] uppercase tracking-[0.2em] font-semibold rounded-sm hover:bg-[#3E3835] transition-all flex items-center space-x-2 shadow-nord disabled:opacity-50"
+                        className="px-8 py-3.5 bg-[#1C1917] text-[#FAF7F2] text-xs uppercase tracking-wider font-semibold rounded-sm hover:bg-[#292524] transition-all flex items-center space-x-2 shadow-md disabled:opacity-50"
                       >
                         {isPaying ? (
                           <>
@@ -772,55 +772,55 @@ export default function CheckoutPage() {
               </AnimatePresence>
             </div>
 
-            {/* Sidebar Financials */}
+            {/* Sidebar Order Summary */}
             <div className="lg:col-span-4">
-              <div className="bg-[#F4EFEA] rounded-sm border border-[#E5DFD7] p-6 space-y-5 sticky top-28 shadow-nord">
-                <h3 className="font-serif text-lg font-normal tracking-tight text-[#1C1917]">Order Manifest</h3>
+              <div className="bg-[#F4EFEA] rounded-sm border border-[#E5DFD7] p-6 space-y-5 sticky top-28 shadow-sm">
+                <h3 className="font-serif text-lg font-normal tracking-tight text-[#1C1917]">Order Summary</h3>
 
                 <div className="space-y-3 text-xs">
-                  <div className="flex justify-between text-[#78716C]">
-                    <span>Item Subtotal</span>
-                    <span className="font-sans text-[#1C1917]">
+                  <div className="flex justify-between text-[#57534E]">
+                    <span className="font-medium">Subtotal</span>
+                    <span className="font-sans font-semibold text-[#1C1917]">
                       {formatPrice(effectiveSubtotal)}
                     </span>
                   </div>
 
                   {effectiveDiscount > 0 && (
-                    <div className="flex justify-between text-[#B45309] font-medium">
+                    <div className="flex justify-between text-[#B45309] font-semibold">
                       <span>Promo ({calculation?.appliedCoupon || couponCode})</span>
                       <span className="font-sans">-{formatPrice(effectiveDiscount)}</span>
                     </div>
                   )}
 
-                  <div className="flex justify-between text-[#78716C]">
-                    <span>Applicable GST (18%)</span>
-                    <span className="font-sans text-[#1C1917]">
+                  <div className="flex justify-between text-[#57534E]">
+                    <span className="font-medium">GST (18%)</span>
+                    <span className="font-sans font-semibold text-[#1C1917]">
                       {formatPrice(effectiveTax)}
                     </span>
                   </div>
 
-                  <div className="flex justify-between text-[#78716C]">
-                    <span>White-Glove Logistics</span>
-                    <span className="font-sans text-[#1C1917]">
-                      {effectiveShipping > 0 ? '₹499' : 'COMPLIMENTARY'}
+                  <div className="flex justify-between text-[#57534E]">
+                    <span className="font-medium">Delivery</span>
+                    <span className="font-sans font-semibold text-emerald-800">
+                      {effectiveShipping > 0 ? '₹499' : 'FREE'}
                     </span>
                   </div>
 
                   <div className="flex justify-between text-sm font-semibold text-[#1C1917] pt-4 border-t border-[#E5DFD7]">
-                    <span>Net Payable</span>
+                    <span>Total Payable</span>
                     <span className="font-sans text-xl font-bold">
                       {formatPrice(effectiveTotal)}
                     </span>
                   </div>
                 </div>
 
-                <div className="p-3.5 rounded-sm bg-[#FAF7F2] border border-[#E5DFD7] space-y-1.5 text-[11px] text-[#78716C] font-light">
-                  <div className="flex items-center space-x-1.5 text-[#1C1917] font-medium">
-                    <ShieldCheck className="w-3.5 h-3.5 text-[#B45309]" />
-                    <span>HMAC SHA-256 Server Verification</span>
+                <div className="p-3.5 rounded-sm bg-[#FAF7F2] border border-[#E5DFD7] space-y-1 text-xs text-[#57534E]">
+                  <div className="flex items-center space-x-1.5 text-[#1C1917] font-semibold">
+                    <ShieldCheck className="w-4 h-4 text-[#B45309]" />
+                    <span>256-Bit Encrypted Payment</span>
                   </div>
                   <p>
-                    All items are validated on the server directly from DB prices before payment signature generation.
+                    Verified with Razorpay gateway with instant payment confirmation.
                   </p>
                 </div>
               </div>

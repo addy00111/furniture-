@@ -12,8 +12,6 @@ import {
   ShoppingBag, 
   Eye, 
   X,
-  ArrowRight,
-  CheckCircle2,
   Loader2
 } from 'lucide-react'
 import { NORD_JAPANDI_PRODUCTS } from '@/data/products'
@@ -25,27 +23,47 @@ import { CartDrawer } from '@/components/cart/CartDrawer'
 import { AuthModal } from '@/components/auth/AuthModal'
 
 const CATEGORY_MAP: Record<string, string> = {
-  lounge: 'Lounge & Seating',
-  seating: 'Lounge & Seating',
-  'lounge-seating': 'Lounge & Seating',
-  'lounge & seating': 'Lounge & Seating',
-  beds: 'Sanctuary (Beds)',
-  sanctuary: 'Sanctuary (Beds)',
-  bed: 'Sanctuary (Beds)',
-  'sanctuary-beds': 'Sanctuary (Beds)',
-  'sanctuary (beds)': 'Sanctuary (Beds)',
-  dining: 'Dining & Gathering',
-  gathering: 'Dining & Gathering',
-  'dining-gathering': 'Dining & Gathering',
-  'dining & gathering': 'Dining & Gathering',
-  storage: 'Studio & Storage',
-  studio: 'Studio & Storage',
-  'studio-storage': 'Studio & Storage',
-  'studio & storage': 'Studio & Storage',
-  accents: 'Accents & Objects',
-  objects: 'Accents & Objects',
-  'accents-objects': 'Accents & Objects',
-  'accents & objects': 'Accents & Objects',
+  // Living Room
+  living: 'Living Room',
+  'living-room': 'Living Room',
+  'living room': 'Living Room',
+  lounge: 'Living Room',
+  seating: 'Living Room',
+  'lounge-seating': 'Living Room',
+  'lounge & seating': 'Living Room',
+
+  // Dining Room
+  dining: 'Dining Room',
+  'dining-room': 'Dining Room',
+  'dining room': 'Dining Room',
+  gathering: 'Dining Room',
+  'dining-gathering': 'Dining Room',
+  'dining & gathering': 'Dining Room',
+
+  // Bedroom
+  bedroom: 'Bedroom',
+  beds: 'Bedroom',
+  sanctuary: 'Bedroom',
+  bed: 'Bedroom',
+  'sanctuary-beds': 'Bedroom',
+  'sanctuary (beds)': 'Bedroom',
+
+  // Home Office
+  'home-office': 'Home Office',
+  'home office': 'Home Office',
+  office: 'Home Office',
+  storage: 'Home Office',
+  studio: 'Home Office',
+  'studio-storage': 'Home Office',
+  'studio & storage': 'Home Office',
+
+  // Decor
+  decor: 'Decor',
+  'decor & objects': 'Decor',
+  accents: 'Decor',
+  objects: 'Decor',
+  'accents-objects': 'Decor',
+  'accents & objects': 'Decor',
 }
 
 function CatalogContent() {
@@ -61,11 +79,11 @@ function CatalogContent() {
 
   const categories = [
     'All',
-    'Lounge & Seating',
-    'Dining & Gathering',
-    'Sanctuary (Beds)',
-    'Studio & Storage',
-    'Accents & Objects',
+    'Living Room',
+    'Dining Room',
+    'Bedroom',
+    'Home Office',
+    'Decor',
   ]
 
   // Read URL query parameters and filter category automatically
@@ -128,24 +146,24 @@ function CatalogContent() {
       <CartDrawer />
       <AuthModal />
 
-      <main className="flex-1 max-w-7xl mx-auto px-6 md:px-12 py-12 w-full space-y-12">
+      <main className="flex-1 max-w-7xl mx-auto px-6 md:px-12 py-12 w-full space-y-10">
         {/* Header */}
-        <div className="space-y-4 max-w-2xl">
-          <span className="text-[11px] font-sans uppercase tracking-[0.2em] text-[#78716C]">
-            The Master Catalogue
+        <div className="space-y-3 max-w-2xl">
+          <span className="text-xs font-sans font-semibold uppercase tracking-widest text-[#B45309]">
+            Furniture Collection
           </span>
-          <h1 className="font-serif text-4xl md:text-6xl font-normal tracking-tight text-[#1C1917]">
-            {selectedCategory === 'All' ? 'Architectural Pieces & Archetypes' : selectedCategory}
+          <h1 className="font-serif text-4xl md:text-5xl font-normal tracking-tight text-[#1C1917]">
+            {selectedCategory === 'All' ? 'All Architectural Furniture' : selectedCategory}
           </h1>
-          <p className="text-sm text-[#78716C] font-light leading-relaxed">
+          <p className="text-xs md:text-sm text-[#57534E] font-normal leading-relaxed">
             {selectedCategory === 'All'
-              ? 'Explore handcrafted heirloom commissions sculpted from noble ash, white oak, Hinoki cypress, and Roman travertine stone.'
-              : `Handcrafted ${selectedCategory.toLowerCase()} sculpted with tactile organic materials and pure architectural silhouettes.`}
+              ? 'Handcrafted furniture pieces made with solid European ash, white oak, Hinoki cypress, and Italian fabrics.'
+              : `Handcrafted ${selectedCategory.toLowerCase()} pieces designed for balance, comfort, and longevity.`}
           </p>
         </div>
 
         {/* Filter Controls Bar */}
-        <div className="bg-[#F4EFEA] p-6 rounded-sm border border-[#E5DFD7] space-y-4 shadow-nord">
+        <div className="bg-[#F4EFEA] p-6 rounded-sm border border-[#E5DFD7] space-y-4 shadow-sm">
           <div className="flex flex-col md:flex-row gap-4 justify-between items-stretch md:items-center">
             {/* Search Input */}
             <div className="relative flex-1 max-w-md">
@@ -154,38 +172,38 @@ function CatalogContent() {
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Search by material, piece name or archetype..."
-                className="w-full pl-10 pr-4 py-2 text-xs bg-[#FAF7F2] border border-[#E5DFD7] rounded-none focus:ring-1 focus:ring-[#1C1917] outline-none"
+                placeholder="Search by material, item name, or room..."
+                className="w-full pl-10 pr-4 py-2.5 text-xs bg-[#FAF7F2] border border-[#D6CEC4] rounded-sm focus:ring-1 focus:ring-[#1C1917] outline-none text-[#1C1917] placeholder:text-[#8C827A]"
               />
             </div>
 
             {/* Sort Dropdown */}
-            <div className="flex items-center space-x-3 text-xs text-[#78716C]">
-              <SlidersHorizontal className="w-3.5 h-3.5 text-[#1C1917]" />
-              <span className="uppercase tracking-wider text-[10px]">Sort:</span>
+            <div className="flex items-center space-x-3 text-xs text-[#57534E]">
+              <SlidersHorizontal className="w-4 h-4 text-[#1C1917]" />
+              <span className="uppercase tracking-wider font-semibold text-[11px]">Sort By:</span>
               <select
                 value={sortBy}
                 onChange={(e: any) => setSortBy(e.target.value)}
-                className="bg-[#FAF7F2] border border-[#E5DFD7] px-3 py-1.5 text-xs text-[#1C1917] outline-none rounded-none"
+                className="bg-[#FAF7F2] border border-[#D6CEC4] px-3 py-2 text-xs text-[#1C1917] outline-none rounded-sm font-medium"
               >
                 <option value="featured">Featured Curations</option>
-                <option value="price-asc">Price: Ascending</option>
-                <option value="price-desc">Price: Descending</option>
-                <option value="rating">Atelier Rating</option>
+                <option value="price-asc">Price: Low to High</option>
+                <option value="price-desc">Price: High to Low</option>
+                <option value="rating">Highest Rated</option>
               </select>
             </div>
           </div>
 
           {/* Category Tabs */}
-          <div className="flex flex-wrap gap-2 pt-2 border-t border-[#E5DFD7] text-[11px] font-sans">
+          <div className="flex flex-wrap gap-2 pt-2 border-t border-[#E5DFD7] text-xs font-sans">
             {categories.map((cat) => (
               <button
                 key={cat}
                 onClick={() => setSelectedCategory(cat)}
-                className={`px-4 py-2 rounded-sm border transition-all uppercase tracking-wider ${
+                className={`px-4 py-2 rounded-sm border transition-all uppercase tracking-wider font-semibold ${
                   selectedCategory === cat
-                    ? 'bg-[#292524] text-[#FAF7F2] border-[#292524] font-medium'
-                    : 'bg-[#FAF7F2] text-[#78716C] border-[#E5DFD7] hover:text-[#1C1917]'
+                    ? 'bg-[#1C1917] text-[#FAF7F2] border-[#1C1917]'
+                    : 'bg-[#FAF7F2] text-[#57534E] border-[#D6CEC4] hover:text-[#1C1917] hover:border-[#1C1917]'
                 }`}
               >
                 {cat}
@@ -197,13 +215,13 @@ function CatalogContent() {
         {/* Product Grid */}
         {filteredProducts.length === 0 ? (
           <div className="py-20 text-center bg-[#F4EFEA] rounded-sm border border-[#E5DFD7] space-y-3">
-            <p className="font-serif text-xl">No architectural pieces match your search.</p>
+            <p className="font-serif text-xl text-[#1C1917]">No furniture pieces match your search.</p>
             <button
               onClick={() => {
                 setSelectedCategory('All')
                 setSearchQuery('')
               }}
-              className="text-xs uppercase tracking-wider underline text-[#78716C] hover:text-[#1C1917]"
+              className="text-xs uppercase tracking-wider font-semibold underline text-[#B45309] hover:text-[#1C1917]"
             >
               Reset Filters
             </button>
@@ -219,8 +237,8 @@ function CatalogContent() {
                   key={product.id}
                   initial={{ opacity: 0, y: 16 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.4, delay: (idx % 3) * 0.08 }}
-                  className="group bg-[#FAF7F2] rounded-sm border border-[#E5DFD7] overflow-hidden flex flex-col justify-between hover:shadow-nord-lg transition-all duration-300"
+                  transition={{ duration: 0.35, delay: (idx % 3) * 0.05 }}
+                  className="group bg-[#FAF7F2] rounded-sm border border-[#E5DFD7] overflow-hidden flex flex-col justify-between hover:shadow-lg transition-all duration-300"
                 >
                   {/* Image */}
                   <div className="relative aspect-[4/3] overflow-hidden bg-[#EFE9E1]">
@@ -232,13 +250,13 @@ function CatalogContent() {
                       />
                     </Link>
 
-                    <div className="absolute top-3 left-3 bg-[#FAF7F2]/90 backdrop-blur-sm text-[9px] font-sans px-2.5 py-1 uppercase tracking-[0.14em] text-[#1C1917] border border-[#E5DFD7]">
+                    <div className="absolute top-3 left-3 bg-[#FAF7F2]/95 backdrop-blur-sm text-[10px] font-sans font-semibold px-2.5 py-1 uppercase tracking-wider text-[#1C1917] border border-[#D6CEC4] rounded-sm">
                       {product.category}
                     </div>
 
                     <button
                       onClick={() => handleOpenQuickView(product)}
-                      className="absolute bottom-3 right-3 bg-[#FAF7F2]/95 hover:bg-white text-[#1C1917] p-2 rounded-sm border border-[#E5DFD7] shadow-sm opacity-0 group-hover:opacity-100 transition-opacity flex items-center space-x-1 text-[10px] font-sans uppercase tracking-wider"
+                      className="absolute bottom-3 right-3 bg-[#FAF7F2]/95 hover:bg-white text-[#1C1917] p-2 rounded-sm border border-[#D6CEC4] shadow-sm opacity-0 group-hover:opacity-100 transition-opacity flex items-center space-x-1.5 text-[11px] font-sans font-semibold tracking-wider"
                     >
                       <Eye className="w-3.5 h-3.5" />
                       <span>Quick View</span>
@@ -249,27 +267,27 @@ function CatalogContent() {
                   <div className="p-6 space-y-4 flex-1 flex flex-col justify-between">
                     <div className="space-y-2">
                       <div className="flex items-center justify-between text-xs">
-                        <span className="text-[11px] font-sans text-[#78716C]">{product.material}</span>
-                        <div className="flex items-center space-x-1 text-[#B45309] text-[11px] font-sans">
-                          <Star className="w-3 h-3 fill-[#B45309] text-[#B45309]" />
+                        <span className="text-xs font-sans font-medium text-[#57534E]">{product.material}</span>
+                        <div className="flex items-center space-x-1 text-[#B45309] text-xs font-sans font-bold">
+                          <Star className="w-3.5 h-3.5 fill-[#B45309] text-[#B45309]" />
                           <span>{product.rating}</span>
                         </div>
                       </div>
 
                       <Link href={`/products/${product.id}`} className="block">
-                        <h3 className="font-serif text-lg font-normal text-[#1C1917] leading-snug hover:underline">
+                        <h3 className="font-sans text-base font-bold text-[#1C1917] leading-snug hover:underline">
                           {product.name}
                         </h3>
                       </Link>
 
-                      <p className="text-xs text-[#78716C] font-light line-clamp-2 leading-relaxed">
+                      <p className="text-xs text-[#57534E] font-normal line-clamp-2 leading-relaxed">
                         {product.description}
                       </p>
 
                       {/* Finishes */}
                       {product.colors && product.colors.length > 0 && (
-                        <div className="pt-2">
-                          <span className="text-[10px] font-sans uppercase tracking-wider text-[#78716C]">
+                        <div className="pt-1">
+                          <span className="text-[11px] font-sans font-semibold text-[#57534E]">
                             Finishes:
                           </span>
                           <div className="flex flex-wrap gap-1.5 mt-1">
@@ -277,10 +295,10 @@ function CatalogContent() {
                               <button
                                 key={color}
                                 onClick={() => handleSelectFinish(product.id, color)}
-                                className={`text-[10px] px-2 py-0.5 border transition-colors rounded-none ${
+                                className={`text-[11px] px-2 py-0.5 border transition-colors rounded-sm font-medium ${
                                   chosenFinish === color
-                                    ? 'bg-[#292524] text-[#FAF7F2] border-[#292524]'
-                                    : 'bg-[#F4EFEA] text-[#78716C] border-[#E5DFD7] hover:text-[#1C1917]'
+                                    ? 'bg-[#1C1917] text-[#FAF7F2] border-[#1C1917]'
+                                    : 'bg-[#F4EFEA] text-[#57534E] border-[#D6CEC4] hover:text-[#1C1917]'
                                 }`}
                               >
                                 {color}
@@ -294,8 +312,8 @@ function CatalogContent() {
                     {/* Price & Add */}
                     <div className="pt-4 border-t border-[#E5DFD7] flex items-center justify-between">
                       <div>
-                        <span className="text-[10px] font-sans text-[#78716C] uppercase tracking-wider">Price</span>
-                        <p className="font-sans text-base font-semibold text-[#1C1917]">
+                        <span className="text-[10px] font-sans text-[#57534E] uppercase tracking-wider font-semibold">Price</span>
+                        <p className="font-sans text-base font-bold text-[#1C1917]">
                           {formatPrice(displayPrice)}
                         </p>
                       </div>
@@ -303,16 +321,16 @@ function CatalogContent() {
                       <div className="flex items-center space-x-2">
                         <Link
                           href={`/products/${product.id}`}
-                          className="px-3 py-2.5 bg-[#FAF7F2] border border-[#E5DFD7] text-[#1C1917] rounded-sm hover:bg-[#EFE9E1] transition-colors text-xs font-sans"
+                          className="px-3 py-2 bg-[#FAF7F2] border border-[#D6CEC4] text-[#1C1917] rounded-sm hover:bg-[#EAE3D9] transition-colors text-xs font-sans font-semibold"
                         >
-                          View Details
+                          Details
                         </Link>
                         <button
                           onClick={() => {
                             addItem(product, 1, chosenFinish)
                             openCart()
                           }}
-                          className="px-4 py-2.5 bg-[#292524] text-[#FAF7F2] rounded-sm hover:bg-[#3E3835] transition-all text-xs font-sans uppercase tracking-[0.14em] flex items-center space-x-1.5 shadow-sm"
+                          className="px-4 py-2 bg-[#1C1917] text-[#FAF7F2] rounded-sm hover:bg-[#292524] transition-all text-xs font-sans font-semibold tracking-wide flex items-center space-x-1.5 shadow-sm"
                         >
                           <Plus className="w-3.5 h-3.5" />
                           <span>Add to Bag</span>
@@ -339,7 +357,8 @@ function CatalogContent() {
             >
               <button
                 onClick={() => setQuickViewProduct(null)}
-                className="absolute top-4 right-4 p-2 text-[#78716C] hover:text-[#1C1917] rounded-sm hover:bg-[#F4EFEA] transition-colors"
+                className="absolute top-4 right-4 p-2 text-[#57534E] hover:text-[#1C1917] rounded-sm hover:bg-[#F4EFEA] transition-colors"
+                aria-label="Close"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -354,7 +373,7 @@ function CatalogContent() {
                 </div>
 
                 <div className="space-y-4">
-                  <span className="text-[10px] font-sans uppercase tracking-[0.2em] text-[#78716C]">
+                  <span className="text-xs font-sans font-semibold uppercase tracking-wider text-[#B45309]">
                     {quickViewProduct.category}
                   </span>
                   <h2 className="font-serif text-2xl font-normal text-[#1C1917]">
@@ -363,23 +382,23 @@ function CatalogContent() {
                   <p className="font-sans text-xl font-bold text-[#1C1917]">
                     {formatPrice(quickViewProduct.discount_price ?? quickViewProduct.price)}
                   </p>
-                  <p className="text-xs text-[#78716C] font-light leading-relaxed">
+                  <p className="text-xs text-[#57534E] font-normal leading-relaxed">
                     {quickViewProduct.description}
                   </p>
 
-                  <div className="space-y-1.5 text-xs text-[#78716C] pt-2 border-t border-[#E5DFD7]">
+                  <div className="space-y-1.5 text-xs text-[#57534E] pt-2 border-t border-[#E5DFD7]">
                     <p><strong>Material:</strong> {quickViewProduct.material}</p>
                     <p><strong>Dimensions:</strong> {quickViewProduct.dimensions}</p>
                   </div>
 
-                  <div className="pt-4 flex items-center space-x-3">
+                  <div className="pt-3 flex items-center space-x-3">
                     <button
                       onClick={() => {
                         addItem(quickViewProduct, 1, selectedQuickViewColor)
                         setQuickViewProduct(null)
                         openCart()
                       }}
-                      className="flex-1 py-3 px-6 bg-[#292524] text-[#FAF7F2] text-xs font-sans uppercase tracking-[0.16em] font-semibold rounded-sm hover:bg-[#3E3835] transition-all flex items-center justify-center space-x-2"
+                      className="flex-1 py-3 px-6 bg-[#1C1917] text-[#FAF7F2] text-xs font-sans uppercase tracking-wider font-semibold rounded-sm hover:bg-[#292524] transition-all flex items-center justify-center space-x-2"
                     >
                       <ShoppingBag className="w-4 h-4" />
                       <span>Add to Bag</span>
@@ -387,7 +406,7 @@ function CatalogContent() {
 
                     <Link
                       href={`/products/${quickViewProduct.id}`}
-                      className="py-3 px-4 border border-[#E5DFD7] text-[#1C1917] text-xs uppercase tracking-wider font-medium rounded-sm hover:bg-[#EFE9E1] transition-colors"
+                      className="py-3 px-4 border border-[#D6CEC4] text-[#1C1917] text-xs uppercase tracking-wider font-semibold rounded-sm hover:bg-[#EAE3D9] transition-colors"
                     >
                       Full Details →
                     </Link>
