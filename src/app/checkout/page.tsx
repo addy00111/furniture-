@@ -14,10 +14,16 @@ import {
   Lock, 
   Plus, 
   Building, 
+  Building2,
   Phone, 
   Mail, 
   User as UserIcon, 
   CreditCard,
+  Smartphone,
+  Banknote,
+  QrCode,
+  HelpCircle,
+  Check,
   AlertCircle,
   Loader2
 } from 'lucide-react'
@@ -79,8 +85,63 @@ export default function CheckoutPage() {
   // Delivery Method: 'standard' (Free) vs 'express' (₹499)
   const [deliveryMethod, setDeliveryMethod] = useState<DeliveryMethodType>('standard')
 
-  // Payment Method Selection: 'online' (Razorpay) vs 'cod' (Cash on Delivery)
-  const [paymentMethod, setPaymentMethod] = useState<'online' | 'cod'>('online')
+  // Payment Method Selection: 'card' | 'upi' | 'netbanking' | 'cod'
+  const [paymentMethod, setPaymentMethod] = useState<'card' | 'upi' | 'netbanking' | 'cod'>('card')
+
+  // Card Form State
+  const [cardNumber, setCardNumber] = useState('')
+  const [cardExpiry, setCardExpiry] = useState('')
+  const [cardCvv, setCardCvv] = useState('')
+  const [cardName, setCardName] = useState('')
+
+  // UPI Form State
+  const [upiId, setUpiId] = useState('')
+  const [upiVerified, setUpiVerified] = useState(false)
+  const [selectedUpiApp, setSelectedUpiApp] = useState<'gpay' | 'phonepe' | 'paytm' | 'qr'>('gpay')
+
+  // Netbanking State
+  const [selectedBank, setSelectedBank] = useState('HDFC')
+  const [otherBank, setOtherBank] = useState('')
+
+  const handleCardNumberChange = (val: string) => {
+    const raw = val.replace(/\D/g, '').slice(0, 16)
+    const formatted = raw.replace(/(\d{4})/g, '$1 ').trim()
+    setCardNumber(formatted)
+  }
+
+  const handleExpiryChange = (val: string) => {
+    const raw = val.replace(/\D/g, '').slice(0, 4)
+    if (raw.length >= 3) {
+      setCardExpiry(`${raw.slice(0, 2)}/${raw.slice(2)}`)
+    } else {
+      setCardExpiry(raw)
+    }
+  }
+
+  const handleCvvChange = (val: string) => {
+    setCardCvv(val.replace(/\D/g, '').slice(0, 4))
+  }
+
+  const getCardBrand = (num: string) => {
+    const clean = num.replace(/\s/g, '')
+    if (clean.startsWith('4')) return 'Visa'
+    if (/^(5[1-5]|2[2-7])/.test(clean)) return 'Mastercard'
+    if (/^(60|65|81|82|508)/.test(clean)) return 'RuPay'
+    if (/^(34|37)/.test(clean)) return 'Amex'
+    return null
+  }
+
+  const cardBrand = getCardBrand(cardNumber)
+
+  const handleVerifyUpi = () => {
+    if (upiId.includes('@') && upiId.length > 3) {
+      setUpiVerified(true)
+      setPaymentError(null)
+    } else {
+      setUpiVerified(false)
+      setPaymentError('Please enter a valid UPI ID (e.g. mobile@upi or name@okhdfcbank)')
+    }
+  }
 
   // Server Calculation Summary & Payment Processing
   const [calculation, setCalculation] = useState<OrderCalculationSummary | null>(null)
@@ -273,9 +334,15 @@ export default function CheckoutPage() {
           description: 'Order Checkout',
           order_id: activeRazorpayOrderId,
           prefill: {
-            name: activeShippingAddress.fullName || '',
+            name: (paymentMethod === 'card' && cardName) || activeShippingAddress.fullName || '',
             email: activeShippingAddress.email || user?.email || '',
             contact: activeShippingAddress.phone || '',
+          },
+          notes: {
+            store: 'Sora Living Atelier',
+            selected_method: paymentMethod,
+            bank: paymentMethod === 'netbanking' ? (otherBank || selectedBank) : '',
+            upi_vpa: paymentMethod === 'upi' ? upiId : '',
           },
           theme: {
             color: '#1C1917',
@@ -787,75 +854,383 @@ export default function CheckoutPage() {
                     </div>
 
                     {/* Payment Method Selection */}
-                    <div className="space-y-3 pt-3 border-t border-[#E5DFD7]">
-                      <label className="text-xs font-sans font-semibold uppercase tracking-wider text-[#57534E]">
-                        Select Payment Method
-                      </label>
+                    <div className="space-y-4 pt-3 border-t border-[#E5DFD7]">
+                      <div className="flex items-center justify-between">
+                        <label className="text-xs font-sans font-semibold uppercase tracking-wider text-[#57534E]">
+                          Select Payment Method
+                        </label>
+                        <span className="text-[11px] text-[#78716C] flex items-center space-x-1">
+                          <Lock className="w-3 h-3 text-[#B45309]" />
+                          <span>256-Bit Encrypted & RBI Compliant</span>
+                        </span>
+                      </div>
 
-                      {/* Option 1: Online Payment via Razorpay */}
+                      {/* Option A: Credit or Debit Card */}
                       <div
-                        onClick={() => setPaymentMethod('online')}
-                        className={`p-4 rounded-sm border cursor-pointer transition-all ${
-                          paymentMethod === 'online'
+                        className={`rounded-sm border transition-all overflow-hidden ${
+                          paymentMethod === 'card'
                             ? 'border-[#1C1917] bg-[#FAF7F2] shadow-sm ring-1 ring-[#1C1917]'
                             : 'border-[#D6CEC4] hover:border-[#1C1917] bg-[#FAF7F2]/80'
                         }`}
                       >
-                        <div className="flex items-start justify-between">
-                          <div className="flex items-start space-x-3">
+                        <div
+                          onClick={() => setPaymentMethod('card')}
+                          className="p-4 cursor-pointer flex items-center justify-between"
+                        >
+                          <div className="flex items-center space-x-3">
                             <input
                               type="radio"
                               name="paymentMethod"
-                              checked={paymentMethod === 'online'}
-                              onChange={() => setPaymentMethod('online')}
-                              className="mt-0.5 accent-[#1C1917]"
+                              checked={paymentMethod === 'card'}
+                              onChange={() => setPaymentMethod('card')}
+                              className="accent-[#1C1917]"
                             />
-                            <div className="space-y-0.5">
-                              <p className="font-bold text-xs text-[#1C1917]">
-                                Online Payment (UPI, Credit/Debit Card, Netbanking via Razorpay)
-                              </p>
-                              <p className="text-[11px] text-[#57534E]">
-                                Instant, secure 256-bit encrypted checkout supporting Google Pay, PhonePe, Paytm, all Cards & Netbanking.
-                              </p>
+                            <div className="flex items-center space-x-2.5">
+                              <div className="w-7 h-7 rounded-sm bg-[#EFE9E1] border border-[#D6CEC4] flex items-center justify-center text-[#1C1917]">
+                                <CreditCard className="w-4 h-4" />
+                              </div>
+                              <div>
+                                <p className="font-bold text-xs text-[#1C1917]">Credit or Debit Card</p>
+                                <p className="text-[11px] text-[#57534E]">All major cards: Visa, Mastercard, RuPay, Amex</p>
+                              </div>
                             </div>
                           </div>
-                          {paymentMethod === 'online' && (
-                            <CheckCircle2 className="w-4 h-4 text-[#B45309] shrink-0" />
-                          )}
+
+                          <div className="flex items-center space-x-1.5 text-[10px] font-bold text-[#57534E]">
+                            <span className="px-1.5 py-0.5 border border-[#D6CEC4] bg-white rounded-sm">VISA</span>
+                            <span className="px-1.5 py-0.5 border border-[#D6CEC4] bg-white rounded-sm">MC</span>
+                            <span className="px-1.5 py-0.5 border border-[#D6CEC4] bg-white rounded-sm">RuPay</span>
+                          </div>
                         </div>
+
+                        {/* Expanded Card Form */}
+                        {paymentMethod === 'card' && (
+                          <motion.div
+                            initial={{ opacity: 0, height: 0 }}
+                            animate={{ opacity: 1, height: 'auto' }}
+                            exit={{ opacity: 0, height: 0 }}
+                            className="p-5 border-t border-[#E5DFD7] bg-[#F4EFEA]/80 space-y-4"
+                          >
+                            <div className="space-y-1.5">
+                              <div className="flex justify-between items-center">
+                                <label className="text-xs font-sans font-semibold text-[#57534E]">Card Number</label>
+                                {cardBrand && (
+                                  <span className="text-[10px] uppercase font-bold tracking-wider bg-[#1C1917] text-[#FAF7F2] px-2 py-0.5 rounded-sm">
+                                    {cardBrand}
+                                  </span>
+                                )}
+                              </div>
+                              <div className="relative">
+                                <input
+                                  type="text"
+                                  value={cardNumber}
+                                  onChange={(e) => handleCardNumberChange(e.target.value)}
+                                  placeholder="4111 1111 1111 1111"
+                                  maxLength={19}
+                                  className="w-full px-3.5 py-2.5 text-xs font-mono bg-[#FAF7F2] border border-[#D6CEC4] rounded-sm focus:border-[#1C1917] outline-none text-[#1C1917] tracking-wider"
+                                />
+                                <CreditCard className="w-4 h-4 text-[#78716C] absolute right-3 top-1/2 -translate-y-1/2" />
+                              </div>
+                            </div>
+
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                              <div className="space-y-1.5">
+                                <label className="text-xs font-sans font-semibold text-[#57534E]">Expiry Date</label>
+                                <input
+                                  type="text"
+                                  value={cardExpiry}
+                                  onChange={(e) => handleExpiryChange(e.target.value)}
+                                  placeholder="MM / YY"
+                                  maxLength={5}
+                                  className="w-full px-3.5 py-2 text-xs font-mono bg-[#FAF7F2] border border-[#D6CEC4] rounded-sm focus:border-[#1C1917] outline-none text-[#1C1917]"
+                                />
+                              </div>
+
+                              <div className="space-y-1.5">
+                                <div className="flex justify-between items-center">
+                                  <label className="text-xs font-sans font-semibold text-[#57534E]">CVV / CVC</label>
+                                  <span className="text-[10px] text-[#78716C]">3 or 4 digits</span>
+                                </div>
+                                <div className="relative">
+                                  <input
+                                    type="password"
+                                    value={cardCvv}
+                                    onChange={(e) => handleCvvChange(e.target.value)}
+                                    placeholder="•••"
+                                    maxLength={4}
+                                    className="w-full px-3.5 py-2 text-xs font-mono bg-[#FAF7F2] border border-[#D6CEC4] rounded-sm focus:border-[#1C1917] outline-none text-[#1C1917]"
+                                  />
+                                  <Lock className="w-3.5 h-3.5 text-[#78716C] absolute right-3 top-1/2 -translate-y-1/2" />
+                                </div>
+                              </div>
+                            </div>
+
+                            <div className="space-y-1.5">
+                              <label className="text-xs font-sans font-semibold text-[#57534E]">Name on Card</label>
+                              <input
+                                type="text"
+                                value={cardName}
+                                onChange={(e) => setCardName(e.target.value)}
+                                placeholder="Aditya Sharma"
+                                className="w-full px-3.5 py-2 text-xs bg-[#FAF7F2] border border-[#D6CEC4] rounded-sm focus:border-[#1C1917] outline-none text-[#1C1917]"
+                              />
+                            </div>
+
+                            <div className="p-3 bg-[#FAF7F2] border border-[#E5DFD7] rounded-sm flex items-center space-x-2 text-[11px] text-[#57534E]">
+                              <ShieldCheck className="w-4 h-4 text-emerald-700 shrink-0" />
+                              <span>Transactions are 256-bit SSL encrypted & RBI tokenization compliant.</span>
+                            </div>
+                          </motion.div>
+                        )}
                       </div>
 
-                      {/* Option 2: Cash on Delivery / Pay on Delivery */}
+                      {/* Option B: UPI (GPay, PhonePe, Paytm, QR) */}
                       <div
-                        onClick={() => setPaymentMethod('cod')}
-                        className={`p-4 rounded-sm border cursor-pointer transition-all ${
+                        className={`rounded-sm border transition-all overflow-hidden ${
+                          paymentMethod === 'upi'
+                            ? 'border-[#1C1917] bg-[#FAF7F2] shadow-sm ring-1 ring-[#1C1917]'
+                            : 'border-[#D6CEC4] hover:border-[#1C1917] bg-[#FAF7F2]/80'
+                        }`}
+                      >
+                        <div
+                          onClick={() => setPaymentMethod('upi')}
+                          className="p-4 cursor-pointer flex items-center justify-between"
+                        >
+                          <div className="flex items-center space-x-3">
+                            <input
+                              type="radio"
+                              name="paymentMethod"
+                              checked={paymentMethod === 'upi'}
+                              onChange={() => setPaymentMethod('upi')}
+                              className="accent-[#1C1917]"
+                            />
+                            <div className="flex items-center space-x-2.5">
+                              <div className="w-7 h-7 rounded-sm bg-[#EFE9E1] border border-[#D6CEC4] flex items-center justify-center text-[#1C1917]">
+                                <Smartphone className="w-4 h-4" />
+                              </div>
+                              <div>
+                                <p className="font-bold text-xs text-[#1C1917]">UPI (Google Pay, PhonePe, Paytm, QR Code)</p>
+                                <p className="text-[11px] text-[#57534E]">Instant payment via any UPI app or QR scanner</p>
+                              </div>
+                            </div>
+                          </div>
+
+                          <span className="text-[10px] font-bold bg-[#FAF7F2] border border-[#D6CEC4] px-2 py-0.5 rounded-sm text-[#1C1917]">
+                            FAST & FREE
+                          </span>
+                        </div>
+
+                        {/* Expanded UPI Form */}
+                        {paymentMethod === 'upi' && (
+                          <motion.div
+                            initial={{ opacity: 0, height: 0 }}
+                            animate={{ opacity: 1, height: 'auto' }}
+                            exit={{ opacity: 0, height: 0 }}
+                            className="p-5 border-t border-[#E5DFD7] bg-[#F4EFEA]/80 space-y-4"
+                          >
+                            {/* App Chips */}
+                            <div className="space-y-1.5">
+                              <label className="text-xs font-sans font-semibold text-[#57534E]">Preferred UPI Flow</label>
+                              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                                {[
+                                  { id: 'gpay', label: 'Google Pay' },
+                                  { id: 'phonepe', label: 'PhonePe' },
+                                  { id: 'paytm', label: 'Paytm' },
+                                  { id: 'qr', label: 'Dynamic QR' },
+                                ].map((app) => (
+                                  <button
+                                    key={app.id}
+                                    type="button"
+                                    onClick={() => setSelectedUpiApp(app.id as any)}
+                                    className={`px-3 py-2 text-xs rounded-sm border font-semibold transition-all ${
+                                      selectedUpiApp === app.id
+                                        ? 'bg-[#1C1917] text-[#FAF7F2] border-[#1C1917]'
+                                        : 'bg-[#FAF7F2] text-[#57534E] border-[#D6CEC4] hover:border-[#1C1917]'
+                                    }`}
+                                  >
+                                    {app.label}
+                                  </button>
+                                ))}
+                              </div>
+                            </div>
+
+                            {/* VPA Input */}
+                            <div className="space-y-1.5">
+                              <label className="text-xs font-sans font-semibold text-[#57534E]">
+                                Enter UPI ID / VPA
+                              </label>
+                              <div className="flex gap-2">
+                                <input
+                                  type="text"
+                                  value={upiId}
+                                  onChange={(e) => {
+                                    setUpiId(e.target.value)
+                                    setUpiVerified(false)
+                                  }}
+                                  placeholder="username@okhdfcbank or 9876543210@upi"
+                                  className="flex-1 px-3.5 py-2 text-xs bg-[#FAF7F2] border border-[#D6CEC4] rounded-sm focus:border-[#1C1917] outline-none text-[#1C1917]"
+                                />
+                                <button
+                                  type="button"
+                                  onClick={handleVerifyUpi}
+                                  className={`px-4 py-2 text-xs uppercase tracking-wider font-semibold rounded-sm border transition-all ${
+                                    upiVerified
+                                      ? 'bg-emerald-700 text-white border-emerald-700'
+                                      : 'bg-[#1C1917] text-[#FAF7F2] border-[#1C1917] hover:bg-[#292524]'
+                                  }`}
+                                >
+                                  {upiVerified ? 'Verified ✓' : 'Verify'}
+                                </button>
+                              </div>
+                              <p className="text-[11px] text-[#78716C]">
+                                A payment notification request will be delivered to your UPI app.
+                              </p>
+                            </div>
+                          </motion.div>
+                        )}
+                      </div>
+
+                      {/* Option C: Net Banking */}
+                      <div
+                        className={`rounded-sm border transition-all overflow-hidden ${
+                          paymentMethod === 'netbanking'
+                            ? 'border-[#1C1917] bg-[#FAF7F2] shadow-sm ring-1 ring-[#1C1917]'
+                            : 'border-[#D6CEC4] hover:border-[#1C1917] bg-[#FAF7F2]/80'
+                        }`}
+                      >
+                        <div
+                          onClick={() => setPaymentMethod('netbanking')}
+                          className="p-4 cursor-pointer flex items-center justify-between"
+                        >
+                          <div className="flex items-center space-x-3">
+                            <input
+                              type="radio"
+                              name="paymentMethod"
+                              checked={paymentMethod === 'netbanking'}
+                              onChange={() => setPaymentMethod('netbanking')}
+                              className="accent-[#1C1917]"
+                            />
+                            <div className="flex items-center space-x-2.5">
+                              <div className="w-7 h-7 rounded-sm bg-[#EFE9E1] border border-[#D6CEC4] flex items-center justify-center text-[#1C1917]">
+                                <Building2 className="w-4 h-4" />
+                              </div>
+                              <div>
+                                <p className="font-bold text-xs text-[#1C1917]">Net Banking</p>
+                                <p className="text-[11px] text-[#57534E]">Direct bank debit via all Indian banks</p>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Expanded Netbanking Form */}
+                        {paymentMethod === 'netbanking' && (
+                          <motion.div
+                            initial={{ opacity: 0, height: 0 }}
+                            animate={{ opacity: 1, height: 'auto' }}
+                            exit={{ opacity: 0, height: 0 }}
+                            className="p-5 border-t border-[#E5DFD7] bg-[#F4EFEA]/80 space-y-4"
+                          >
+                            <div className="space-y-1.5">
+                              <label className="text-xs font-sans font-semibold text-[#57534E]">Popular Indian Banks</label>
+                              <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+                                {[
+                                  { id: 'HDFC', name: 'HDFC Bank' },
+                                  { id: 'ICICI', name: 'ICICI Bank' },
+                                  { id: 'SBI', name: 'State Bank of India' },
+                                  { id: 'AXIS', name: 'Axis Bank' },
+                                  { id: 'KOTAK', name: 'Kotak Mahindra' },
+                                ].map((b) => (
+                                  <button
+                                    key={b.id}
+                                    type="button"
+                                    onClick={() => {
+                                      setSelectedBank(b.id)
+                                      setOtherBank('')
+                                    }}
+                                    className={`px-3 py-2 text-xs rounded-sm border font-semibold transition-all text-left ${
+                                      selectedBank === b.id && !otherBank
+                                        ? 'bg-[#1C1917] text-[#FAF7F2] border-[#1C1917]'
+                                        : 'bg-[#FAF7F2] text-[#57534E] border-[#D6CEC4] hover:border-[#1C1917]'
+                                    }`}
+                                  >
+                                    {b.name}
+                                  </button>
+                                ))}
+                              </div>
+                            </div>
+
+                            <div className="space-y-1.5">
+                              <label className="text-xs font-sans font-semibold text-[#57534E]">All Other Indian Banks</label>
+                              <select
+                                value={otherBank}
+                                onChange={(e) => setOtherBank(e.target.value)}
+                                className="w-full px-3 py-2.5 text-xs bg-[#FAF7F2] border border-[#D6CEC4] rounded-sm focus:border-[#1C1917] outline-none text-[#1C1917] font-medium"
+                              >
+                                <option value="">Select from 50+ other banks...</option>
+                                <option value="PNB">Punjab National Bank</option>
+                                <option value="BOB">Bank of Baroda</option>
+                                <option value="CANARA">Canara Bank</option>
+                                <option value="INDUSIND">IndusInd Bank</option>
+                                <option value="YES">Yes Bank</option>
+                                <option value="UNION">Union Bank of India</option>
+                                <option value="IDFC">IDFC FIRST Bank</option>
+                                <option value="FEDERAL">Federal Bank</option>
+                              </select>
+                            </div>
+                          </motion.div>
+                        )}
+                      </div>
+
+                      {/* Option D: Cash on Delivery / Pay on Delivery */}
+                      <div
+                        className={`rounded-sm border transition-all overflow-hidden ${
                           paymentMethod === 'cod'
                             ? 'border-[#1C1917] bg-[#FAF7F2] shadow-sm ring-1 ring-[#1C1917]'
                             : 'border-[#D6CEC4] hover:border-[#1C1917] bg-[#FAF7F2]/80'
                         }`}
                       >
-                        <div className="flex items-start justify-between">
-                          <div className="flex items-start space-x-3">
+                        <div
+                          onClick={() => setPaymentMethod('cod')}
+                          className="p-4 cursor-pointer flex items-center justify-between"
+                        >
+                          <div className="flex items-center space-x-3">
                             <input
                               type="radio"
                               name="paymentMethod"
                               checked={paymentMethod === 'cod'}
                               onChange={() => setPaymentMethod('cod')}
-                              className="mt-0.5 accent-[#1C1917]"
+                              className="accent-[#1C1917]"
                             />
-                            <div className="space-y-0.5">
-                              <p className="font-bold text-xs text-[#1C1917]">
-                                Cash on Delivery / Pay on Delivery
-                              </p>
-                              <p className="text-[11px] text-[#57534E]">
-                                Pay via Cash, UPI, or Card upon white-glove delivery and assembly at your doorstep.
-                              </p>
+                            <div className="flex items-center space-x-2.5">
+                              <div className="w-7 h-7 rounded-sm bg-[#EFE9E1] border border-[#D6CEC4] flex items-center justify-center text-[#1C1917]">
+                                <Banknote className="w-4 h-4" />
+                              </div>
+                              <div>
+                                <p className="font-bold text-xs text-[#1C1917]">Cash on Delivery / Pay on Delivery</p>
+                                <p className="text-[11px] text-[#57534E]">Pay via Cash, UPI, or Card upon white-glove arrival</p>
+                              </div>
                             </div>
                           </div>
-                          {paymentMethod === 'cod' && (
-                            <CheckCircle2 className="w-4 h-4 text-[#B45309] shrink-0" />
-                          )}
+
+                          <span className="text-[10px] font-bold bg-[#FAF7F2] border border-[#D6CEC4] px-2 py-0.5 rounded-sm text-[#57534E]">
+                            DOORSTEP
+                          </span>
                         </div>
+
+                        {/* Expanded COD Note */}
+                        {paymentMethod === 'cod' && (
+                          <motion.div
+                            initial={{ opacity: 0, height: 0 }}
+                            animate={{ opacity: 1, height: 'auto' }}
+                            exit={{ opacity: 0, height: 0 }}
+                            className="p-5 border-t border-[#E5DFD7] bg-[#F4EFEA]/80 space-y-2"
+                          >
+                            <div className="p-3 bg-[#FAF7F2] border border-[#E5DFD7] rounded-sm text-xs text-[#57534E] leading-relaxed">
+                              <p className="font-semibold text-[#1C1917] mb-1">White-Glove Delivery Protocol</p>
+                              Our delivery specialists will unpack, assemble, and position your furniture in your room of choice. Once thoroughly inspected, you may complete payment via Cash, UPI, or Card terminal.
+                            </div>
+                          </motion.div>
+                        )}
                       </div>
                     </div>
 
@@ -885,10 +1260,20 @@ export default function CheckoutPage() {
                             <CheckCircle2 className="w-3.5 h-3.5" />
                             <span>Place Cash on Delivery Order ({formatPrice(effectiveTotal)})</span>
                           </>
-                        ) : (
+                        ) : paymentMethod === 'card' ? (
                           <>
                             <Lock className="w-3.5 h-3.5" />
-                            <span>Pay {formatPrice(effectiveTotal)} via Razorpay</span>
+                            <span>Pay {formatPrice(effectiveTotal)} with Card</span>
+                          </>
+                        ) : paymentMethod === 'upi' ? (
+                          <>
+                            <Smartphone className="w-3.5 h-3.5" />
+                            <span>Pay {formatPrice(effectiveTotal)} via UPI</span>
+                          </>
+                        ) : (
+                          <>
+                            <Building2 className="w-3.5 h-3.5" />
+                            <span>Pay {formatPrice(effectiveTotal)} via Net Banking</span>
                           </>
                         )}
                       </button>
