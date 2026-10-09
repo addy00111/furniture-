@@ -1,6 +1,7 @@
 'use client'
 
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useEffect, Suspense } from 'react'
+import { useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import { motion, AnimatePresence } from 'framer-motion'
 import { 
@@ -12,7 +13,8 @@ import {
   Eye, 
   X,
   ArrowRight,
-  CheckCircle2
+  CheckCircle2,
+  Loader2
 } from 'lucide-react'
 import { NORD_JAPANDI_PRODUCTS } from '@/data/products'
 import { Product } from '@/types'
@@ -22,8 +24,34 @@ import { Navbar } from '@/components/layout/Navbar'
 import { CartDrawer } from '@/components/cart/CartDrawer'
 import { AuthModal } from '@/components/auth/AuthModal'
 
-export default function CatalogPage() {
+const CATEGORY_MAP: Record<string, string> = {
+  lounge: 'Lounge & Seating',
+  seating: 'Lounge & Seating',
+  'lounge-seating': 'Lounge & Seating',
+  'lounge & seating': 'Lounge & Seating',
+  beds: 'Sanctuary (Beds)',
+  sanctuary: 'Sanctuary (Beds)',
+  bed: 'Sanctuary (Beds)',
+  'sanctuary-beds': 'Sanctuary (Beds)',
+  'sanctuary (beds)': 'Sanctuary (Beds)',
+  dining: 'Dining & Gathering',
+  gathering: 'Dining & Gathering',
+  'dining-gathering': 'Dining & Gathering',
+  'dining & gathering': 'Dining & Gathering',
+  storage: 'Studio & Storage',
+  studio: 'Studio & Storage',
+  'studio-storage': 'Studio & Storage',
+  'studio & storage': 'Studio & Storage',
+  accents: 'Accents & Objects',
+  objects: 'Accents & Objects',
+  'accents-objects': 'Accents & Objects',
+  'accents & objects': 'Accents & Objects',
+}
+
+function CatalogContent() {
+  const searchParams = useSearchParams()
   const { addItem, openCart } = useCartStore()
+  
   const [selectedCategory, setSelectedCategory] = useState<string>('All')
   const [searchQuery, setSearchQuery] = useState('')
   const [sortBy, setSortBy] = useState<'featured' | 'price-asc' | 'price-desc' | 'rating'>('featured')
@@ -39,6 +67,22 @@ export default function CatalogPage() {
     'Studio & Storage',
     'Accents & Objects',
   ]
+
+  // Read URL query parameters and filter category automatically
+  useEffect(() => {
+    const rawCategory = searchParams.get('category')
+    if (rawCategory) {
+      const normalized = rawCategory.toLowerCase().trim()
+      const mapped = CATEGORY_MAP[normalized] || categories.find((c) => c.toLowerCase() === normalized)
+      if (mapped) {
+        setSelectedCategory(mapped)
+      } else {
+        setSelectedCategory('All')
+      }
+    } else {
+      setSelectedCategory('All')
+    }
+  }, [searchParams])
 
   const filteredProducts = useMemo(() => {
     let list = [...NORD_JAPANDI_PRODUCTS]
@@ -91,10 +135,12 @@ export default function CatalogPage() {
             The Master Catalogue
           </span>
           <h1 className="font-serif text-4xl md:text-6xl font-normal tracking-tight text-[#1C1917]">
-            Architectural Pieces & Archetypes
+            {selectedCategory === 'All' ? 'Architectural Pieces & Archetypes' : selectedCategory}
           </h1>
           <p className="text-sm text-[#78716C] font-light leading-relaxed">
-            Explore handcrafted heirloom commissions sculpted from noble ash, white oak, Hinoki cypress, and Roman travertine stone.
+            {selectedCategory === 'All'
+              ? 'Explore handcrafted heirloom commissions sculpted from noble ash, white oak, Hinoki cypress, and Roman travertine stone.'
+              : `Handcrafted ${selectedCategory.toLowerCase()} sculpted with tactile organic materials and pure architectural silhouettes.`}
           </p>
         </div>
 
@@ -149,121 +195,136 @@ export default function CatalogPage() {
         </div>
 
         {/* Product Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-          {filteredProducts.map((product, idx) => {
-            const displayPrice = product.discount_price ?? product.price
-            const chosenFinish = activeFinish[product.id] || (product.colors && product.colors[0]) || ''
+        {filteredProducts.length === 0 ? (
+          <div className="py-20 text-center bg-[#F4EFEA] rounded-sm border border-[#E5DFD7] space-y-3">
+            <p className="font-serif text-xl">No architectural pieces match your search.</p>
+            <button
+              onClick={() => {
+                setSelectedCategory('All')
+                setSearchQuery('')
+              }}
+              className="text-xs uppercase tracking-wider underline text-[#78716C] hover:text-[#1C1917]"
+            >
+              Reset Filters
+            </button>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            {filteredProducts.map((product, idx) => {
+              const displayPrice = product.discount_price ?? product.price
+              const chosenFinish = activeFinish[product.id] || (product.colors && product.colors[0]) || ''
 
-            return (
-              <motion.div
-                key={product.id}
-                initial={{ opacity: 0, y: 16 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4, delay: (idx % 3) * 0.08 }}
-                className="group bg-[#FAF7F2] rounded-sm border border-[#E5DFD7] overflow-hidden flex flex-col justify-between hover:shadow-nord-lg transition-all duration-300"
-              >
-                {/* Image */}
-                <div className="relative aspect-[4/3] overflow-hidden bg-[#EFE9E1]">
-                  <Link href={`/products/${product.id}`}>
-                    <img
-                      src={product.images[0]}
-                      alt={product.name}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 cursor-pointer"
-                    />
-                  </Link>
-
-                  <div className="absolute top-3 left-3 bg-[#FAF7F2]/90 backdrop-blur-sm text-[9px] font-sans px-2.5 py-1 uppercase tracking-[0.14em] text-[#1C1917] border border-[#E5DFD7]">
-                    {product.category}
-                  </div>
-
-                  <button
-                    onClick={() => handleOpenQuickView(product)}
-                    className="absolute bottom-3 right-3 bg-[#FAF7F2]/95 hover:bg-white text-[#1C1917] p-2 rounded-sm border border-[#E5DFD7] shadow-sm opacity-0 group-hover:opacity-100 transition-opacity flex items-center space-x-1 text-[10px] font-sans uppercase tracking-wider"
-                  >
-                    <Eye className="w-3.5 h-3.5" />
-                    <span>Quick View</span>
-                  </button>
-                </div>
-
-                {/* Details */}
-                <div className="p-6 space-y-4 flex-1 flex flex-col justify-between">
-                  <div className="space-y-2">
-                    <div className="flex items-center justify-between text-xs">
-                      <span className="text-[11px] font-sans text-[#78716C]">{product.material}</span>
-                      <div className="flex items-center space-x-1 text-[#B45309] text-[11px] font-sans">
-                        <Star className="w-3 h-3 fill-[#B45309] text-[#B45309]" />
-                        <span>{product.rating}</span>
-                      </div>
-                    </div>
-
-                    <Link href={`/products/${product.id}`} className="block">
-                      <h3 className="font-serif text-lg font-normal text-[#1C1917] leading-snug hover:underline">
-                        {product.name}
-                      </h3>
+              return (
+                <motion.div
+                  key={product.id}
+                  initial={{ opacity: 0, y: 16 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.4, delay: (idx % 3) * 0.08 }}
+                  className="group bg-[#FAF7F2] rounded-sm border border-[#E5DFD7] overflow-hidden flex flex-col justify-between hover:shadow-nord-lg transition-all duration-300"
+                >
+                  {/* Image */}
+                  <div className="relative aspect-[4/3] overflow-hidden bg-[#EFE9E1]">
+                    <Link href={`/products/${product.id}`}>
+                      <img
+                        src={product.images[0]}
+                        alt={product.name}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 cursor-pointer"
+                      />
                     </Link>
 
-                    <p className="text-xs text-[#78716C] font-light line-clamp-2 leading-relaxed">
-                      {product.description}
-                    </p>
+                    <div className="absolute top-3 left-3 bg-[#FAF7F2]/90 backdrop-blur-sm text-[9px] font-sans px-2.5 py-1 uppercase tracking-[0.14em] text-[#1C1917] border border-[#E5DFD7]">
+                      {product.category}
+                    </div>
 
-                    {/* Finishes */}
-                    {product.colors && product.colors.length > 0 && (
-                      <div className="pt-2">
-                        <span className="text-[10px] font-sans uppercase tracking-wider text-[#78716C]">
-                          Finishes:
-                        </span>
-                        <div className="flex flex-wrap gap-1.5 mt-1">
-                          {product.colors.map((color) => (
-                            <button
-                              key={color}
-                              onClick={() => handleSelectFinish(product.id, color)}
-                              className={`text-[10px] px-2 py-0.5 border transition-colors rounded-none ${
-                                chosenFinish === color
-                                  ? 'bg-[#292524] text-[#FAF7F2] border-[#292524]'
-                                  : 'bg-[#F4EFEA] text-[#78716C] border-[#E5DFD7] hover:text-[#1C1917]'
-                              }`}
-                            >
-                              {color}
-                            </button>
-                          ))}
+                    <button
+                      onClick={() => handleOpenQuickView(product)}
+                      className="absolute bottom-3 right-3 bg-[#FAF7F2]/95 hover:bg-white text-[#1C1917] p-2 rounded-sm border border-[#E5DFD7] shadow-sm opacity-0 group-hover:opacity-100 transition-opacity flex items-center space-x-1 text-[10px] font-sans uppercase tracking-wider"
+                    >
+                      <Eye className="w-3.5 h-3.5" />
+                      <span>Quick View</span>
+                    </button>
+                  </div>
+
+                  {/* Details */}
+                  <div className="p-6 space-y-4 flex-1 flex flex-col justify-between">
+                    <div className="space-y-2">
+                      <div className="flex items-center justify-between text-xs">
+                        <span className="text-[11px] font-sans text-[#78716C]">{product.material}</span>
+                        <div className="flex items-center space-x-1 text-[#B45309] text-[11px] font-sans">
+                          <Star className="w-3 h-3 fill-[#B45309] text-[#B45309]" />
+                          <span>{product.rating}</span>
                         </div>
                       </div>
-                    )}
-                  </div>
 
-                  {/* Price & Add */}
-                  <div className="pt-4 border-t border-[#E5DFD7] flex items-center justify-between">
-                    <div>
-                      <span className="text-[10px] font-sans text-[#78716C] uppercase tracking-wider">Acquisition</span>
-                      <p className="font-sans text-base font-semibold text-[#1C1917]">
-                        {formatPrice(displayPrice)}
-                      </p>
-                    </div>
-
-                    <div className="flex items-center space-x-2">
-                      <Link
-                        href={`/products/${product.id}`}
-                        className="px-3 py-2.5 bg-[#FAF7F2] border border-[#E5DFD7] text-[#1C1917] rounded-sm hover:bg-[#EFE9E1] transition-colors text-xs"
-                      >
-                        Inspect
+                      <Link href={`/products/${product.id}`} className="block">
+                        <h3 className="font-serif text-lg font-normal text-[#1C1917] leading-snug hover:underline">
+                          {product.name}
+                        </h3>
                       </Link>
-                      <button
-                        onClick={() => {
-                          addItem(product, 1, chosenFinish)
-                          openCart()
-                        }}
-                        className="px-4 py-2.5 bg-[#292524] text-[#FAF7F2] rounded-sm hover:bg-[#3E3835] transition-all text-xs font-sans uppercase tracking-[0.14em] flex items-center space-x-1.5 shadow-sm"
-                      >
-                        <Plus className="w-3.5 h-3.5" />
-                        <span>Acquire</span>
-                      </button>
+
+                      <p className="text-xs text-[#78716C] font-light line-clamp-2 leading-relaxed">
+                        {product.description}
+                      </p>
+
+                      {/* Finishes */}
+                      {product.colors && product.colors.length > 0 && (
+                        <div className="pt-2">
+                          <span className="text-[10px] font-sans uppercase tracking-wider text-[#78716C]">
+                            Finishes:
+                          </span>
+                          <div className="flex flex-wrap gap-1.5 mt-1">
+                            {product.colors.map((color) => (
+                              <button
+                                key={color}
+                                onClick={() => handleSelectFinish(product.id, color)}
+                                className={`text-[10px] px-2 py-0.5 border transition-colors rounded-none ${
+                                  chosenFinish === color
+                                    ? 'bg-[#292524] text-[#FAF7F2] border-[#292524]'
+                                    : 'bg-[#F4EFEA] text-[#78716C] border-[#E5DFD7] hover:text-[#1C1917]'
+                                }`}
+                              >
+                                {color}
+                              </button>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Price & Add */}
+                    <div className="pt-4 border-t border-[#E5DFD7] flex items-center justify-between">
+                      <div>
+                        <span className="text-[10px] font-sans text-[#78716C] uppercase tracking-wider">Acquisition</span>
+                        <p className="font-sans text-base font-semibold text-[#1C1917]">
+                          {formatPrice(displayPrice)}
+                        </p>
+                      </div>
+
+                      <div className="flex items-center space-x-2">
+                        <Link
+                          href={`/products/${product.id}`}
+                          className="px-3 py-2.5 bg-[#FAF7F2] border border-[#E5DFD7] text-[#1C1917] rounded-sm hover:bg-[#EFE9E1] transition-colors text-xs"
+                        >
+                          Inspect
+                        </Link>
+                        <button
+                          onClick={() => {
+                            addItem(product, 1, chosenFinish)
+                            openCart()
+                          }}
+                          className="px-4 py-2.5 bg-[#292524] text-[#FAF7F2] rounded-sm hover:bg-[#3E3835] transition-all text-xs font-sans uppercase tracking-[0.14em] flex items-center space-x-1.5 shadow-sm"
+                        >
+                          <Plus className="w-3.5 h-3.5" />
+                          <span>Acquire</span>
+                        </button>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </motion.div>
-            )
-          })}
-        </div>
+                </motion.div>
+              )
+            })}
+          </div>
+        )}
       </main>
 
       {/* Quick View Modal */}
@@ -338,5 +399,19 @@ export default function CatalogPage() {
         )}
       </AnimatePresence>
     </div>
+  )
+}
+
+export default function CatalogPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="min-h-screen bg-[#FAF7F2] flex items-center justify-center">
+          <Loader2 className="w-6 h-6 animate-spin text-[#78716C]" />
+        </div>
+      }
+    >
+      <CatalogContent />
+    </Suspense>
   )
 }

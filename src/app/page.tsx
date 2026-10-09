@@ -179,104 +179,121 @@ export default function Home() {
           {/* Editorial Mosaic Grid */}
           <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
             {/* Tall Card 1: Lounge & Seating */}
-            <div 
-              onClick={() => setSelectedCategory('Lounge & Seating')}
-              className="md:col-span-7 group cursor-pointer relative rounded-sm overflow-hidden aspect-[16/10] md:aspect-auto md:min-h-[420px] border border-[#E5DFD7] bg-[#EFE9E1]"
+            <Link 
+              href="/products?category=lounge"
+              className="md:col-span-7 group cursor-pointer relative rounded-sm overflow-hidden aspect-[16/10] md:aspect-auto md:min-h-[420px] border border-[#E5DFD7] bg-[#EFE9E1] block shadow-nord"
             >
               <img
                 src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&w=1200&q=85"
                 alt="Lounge & Seating"
-                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#1C1917]/70 via-[#1C1917]/20 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#1C1917]/75 via-[#1C1917]/25 to-transparent" />
               <div className="absolute bottom-6 left-6 right-6 text-white flex justify-between items-end">
                 <div>
                   <span className="text-[10px] uppercase tracking-[0.2em] text-white/70">Discipline 01</span>
                   <h3 className="font-serif text-2xl font-normal mt-0.5">Lounge & Seating</h3>
                   <p className="text-xs text-white/80 font-light mt-0.5">Curved bouclé, aniline saddle leather, linen daybeds</p>
                 </div>
-                <span className="text-xs font-sans uppercase tracking-widest text-white/90 underline underline-offset-4">
-                  View Series →
+                <span className="text-xs font-sans uppercase tracking-widest text-white/90 underline underline-offset-4 group-hover:text-white group-hover:translate-x-1 transition-all inline-flex items-center space-x-1">
+                  <span>View Series</span>
+                  <span>→</span>
                 </span>
               </div>
-            </div>
+            </Link>
 
             {/* Tall Card 2: Sanctuary Beds */}
-            <div 
-              onClick={() => setSelectedCategory('Sanctuary (Beds)')}
-              className="md:col-span-5 group cursor-pointer relative rounded-sm overflow-hidden aspect-[16/10] md:aspect-auto md:min-h-[420px] border border-[#E5DFD7] bg-[#EFE9E1]"
+            <Link 
+              href="/products?category=beds"
+              className="md:col-span-5 group cursor-pointer relative rounded-sm overflow-hidden aspect-[16/10] md:aspect-auto md:min-h-[420px] border border-[#E5DFD7] bg-[#EFE9E1] block shadow-nord"
             >
               <img
                 src="https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=1000&q=85"
                 alt="Sanctuary (Beds)"
-                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#1C1917]/70 via-[#1C1917]/20 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#1C1917]/75 via-[#1C1917]/25 to-transparent" />
               <div className="absolute bottom-6 left-6 right-6 text-white flex justify-between items-end">
                 <div>
                   <span className="text-[10px] uppercase tracking-[0.2em] text-white/70">Discipline 02</span>
                   <h3 className="font-serif text-2xl font-normal mt-0.5">Sanctuary (Beds)</h3>
                   <p className="text-xs text-white/80 font-light mt-0.5">Japanese Hinoki platforms & flax linen</p>
                 </div>
-                <span className="text-xs font-sans uppercase tracking-widest text-white/90 underline underline-offset-4">
-                  View Series →
+                <span className="text-xs font-sans uppercase tracking-widest text-white/90 underline underline-offset-4 group-hover:text-white group-hover:translate-x-1 transition-all inline-flex items-center space-x-1">
+                  <span>View Series</span>
+                  <span>→</span>
                 </span>
               </div>
-            </div>
+            </Link>
 
             {/* Wide Card 3: Dining & Gathering */}
-            <div 
-              onClick={() => setSelectedCategory('Dining & Gathering')}
-              className="md:col-span-4 group cursor-pointer relative rounded-sm overflow-hidden aspect-[4/3] border border-[#E5DFD7] bg-[#EFE9E1]"
+            <Link 
+              href="/products?category=dining"
+              className="md:col-span-4 group cursor-pointer relative rounded-sm overflow-hidden aspect-[4/3] border border-[#E5DFD7] bg-[#EFE9E1] block shadow-nord"
             >
               <img
                 src="https://images.unsplash.com/photo-1615066390971-03e4e1c36ddf?auto=format&fit=crop&w=800&q=85"
                 alt="Dining & Gathering"
-                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#1C1917]/70 via-transparent to-transparent" />
-              <div className="absolute bottom-5 left-5 right-5 text-white">
-                <span className="text-[10px] uppercase tracking-[0.2em] text-white/70">Discipline 03</span>
-                <h3 className="font-serif text-xl font-normal mt-0.5">Dining & Gathering</h3>
-                <p className="text-xs text-white/80 font-light">White oak trestles & travertine slabs</p>
+              <div className="absolute inset-0 bg-gradient-to-t from-[#1C1917]/75 via-transparent to-transparent" />
+              <div className="absolute bottom-5 left-5 right-5 text-white flex justify-between items-end">
+                <div>
+                  <span className="text-[10px] uppercase tracking-[0.2em] text-white/70">Discipline 03</span>
+                  <h3 className="font-serif text-xl font-normal mt-0.5">Dining & Gathering</h3>
+                  <p className="text-xs text-white/80 font-light">White oak trestles & travertine slabs</p>
+                </div>
+                <span className="text-xs font-sans uppercase tracking-widest text-white/90 underline underline-offset-4 group-hover:text-white group-hover:translate-x-1 transition-all">
+                  →
+                </span>
               </div>
-            </div>
+            </Link>
 
             {/* Wide Card 4: Studio & Storage */}
-            <div 
-              onClick={() => setSelectedCategory('Studio & Storage')}
-              className="md:col-span-4 group cursor-pointer relative rounded-sm overflow-hidden aspect-[4/3] border border-[#E5DFD7] bg-[#EFE9E1]"
+            <Link 
+              href="/products?category=storage"
+              className="md:col-span-4 group cursor-pointer relative rounded-sm overflow-hidden aspect-[4/3] border border-[#E5DFD7] bg-[#EFE9E1] block shadow-nord"
             >
               <img
                 src="https://images.unsplash.com/photo-1595428774223-ef52624120d2?auto=format&fit=crop&w=800&q=85"
                 alt="Studio & Storage"
-                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#1C1917]/70 via-transparent to-transparent" />
-              <div className="absolute bottom-5 left-5 right-5 text-white">
-                <span className="text-[10px] uppercase tracking-[0.2em] text-white/70">Discipline 04</span>
-                <h3 className="font-serif text-xl font-normal mt-0.5">Studio & Storage</h3>
-                <p className="text-xs text-white/80 font-light">Fluted glass credenzas & linear desks</p>
+              <div className="absolute inset-0 bg-gradient-to-t from-[#1C1917]/75 via-transparent to-transparent" />
+              <div className="absolute bottom-5 left-5 right-5 text-white flex justify-between items-end">
+                <div>
+                  <span className="text-[10px] uppercase tracking-[0.2em] text-white/70">Discipline 04</span>
+                  <h3 className="font-serif text-xl font-normal mt-0.5">Studio & Storage</h3>
+                  <p className="text-xs text-white/80 font-light">Fluted glass credenzas & linear desks</p>
+                </div>
+                <span className="text-xs font-sans uppercase tracking-widest text-white/90 underline underline-offset-4 group-hover:text-white group-hover:translate-x-1 transition-all">
+                  →
+                </span>
               </div>
-            </div>
+            </Link>
 
             {/* Wide Card 5: Accents & Objects */}
-            <div 
-              onClick={() => setSelectedCategory('Accents & Objects')}
-              className="md:col-span-4 group cursor-pointer relative rounded-sm overflow-hidden aspect-[4/3] border border-[#E5DFD7] bg-[#EFE9E1]"
+            <Link 
+              href="/products?category=accents"
+              className="md:col-span-4 group cursor-pointer relative rounded-sm overflow-hidden aspect-[4/3] border border-[#E5DFD7] bg-[#EFE9E1] block shadow-nord"
             >
               <img
                 src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=800&q=85"
                 alt="Accents & Objects"
-                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#1C1917]/70 via-transparent to-transparent" />
-              <div className="absolute bottom-5 left-5 right-5 text-white">
-                <span className="text-[10px] uppercase tracking-[0.2em] text-white/70">Discipline 05</span>
-                <h3 className="font-serif text-xl font-normal mt-0.5">Accents & Objects</h3>
-                <p className="text-xs text-white/80 font-light">Natural alabaster & wabi-sabi vessels</p>
+              <div className="absolute inset-0 bg-gradient-to-t from-[#1C1917]/75 via-transparent to-transparent" />
+              <div className="absolute bottom-5 left-5 right-5 text-white flex justify-between items-end">
+                <div>
+                  <span className="text-[10px] uppercase tracking-[0.2em] text-white/70">Discipline 05</span>
+                  <h3 className="font-serif text-xl font-normal mt-0.5">Accents & Objects</h3>
+                  <p className="text-xs text-white/80 font-light">Natural alabaster & wabi-sabi vessels</p>
+                </div>
+                <span className="text-xs font-sans uppercase tracking-widest text-white/90 underline underline-offset-4 group-hover:text-white group-hover:translate-x-1 transition-all">
+                  →
+                </span>
               </div>
-            </div>
+            </Link>
           </div>
         </div>
       </section>
