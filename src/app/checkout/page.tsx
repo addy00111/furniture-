@@ -757,7 +757,7 @@ export default function CheckoutPage() {
                         {isPaying ? (
                           <>
                             <Loader2 className="w-4 h-4 animate-spin" />
-                            <span>Processing Commission...</span>
+                            <span>Processing Payment...</span>
                           </>
                         ) : (
                           <>

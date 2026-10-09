@@ -31,12 +31,12 @@ export default function OrderConfirmationPage() {
               Payment Verified • HMAC SHA-256 Validated
             </span>
             <h1 className="font-serif text-3xl md:text-5xl font-normal tracking-tight text-[#1C1917]">
-              Commission Confirmed
+              Payment Confirmed
             </h1>
           </div>
 
           <p className="text-sm text-[#78716C] max-w-md mx-auto font-light leading-relaxed">
-            Thank you for curating with SORA LIVING. Your selected pieces have entered tailored fabrication with our master craftsmen.
+            Thank you for choosing SORA LIVING. Your order has been placed and is being prepared with our master craftsmen.
           </p>
         </motion.div>
 
@@ -51,7 +51,7 @@ export default function OrderConfirmationPage() {
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center pb-6 border-b border-[#E5DFD7] gap-4">
             <div>
               <span className="text-[10px] font-sans uppercase tracking-[0.2em] text-[#78716C]">
-                Unique Spatial Manifest ID
+                Order Reference ID
               </span>
               <p className="font-sans text-sm font-semibold text-[#1C1917] mt-0.5">{orderId}</p>
             </div>
@@ -73,7 +73,7 @@ export default function OrderConfirmationPage() {
               <div className="p-4 rounded-sm bg-[#FAF7F2] border border-[#1C1917] space-y-1">
                 <div className="flex items-center space-x-1.5 text-[#1C1917] font-semibold">
                   <PackageCheck className="w-4 h-4" />
-                  <span>01. Commissioned</span>
+                  <span>01. Order Placed</span>
                 </div>
                 <p className="text-[10px] text-[#78716C] font-light">Order confirmed & verified</p>
               </div>

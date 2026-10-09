@@ -37,7 +37,7 @@ export default function OrderTrackingPage() {
 
   // Tracking Stages: 1. Confirmed -> 2. Processing -> 3. Shipped -> 4. Out for Delivery -> 5. Delivered
   const trackingStages = [
-    { key: 'order_confirmed', label: 'Confirmed', subtext: 'Payment verified & order commissioned', icon: PackageCheck },
+    { key: 'order_confirmed', label: 'Confirmed', subtext: 'Payment verified & order confirmed', icon: PackageCheck },
     { key: 'processing', label: 'Processing', subtext: 'Artisan crafting & timber finishing', icon: Sparkles },
     { key: 'shipped', label: 'Shipped', subtext: 'Departed central atelier logistics hub', icon: Truck },
     { key: 'out_for_delivery', label: 'Out for Delivery', subtext: 'Dedicated courier van on local route', icon: Truck },
@@ -167,11 +167,11 @@ export default function OrderTrackingPage() {
                 <ArrowLeft className="w-4 h-4" />
               </Link>
               <span className="text-[10px] font-sans uppercase tracking-[0.2em] text-[#78716C]">
-                Spatial Manifest Tracking
+                Order Tracking
               </span>
             </div>
             <h1 className="font-serif text-2xl md:text-4xl font-normal tracking-tight text-[#1C1917]">
-              Commission #{order?.id?.slice(0, 8)}
+              Order #{order?.id?.slice(0, 8)}
             </h1>
           </div>
 
