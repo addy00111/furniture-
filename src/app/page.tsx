@@ -647,6 +647,30 @@ export default function Home() {
                     <p><strong>Dimensions:</strong> {quickViewProduct.dimensions}</p>
                   </div>
 
+                  {quickViewProduct.colors && quickViewProduct.colors.length > 0 && (
+                    <div className="space-y-1.5 pt-1">
+                      <span className="text-xs font-sans font-semibold text-[#57534E] block">
+                        Finish: <strong className="text-[#1C1917]">{selectedQuickViewColor}</strong>
+                      </span>
+                      <div className="flex flex-wrap gap-1.5">
+                        {quickViewProduct.colors.map((color) => (
+                          <button
+                            key={color}
+                            type="button"
+                            onClick={() => setSelectedQuickViewColor(color)}
+                            className={`px-3 py-1 text-xs rounded-sm border transition-all ${
+                              selectedQuickViewColor === color
+                                ? 'bg-[#1C1917] text-white border-[#1C1917] shadow-sm font-semibold'
+                                : 'bg-transparent text-[#57534E] border-[#D6CEC4] hover:border-[#1C1917] hover:text-[#1C1917] font-medium'
+                            }`}
+                          >
+                            {color}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
                   <div className="pt-3 flex items-center space-x-3">
                     <button
                       onClick={() => {

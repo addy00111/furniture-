@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useEffect } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
@@ -42,17 +42,33 @@ export default function ProductDetailPage() {
   }, [productId])
 
   const [selectedImage, setSelectedImage] = useState(0)
-  const [selectedColor, setSelectedColor] = useState<string>(
+  const [selectedFinish, setSelectedFinish] = useState<string>(
     product.colors && product.colors.length > 0 ? product.colors[0] : ''
   )
   const [quantity, setQuantity] = useState(1)
   const [isAdded, setIsAdded] = useState(false)
+
+  // Sync selectedFinish and selectedImage when productId or product changes
+  useEffect(() => {
+    if (product.colors && product.colors.length > 0) {
+      setSelectedFinish(product.colors[0])
+    }
+    setSelectedImage(0)
+  }, [product.id, product.colors])
 
   // Accordion state
   const [openAccordion, setOpenAccordion] = useState<string | null>('dimensions')
 
   const toggleAccordion = (key: string) => {
     setOpenAccordion((prev) => (prev === key ? null : key))
+  }
+
+  // Handle selecting a finish and optionally swapping to corresponding alternate product image
+  const handleSelectFinish = (finish: string, index: number) => {
+    setSelectedFinish(finish)
+    if (product.images && product.images.length > index) {
+      setSelectedImage(index)
+    }
   }
 
   // Pincode delivery estimator state
@@ -81,7 +97,7 @@ export default function ProductDetailPage() {
   const hasDiscount = product.discount_price && product.discount_price < product.price
 
   const handleAddToCart = () => {
-    addItem(product, quantity, selectedColor)
+    addItem(product, quantity, selectedFinish)
     setIsAdded(true)
     setTimeout(() => setIsAdded(false), 2500)
     openCart()
@@ -197,17 +213,18 @@ export default function ProductDetailPage() {
             {product.colors && product.colors.length > 0 && (
               <div className="space-y-2 pt-2 border-t border-[#E5DFD7]">
                 <span className="text-xs font-sans font-semibold text-[#57534E] block">
-                  Select Finish: <strong className="text-[#1C1917]">{selectedColor}</strong>
+                  Select Finish: <strong className="text-[#1C1917]">{selectedFinish}</strong>
                 </span>
                 <div className="flex flex-wrap gap-2">
-                  {product.colors.map((color) => (
+                  {product.colors.map((color, idx) => (
                     <button
                       key={color}
-                      onClick={() => setSelectedColor(color)}
-                      className={`px-3.5 py-1.5 text-xs rounded-sm border transition-all font-medium ${
-                        selectedColor === color
-                          ? 'bg-[#1C1917] text-[#FAF7F2] border-[#1C1917]'
-                          : 'bg-[#FAF7F2] text-[#57534E] border-[#D6CEC4] hover:text-[#1C1917]'
+                      type="button"
+                      onClick={() => handleSelectFinish(color, idx)}
+                      className={`px-3.5 py-1.5 text-xs rounded-sm border transition-all ${
+                        selectedFinish === color
+                          ? 'bg-[#1C1917] text-white border-[#1C1917] shadow-sm font-semibold'
+                          : 'bg-transparent text-[#57534E] border-[#D6CEC4] hover:border-[#1C1917] hover:text-[#1C1917] font-medium'
                       }`}
                     >
                       {color}
