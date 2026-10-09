@@ -79,6 +79,9 @@ export default function CheckoutPage() {
   // Delivery Method: 'standard' (Free) vs 'express' (₹499)
   const [deliveryMethod, setDeliveryMethod] = useState<DeliveryMethodType>('standard')
 
+  // Payment Method Selection: 'online' (Razorpay) vs 'cod' (Cash on Delivery)
+  const [paymentMethod, setPaymentMethod] = useState<'online' | 'cod'>('online')
+
   // Server Calculation Summary & Payment Processing
   const [calculation, setCalculation] = useState<OrderCalculationSummary | null>(null)
   const [isCalculating, setIsCalculating] = useState(false)
@@ -265,11 +268,18 @@ export default function CheckoutPage() {
         const options = {
           key: activeKey,
           amount: amount,
-          currency: currency,
-          order_id: activeRazorpayOrderId,
+          currency: currency || 'INR',
           name: 'SORA LIVING',
-          description: 'Nord-Japandi Architectural Furnishings',
-          image: 'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?auto=format&fit=crop&w=200&q=80',
+          description: 'Order Checkout',
+          order_id: activeRazorpayOrderId,
+          prefill: {
+            name: activeShippingAddress.fullName || '',
+            email: activeShippingAddress.email || user?.email || '',
+            contact: activeShippingAddress.phone || '',
+          },
+          theme: {
+            color: '#1C1917',
+          },
           handler: async function (response: any) {
             try {
               // 3. Verify Payment Signature on Server
@@ -293,23 +303,6 @@ export default function CheckoutPage() {
               setPaymentError(vErr.message || 'Signature verification failed.')
               setIsPaying(false)
             }
-          },
-          prefill: {
-            name: activeShippingAddress.fullName,
-            email: activeShippingAddress.email || user?.email || '',
-            contact: activeShippingAddress.phone,
-          },
-          notes: {
-            store: 'Sora Living Atelier',
-            order_type: 'Custom Fabrication',
-          },
-          theme: {
-            color: '#1C1917',
-            backdrop_color: 'rgba(28, 25, 23, 0.6)',
-          },
-          modal: {
-            confirm_close: true,
-            animation: true,
           },
         }
 
@@ -344,6 +337,52 @@ export default function CheckoutPage() {
     } catch (err: any) {
       setPaymentError(err.message || 'Payment initiation encountered an issue.')
       setIsPaying(false)
+    }
+  }
+
+  // Unified Order Placement Handler (Online Payment vs Cash on Delivery)
+  const handlePlaceOrder = async () => {
+    if (!activeShippingAddress) {
+      setPaymentError('Please select a valid shipping address.')
+      return
+    }
+
+    if (paymentMethod === 'cod') {
+      setIsPaying(true)
+      setPaymentError(null)
+
+      try {
+        const payload = {
+          items: items.map((i) => ({
+            id: i.product?.id || i.id,
+            productId: i.product?.id || i.id,
+            quantity: i.quantity,
+            price: i.product?.discount_price ?? i.product?.price,
+            selectedColor: i.selectedColor,
+          })),
+          amount: effectiveTotal,
+          shippingAddress: activeShippingAddress,
+          deliveryMethod,
+          couponCode,
+        }
+
+        const res = await fetch('/api/checkout/create-cod-order', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+        })
+
+        const data = await res.json()
+        if (!res.ok) throw new Error(data.error || 'Failed to place Cash on Delivery order.')
+
+        clearCart()
+        router.push(data.redirectUrl || `/orders/${data.orderId}/confirmation`)
+      } catch (err: any) {
+        setPaymentError(err.message || 'Failed to place Cash on Delivery order.')
+        setIsPaying(false)
+      }
+    } else {
+      await handleInitiateRazorpayPayment()
     }
   }
 
@@ -747,6 +786,79 @@ export default function CheckoutPage() {
                       ))}
                     </div>
 
+                    {/* Payment Method Selection */}
+                    <div className="space-y-3 pt-3 border-t border-[#E5DFD7]">
+                      <label className="text-xs font-sans font-semibold uppercase tracking-wider text-[#57534E]">
+                        Select Payment Method
+                      </label>
+
+                      {/* Option 1: Online Payment via Razorpay */}
+                      <div
+                        onClick={() => setPaymentMethod('online')}
+                        className={`p-4 rounded-sm border cursor-pointer transition-all ${
+                          paymentMethod === 'online'
+                            ? 'border-[#1C1917] bg-[#FAF7F2] shadow-sm ring-1 ring-[#1C1917]'
+                            : 'border-[#D6CEC4] hover:border-[#1C1917] bg-[#FAF7F2]/80'
+                        }`}
+                      >
+                        <div className="flex items-start justify-between">
+                          <div className="flex items-start space-x-3">
+                            <input
+                              type="radio"
+                              name="paymentMethod"
+                              checked={paymentMethod === 'online'}
+                              onChange={() => setPaymentMethod('online')}
+                              className="mt-0.5 accent-[#1C1917]"
+                            />
+                            <div className="space-y-0.5">
+                              <p className="font-bold text-xs text-[#1C1917]">
+                                Online Payment (UPI, Credit/Debit Card, Netbanking via Razorpay)
+                              </p>
+                              <p className="text-[11px] text-[#57534E]">
+                                Instant, secure 256-bit encrypted checkout supporting Google Pay, PhonePe, Paytm, all Cards & Netbanking.
+                              </p>
+                            </div>
+                          </div>
+                          {paymentMethod === 'online' && (
+                            <CheckCircle2 className="w-4 h-4 text-[#B45309] shrink-0" />
+                          )}
+                        </div>
+                      </div>
+
+                      {/* Option 2: Cash on Delivery / Pay on Delivery */}
+                      <div
+                        onClick={() => setPaymentMethod('cod')}
+                        className={`p-4 rounded-sm border cursor-pointer transition-all ${
+                          paymentMethod === 'cod'
+                            ? 'border-[#1C1917] bg-[#FAF7F2] shadow-sm ring-1 ring-[#1C1917]'
+                            : 'border-[#D6CEC4] hover:border-[#1C1917] bg-[#FAF7F2]/80'
+                        }`}
+                      >
+                        <div className="flex items-start justify-between">
+                          <div className="flex items-start space-x-3">
+                            <input
+                              type="radio"
+                              name="paymentMethod"
+                              checked={paymentMethod === 'cod'}
+                              onChange={() => setPaymentMethod('cod')}
+                              className="mt-0.5 accent-[#1C1917]"
+                            />
+                            <div className="space-y-0.5">
+                              <p className="font-bold text-xs text-[#1C1917]">
+                                Cash on Delivery / Pay on Delivery
+                              </p>
+                              <p className="text-[11px] text-[#57534E]">
+                                Pay via Cash, UPI, or Card upon white-glove delivery and assembly at your doorstep.
+                              </p>
+                            </div>
+                          </div>
+                          {paymentMethod === 'cod' && (
+                            <CheckCircle2 className="w-4 h-4 text-[#B45309] shrink-0" />
+                          )}
+                        </div>
+                      </div>
+                    </div>
+
                     {/* Action Bar */}
                     <div className="pt-6 border-t border-[#E5DFD7] flex items-center justify-between">
                       <button
@@ -759,19 +871,24 @@ export default function CheckoutPage() {
                       </button>
 
                       <button
-                        onClick={handleInitiateRazorpayPayment}
+                        onClick={handlePlaceOrder}
                         disabled={isPaying || isCalculating}
                         className="px-8 py-3.5 bg-[#1C1917] text-[#FAF7F2] text-xs uppercase tracking-wider font-semibold rounded-sm hover:bg-[#292524] transition-all flex items-center space-x-2 shadow-md disabled:opacity-50"
                       >
                         {isPaying ? (
                           <>
                             <Loader2 className="w-4 h-4 animate-spin" />
-                            <span>Processing Payment...</span>
+                            <span>Processing Order...</span>
+                          </>
+                        ) : paymentMethod === 'cod' ? (
+                          <>
+                            <CheckCircle2 className="w-3.5 h-3.5" />
+                            <span>Place Cash on Delivery Order ({formatPrice(effectiveTotal)})</span>
                           </>
                         ) : (
                           <>
                             <Lock className="w-3.5 h-3.5" />
-                            <span>Pay {formatPrice(effectiveTotal)} with Razorpay</span>
+                            <span>Pay {formatPrice(effectiveTotal)} via Razorpay</span>
                           </>
                         )}
                       </button>
