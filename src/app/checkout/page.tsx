@@ -105,8 +105,8 @@ export default function CheckoutPage() {
 
   const handleCardNumberChange = (val: string) => {
     const raw = val.replace(/\D/g, '').slice(0, 16)
-    const formatted = raw.replace(/(\d{4})/g, '$1 ').trim()
-    setCardNumber(formatted)
+    const parts = raw.match(/.{1,4}/g)
+    setCardNumber(parts ? parts.join(' ') : '')
   }
 
   const handleExpiryChange = (val: string) => {
@@ -909,6 +909,7 @@ export default function CheckoutPage() {
                             initial={{ opacity: 0, height: 0 }}
                             animate={{ opacity: 1, height: 'auto' }}
                             exit={{ opacity: 0, height: 0 }}
+                            onClick={(e) => e.stopPropagation()}
                             className="p-5 border-t border-[#E5DFD7] bg-[#F4EFEA]/80 space-y-4"
                           >
                             <div className="space-y-1.5">
@@ -923,13 +924,17 @@ export default function CheckoutPage() {
                               <div className="relative">
                                 <input
                                   type="text"
+                                  id="checkout-card-number"
+                                  name="cardNumber"
+                                  autoComplete="cc-number"
+                                  inputMode="numeric"
                                   value={cardNumber}
                                   onChange={(e) => handleCardNumberChange(e.target.value)}
                                   placeholder="4111 1111 1111 1111"
                                   maxLength={19}
                                   className="w-full px-3.5 py-2.5 text-xs font-mono bg-[#FAF7F2] border border-[#D6CEC4] rounded-sm focus:border-[#1C1917] outline-none text-[#1C1917] tracking-wider"
                                 />
-                                <CreditCard className="w-4 h-4 text-[#78716C] absolute right-3 top-1/2 -translate-y-1/2" />
+                                <CreditCard className="w-4 h-4 text-[#78716C] absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
                               </div>
                             </div>
 
@@ -938,6 +943,10 @@ export default function CheckoutPage() {
                                 <label className="text-xs font-sans font-semibold text-[#57534E]">Expiry Date</label>
                                 <input
                                   type="text"
+                                  id="checkout-card-expiry"
+                                  name="cardExpiry"
+                                  autoComplete="cc-exp"
+                                  inputMode="numeric"
                                   value={cardExpiry}
                                   onChange={(e) => handleExpiryChange(e.target.value)}
                                   placeholder="MM / YY"
@@ -954,13 +963,17 @@ export default function CheckoutPage() {
                                 <div className="relative">
                                   <input
                                     type="password"
+                                    id="checkout-card-cvv"
+                                    name="cardCvv"
+                                    autoComplete="cc-csc"
+                                    inputMode="numeric"
                                     value={cardCvv}
                                     onChange={(e) => handleCvvChange(e.target.value)}
                                     placeholder="•••"
                                     maxLength={4}
                                     className="w-full px-3.5 py-2 text-xs font-mono bg-[#FAF7F2] border border-[#D6CEC4] rounded-sm focus:border-[#1C1917] outline-none text-[#1C1917]"
                                   />
-                                  <Lock className="w-3.5 h-3.5 text-[#78716C] absolute right-3 top-1/2 -translate-y-1/2" />
+                                  <Lock className="w-3.5 h-3.5 text-[#78716C] absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
                                 </div>
                               </div>
                             </div>
@@ -969,6 +982,9 @@ export default function CheckoutPage() {
                               <label className="text-xs font-sans font-semibold text-[#57534E]">Name on Card</label>
                               <input
                                 type="text"
+                                id="checkout-card-name"
+                                name="cardName"
+                                autoComplete="cc-name"
                                 value={cardName}
                                 onChange={(e) => setCardName(e.target.value)}
                                 placeholder="Aditya Sharma"
@@ -1026,6 +1042,7 @@ export default function CheckoutPage() {
                             initial={{ opacity: 0, height: 0 }}
                             animate={{ opacity: 1, height: 'auto' }}
                             exit={{ opacity: 0, height: 0 }}
+                            onClick={(e) => e.stopPropagation()}
                             className="p-5 border-t border-[#E5DFD7] bg-[#F4EFEA]/80 space-y-4"
                           >
                             {/* App Chips */}
@@ -1128,6 +1145,7 @@ export default function CheckoutPage() {
                             initial={{ opacity: 0, height: 0 }}
                             animate={{ opacity: 1, height: 'auto' }}
                             exit={{ opacity: 0, height: 0 }}
+                            onClick={(e) => e.stopPropagation()}
                             className="p-5 border-t border-[#E5DFD7] bg-[#F4EFEA]/80 space-y-4"
                           >
                             <div className="space-y-1.5">
