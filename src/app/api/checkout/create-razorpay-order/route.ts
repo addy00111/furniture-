@@ -122,6 +122,8 @@ export async function POST(req: NextRequest) {
           currency: 'INR',
           receipt: receiptId,
           notes: {
+            store: 'Sora Living Atelier',
+            order_type: 'Custom Fabrication',
             userId: user?.id || 'guest',
             itemCount: orderItemsToInsert.length.toString(),
           },

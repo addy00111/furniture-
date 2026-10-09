@@ -51,6 +51,8 @@ export async function POST(req: NextRequest) {
           currency: 'INR',
           receipt: `receipt_${Date.now()}`,
           notes: {
+            store: 'Sora Living Atelier',
+            order_type: 'Custom Fabrication',
             itemCount: items.length.toString(),
           },
         })

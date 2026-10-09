@@ -267,8 +267,8 @@ export default function CheckoutPage() {
           amount: amount,
           currency: currency,
           order_id: activeRazorpayOrderId,
-          name: 'Sora Living',
-          description: 'Architectural Furniture Commission',
+          name: 'SORA LIVING',
+          description: 'Nord-Japandi Architectural Furnishings',
           image: 'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?auto=format&fit=crop&w=200&q=80',
           handler: async function (response: any) {
             try {
@@ -299,8 +299,17 @@ export default function CheckoutPage() {
             email: activeShippingAddress.email || user?.email || '',
             contact: activeShippingAddress.phone,
           },
+          notes: {
+            store: 'Sora Living Atelier',
+            order_type: 'Custom Fabrication',
+          },
           theme: {
-            color: '#292524',
+            color: '#1C1917',
+            backdrop_color: 'rgba(28, 25, 23, 0.6)',
+          },
+          modal: {
+            confirm_close: true,
+            animation: true,
           },
         }
 
