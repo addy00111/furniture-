@@ -148,10 +148,14 @@ export default function Home() {
                 </div>
 
                 <button
-                  onClick={() => addItem(NORD_JAPANDI_PRODUCTS[0])}
-                  className="px-4 py-2 bg-[#FAF7F2] text-[#1C1917] text-[10px] font-sans uppercase tracking-[0.14em] font-semibold hover:bg-white transition-colors rounded-sm shadow-sm"
+                  onClick={() => {
+                    addItem(NORD_JAPANDI_PRODUCTS[0])
+                    openCart()
+                  }}
+                  className="px-4 py-2 bg-[#FAF7F2] text-[#1C1917] text-[10px] font-sans uppercase tracking-[0.14em] font-semibold hover:bg-white transition-colors rounded-sm shadow-sm flex items-center space-x-1"
                 >
-                  Acquire +
+                  <Plus className="w-3 h-3" />
+                  <span>Add to Bag</span>
                 </button>
               </div>
             </div>
@@ -479,7 +483,7 @@ export default function Home() {
                     {/* Bottom Price & Add CTA */}
                     <div className="pt-4 border-t border-[#E5DFD7] flex items-center justify-between">
                       <div>
-                        <span className="text-[10px] font-sans text-[#78716C] uppercase tracking-wider">Acquisition</span>
+                        <span className="text-[10px] font-sans text-[#78716C] uppercase tracking-wider">Price</span>
                         <p className="font-sans text-base font-semibold text-[#1C1917]">
                           {formatPrice(displayPrice)}
                         </p>
@@ -488,9 +492,9 @@ export default function Home() {
                       <div className="flex items-center space-x-2">
                         <Link
                           href={`/products/${product.id}`}
-                          className="px-3 py-2.5 bg-[#FAF7F2] border border-[#E5DFD7] text-[#1C1917] rounded-sm hover:bg-[#EFE9E1] transition-colors text-xs"
+                          className="px-3 py-2.5 bg-[#FAF7F2] border border-[#E5DFD7] text-[#1C1917] rounded-sm hover:bg-[#EFE9E1] transition-colors text-xs font-sans"
                         >
-                          Inspect
+                          View Details
                         </Link>
                         <button
                           onClick={() => {
@@ -500,7 +504,7 @@ export default function Home() {
                           className="px-4 py-2.5 bg-[#292524] text-[#FAF7F2] rounded-sm hover:bg-[#3E3835] transition-all text-xs font-sans uppercase tracking-[0.14em] flex items-center space-x-1.5 shadow-sm"
                         >
                           <Plus className="w-3.5 h-3.5" />
-                          <span>Acquire</span>
+                          <span>Add to Bag</span>
                         </button>
                       </div>
                     </div>

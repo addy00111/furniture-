@@ -214,7 +214,7 @@ export default function ProductDetailPage() {
                   className="flex-1 py-3.5 px-6 bg-[#292524] text-[#FAF7F2] text-[11px] uppercase tracking-[0.2em] font-semibold rounded-sm hover:bg-[#3E3835] transition-all flex items-center justify-center space-x-2 shadow-nord"
                 >
                   <ShoppingBag className="w-4 h-4" />
-                  <span>{isAdded ? 'Added to Bag ✓' : 'Acquire Commission'}</span>
+                  <span>{isAdded ? 'Added to Bag ✓' : 'Add to Bag'}</span>
                 </button>
               </div>
 
